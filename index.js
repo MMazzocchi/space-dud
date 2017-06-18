@@ -26,6 +26,7 @@ http.listen(3000, function(){
 
 io.on('connection', function(socket) {
   console.log("User connected.");
+  socket.emit('game_data', game);
 
   socket.on('choose_role', function(role) {
     console.log("Role chosen: "+role);
