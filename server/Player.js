@@ -5,10 +5,18 @@ var Player = function() {
 
 Player.prototype.setDisplayClient = function(client) {
   this.display_client = client;
+
+  if(this.controller_client != null) {
+    this.controller_client.setDisplayClient(client);
+  }
 }
 
 Player.prototype.setControllerClient = function(client) {
   this.controller_client = client;
+
+  if(this.display_client != null) {
+    this.controller_client.setDisplayClient(this.display_client);
+  }
 }
 
 Player.prototype.toJSON = function() {
