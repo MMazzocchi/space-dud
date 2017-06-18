@@ -13,6 +13,8 @@ app.use('/css', express.static(__dirname + '/css'));
 
 var Game = require('./server/Game.js');
 var Player = require('./server/Player.js');
+var ControllerClient = require('./server/ControllerClient.js');
+var DisplayClient = require('./server/DisplayClient.js');
 
 var game = new Game();
 
@@ -37,7 +39,6 @@ io.on('connection', function(socket) {
 
   socket.on('choose_role', function(data) {
     console.log("Role chosen.");
-    console.log(JSON.stringify(data));
 
     var role = data.role;
 
@@ -48,8 +49,13 @@ io.on('connection', function(socket) {
       var player = game.getPlayer(player_id);
       if(part == "display") {
         console.log("Chose player "+player_id+" display");
+        var client = new DisplayClient(socket);
+        player.setDisplayClient(client);
+
       } else if(part == "controller") {
         console.log("Chose player "+player_id+" controller");
+        var client = new ControllerClient(socket);
+        player.setControllerClient(client);
       }
     } else if(role == "manager") {
       console.log("Chose manager");
