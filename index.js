@@ -12,6 +12,7 @@ app.use('/js', express.static(__dirname + '/js'));
 app.use('/css', express.static(__dirname + '/css'));
 
 var Game = require('./server/Game.js');
+var Player = require('./server/Player.js');
 
 var game = new Game();
 
@@ -27,6 +28,12 @@ http.listen(3000, function(){
 io.on('connection', function(socket) {
   console.log("User connected.");
   socket.emit('game_data', game);
+
+  socket.on('add_player', function() {
+    var player = new Player();
+    game.addPlayer(player);
+    socket.emit('game_data', game);
+  });
 
   socket.on('choose_role', function(role) {
     console.log("Role chosen: "+role);
