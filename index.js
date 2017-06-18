@@ -14,7 +14,7 @@ app.use('/css', express.static(__dirname + '/css'));
 require('./server/Game.js');
 require('./server/Player.js');
 
-var games = [];
+var game = new Game();
 
 app.get('/', function(req, res){
   console.log("Request for /");
@@ -23,4 +23,12 @@ app.get('/', function(req, res){
 
 http.listen(3000, function(){
   console.log('listening on *:3000');
+});
+
+io.on('connection', function(socket) {
+  socket.on('choose_role', function(role) {
+    if(role == 'player') {
+
+    }
+  });
 });
