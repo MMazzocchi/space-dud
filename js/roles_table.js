@@ -17,7 +17,7 @@ function load_roles_table(roles_data, socket) {
 
     if(!player.controller) {
       html += '<div><a class="btn btn-default player-btn" '+
-                       'player_id="id" '+
+                       'player_id="'+id+'" '+
                        'part="controller" '+
                        '>Player #'+id+' - Controller</a></div>';
     }
@@ -29,12 +29,25 @@ function load_roles_table(roles_data, socket) {
 
   $('.manager-btn').click(function(e) {
     e.preventDefault();
-    socket.emit('choose_role', 'manager');
+    socket.emit('choose_role', {'role': 'manager'});
+
+    $('#content')[0].innerHTML = '';
   });
 
   $('.player-btn').click(function(e) {
     e.preventDefault();
-    // TODO: Construct emit call
+    var player_id = e.target.attributes['player_id'];
+    var part = e.target.attributes['part'];
+
+    var data = {
+      'role': 'player',
+      'player_id': player_id,
+      'part': part
+    };
+
+    socket.emit('choose_role', data);
+
+    $('#content')[0].innerHTML = '';
   });
 
   $('.add-player-btn').click(function(e) {
