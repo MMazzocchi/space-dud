@@ -28,9 +28,9 @@ io.on('connection', function(socket) {
   console.log("User connected.");
 
   socket.on('choose_role', function(role) {
-    console.log("Role chose: "+role);
+    console.log("Role chosen: "+role);
 
-    if(role == 'player') {
+    if(role == 'Player') {
 
     }
   });
