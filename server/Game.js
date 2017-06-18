@@ -1,5 +1,5 @@
 var Game = function() {
-  this.manager = undefined;
+  this.manager = null;
   this.player_lookup = {};
 
   this.next_player_id = 0;

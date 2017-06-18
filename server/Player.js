@@ -1,6 +1,6 @@
 var Player = function() {
-  this.display_client = undefined;
-  this.controller_client = undefined;
+  this.display_client = null;
+  this.controller_client = null;
 }
 
 Player.prototype.setDisplayClient = function(client) {
