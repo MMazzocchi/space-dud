@@ -16,3 +16,5 @@ Game.prototype.addPlayer = function(player) {
 Game.prototype.getPlayer = function(player_id) {
   return this.player_lookup[player_id];
 };
+
+module.exports = Game;

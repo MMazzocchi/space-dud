@@ -10,3 +10,5 @@ Player.prototype.setDisplayClient = function(client) {
 Player.prototype.setControllerClient = function(client) {
   this.controller_client = client;
 }
+
+module.exports = Player;
