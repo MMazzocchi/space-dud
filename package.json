@@ -1,0 +1,11 @@
+{
+  "name": "gamepad-server",
+  "version": "0.0.1",
+  "description": "Test game server to route controllers to displays",
+  "dependencies": {
+    "bootstrap": "^3.3.7",
+    "express": "^4.15.3",
+    "jquery": "^3.2.1",
+    "socket.io": "^2.0.3"
+  }
+}
