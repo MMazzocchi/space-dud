@@ -35,11 +35,24 @@ io.on('connection', function(socket) {
     socket.emit('game_data', game);
   });
 
-  socket.on('choose_role', function(role) {
-    console.log("Role chosen: "+role);
+  socket.on('choose_role', function(data) {
+    console.log("Role chosen.");
+    console.log(JSON.stringify(data));
 
-    if(role == 'Player') {
+    var role = data.role;
 
+    if(role == 'player') {
+      var player_id = data.player_id;
+      var part = data.part;
+
+      var player = game.getPlayer(player_id);
+      if(part == "display") {
+        console.log("Chose player "+player_id+" display");
+      } else if(part == "controller") {
+        console.log("Chose player "+player_id+" controller");
+      }
+    } else if(role == "manager") {
+      console.log("Chose manager");
     }
   });
 });
