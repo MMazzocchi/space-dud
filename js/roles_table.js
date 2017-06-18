@@ -48,6 +48,12 @@ function load_roles_table(roles_data, socket) {
     socket.emit('choose_role', data);
 
     $('#content')[0].innerHTML = '';
+
+    if(part == "display") {
+      setup_display_client(socket);
+    } else if(part == "controller") {
+
+    }
   });
 
   $('.add-player-btn').click(function(e) {
