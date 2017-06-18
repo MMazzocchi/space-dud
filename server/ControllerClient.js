@@ -15,4 +15,8 @@ ControllerClient.prototype.setDisplayClient = function(display_client) {
   this.display_client = display_client;
 };
 
+ControllerClient.prototype.toJSON = function() {
+  return "ControllerClient";
+};
+
 module.exports = ControllerClient;
