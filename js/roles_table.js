@@ -10,7 +10,7 @@ function load_roles_table(roles_data, socket) {
     var player = players[id];
     if(!player.display) {
       html += '<div><a class="btn btn-default player-btn" '+
-                       'player_id="id" '+
+                       'player_id="'+id+'" '+
                        'part="display" '+
                        '>Player #'+id+' - Display</a></div>';
     }
@@ -36,8 +36,8 @@ function load_roles_table(roles_data, socket) {
 
   $('.player-btn').click(function(e) {
     e.preventDefault();
-    var player_id = e.target.attributes['player_id'];
-    var part = e.target.attributes['part'];
+    var player_id = e.target.attributes['player_id'].value;
+    var part = e.target.attributes['part'].value;
 
     var data = {
       'role': 'player',
