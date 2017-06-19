@@ -1,3 +1,11 @@
+function buttonPressed(button) {
+  if(typeof(button) == 'object') {
+    return button.pressed;
+  }
+
+  return button == 1.0;
+}
+
 var ControllerClient = function(socket) {
   this.socket = socket;
   this.controllers = {};
@@ -16,7 +24,10 @@ ControllerClient.prototype.disconnectedHandler = function(e) {
 ControllerClient.prototype.addController = function(controller) {
   var controller_info = {
     controller: controller,
-    state: {}
+    state: {
+      buttons: {},
+      axes: {}
+    }
   };
 
   var controller_id = controller.index;
@@ -41,6 +52,38 @@ ControllerClient.prototype.findControllers = function() {
   }
 };
 
+ControllerClient.prototype.emitButtonEvent = function(button_id, value) {
+  var data = {
+    type: 'button',
+    id: button_id,
+    value: value
+  };
+
+  this.socket.emit('game_event', data);
+};
+
+ControllerClient.prototype.readControllers = function() {
+  for(var controller_id in this.controllers) {
+    var controller_info = this.controllers[controller_id];
+    var controller = controller_info.controller;
+    var state = controller_info.state;
+
+    for(var i = 0; i < controller.buttons.length; i++) {
+      var button = controller.buttons[i];
+      var pressed = buttonPressed(button);
+
+      if((state.buttons[i] == undefined) ||
+         (state.buttons[i] != pressed)) {
+        state.buttons[i] = pressed;
+        this.emitButtonEvent(i, pressed);
+      }
+    }
+  }
+
+  var client = this;
+  window.requestAnimationFrame(function() { client.readControllers() });
+};
+
 function setup_controller_client(socket) {
   console.log("Setting up controller client.");
   var client = new ControllerClient(socket);
@@ -53,4 +96,6 @@ function setup_controller_client(socket) {
 
   window.addEventListener("gamepadconnected", connectedHandler);
   window.addEventListener("gamepaddisconnected", disconnectedHandler);
+
+  client.readControllers();
 }
