@@ -59,7 +59,7 @@ ControllerClient.prototype.emitButtonEvent = function(button_id, value) {
     value: value
   };
 
-  this.socket.emit('game_event', data);
+  this.socket.emit('controller_event', data);
 };
 
 ControllerClient.prototype.readControllers = function() {
@@ -78,6 +78,8 @@ ControllerClient.prototype.readControllers = function() {
         this.emitButtonEvent(i, pressed);
       }
     }
+
+    //TODO: Axes!
   }
 
   var client = this;
