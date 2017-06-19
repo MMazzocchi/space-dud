@@ -52,7 +52,7 @@ function load_roles_table(roles_data, socket) {
     if(part == "display") {
       setup_display_client(socket);
     } else if(part == "controller") {
-
+      setup_controller_client(socket);
     }
   });
 
