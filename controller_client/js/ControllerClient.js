@@ -1,6 +1,11 @@
 var ControllerClient = function(socket) {
   this.socket = socket;
   this.controllers = {};
+
+  var client = this;
+  socket.on('dump_state', function() {
+    client.dumpState();
+  });
 };
 
 ControllerClient.prototype.connectedHandler = function(e) {
@@ -68,6 +73,13 @@ ControllerClient.prototype.buttonPressed = function(button) {
   }
 
   return button == 1.0;
+};
+
+ControllerClient.prototype.dumpState = function() {
+  for(var controller_id in this.controllers) {
+    var controller_info = this.controllers[controller_id];
+    controller_info.state = {};
+  }
 };
 
 ControllerClient.prototype.readControllers = function() {
