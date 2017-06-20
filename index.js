@@ -64,4 +64,14 @@ io.on('connection', function(socket) {
       console.log("Chose manager");
     }
   });
+
+  socket.on('set_role', function(role) {
+    if(role == 'controller') {
+      // TODO: Create player
+      // TODO: Respond with player ID
+    } else if(role == 'display') {
+      // TODO: Respond with player list
+      // TODO: Allow for choice of player
+    }
+  });
 });
