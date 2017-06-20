@@ -15,6 +15,10 @@ ControllerClient.prototype.setDisplayClient = function(display_client) {
   this.display_client = display_client;
 };
 
+ControllerClient.prototype.dumpState = function() {
+  this.socket.emit('dump_state');
+};
+
 ControllerClient.prototype.toJSON = function() {
   return "ControllerClient";
 };
