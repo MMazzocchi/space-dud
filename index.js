@@ -19,8 +19,6 @@ app.use('/js', express.static(__dirname + '/node_modules/jquery/dist'));
 app.use('/js', express.static(__dirname + '/node_modules/jquery/dist')); 
 app.use('/css', express.static(__dirname + '/node_modules/bootstrap/dist/css')); 
 
-app.use('/js', express.static(__dirname + '/js')); 
-
 var Game = require('./server/Game.js');
 var Player = require('./server/Player.js');
 var ControllerClient = require('./server/ControllerClient.js');
@@ -39,38 +37,6 @@ http.listen(PORT, HOST, function(){
 
 io.on('connection', function(socket) {
   console.log("User connected.");
-  socket.emit('game_data', game);
-
-  socket.on('add_player', function() {
-    var player = new Player();
-    game.addPlayer(player);
-    socket.emit('game_data', game);
-  });
-
-  socket.on('choose_role', function(data) {
-    console.log("Role chosen.");
-
-    var role = data.role;
-
-    if(role == 'player') {
-      var player_id = data.player_id;
-      var part = data.part;
-
-      var player = game.getPlayer(player_id);
-      if(part == "display") {
-        console.log("Chose player "+player_id+" display");
-        var client = new DisplayClient(socket);
-        player.setDisplayClient(client);
-
-      } else if(part == "controller") {
-        console.log("Chose player "+player_id+" controller");
-        var client = new ControllerClient(socket);
-        player.setControllerClient(client);
-      }
-    } else if(role == "manager") {
-      console.log("Chose manager");
-    }
-  });
 
   socket.on('set_role', function(role) {
     if(role == 'controller') {
