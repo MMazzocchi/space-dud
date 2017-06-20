@@ -6,13 +6,15 @@ var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 
+app.use('/controller', express.static(__dirname + '/controller_client'));
+app.use('/css', express.static(__dirname + '/controller_client/css'));
+
 app.use('/js', express.static(__dirname + '/node_modules/bootstrap/dist/js')); 
 app.use('/js', express.static(__dirname + '/node_modules/jquery/dist')); 
 app.use('/js', express.static(__dirname + '/node_modules/jquery/dist')); 
 app.use('/css', express.static(__dirname + '/node_modules/bootstrap/dist/css')); 
 
 app.use('/js', express.static(__dirname + '/js')); 
-app.use('/css', express.static(__dirname + '/css'));
 
 var Game = require('./server/Game.js');
 var Player = require('./server/Player.js');
@@ -67,8 +69,10 @@ io.on('connection', function(socket) {
 
   socket.on('set_role', function(role) {
     if(role == 'controller') {
-      // TODO: Create player
-      // TODO: Respond with player ID
+      var player = new Player();
+      var player_id = game.addPlayer(player);
+      socket.emit('player_id', player_id);
+
     } else if(role == 'display') {
       // TODO: Respond with player list
       // TODO: Allow for choice of player
