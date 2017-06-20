@@ -15,6 +15,8 @@ $(function() {
 
       var player_id = e.target.innerHTML;
       socket.emit('choose_player', player_id);
+
+      new DisplayClient(socket);
     });
   };
 
