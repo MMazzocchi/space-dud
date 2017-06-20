@@ -8,6 +8,7 @@ var io = require('socket.io')(http);
 
 app.use('/controller', express.static(__dirname + '/controller_client'));
 app.use('/css', express.static(__dirname + '/controller_client/css'));
+app.use('/js', express.static(__dirname + '/controller_client/js'));
 
 app.use('/js', express.static(__dirname + '/node_modules/bootstrap/dist/js')); 
 app.use('/js', express.static(__dirname + '/node_modules/jquery/dist')); 
