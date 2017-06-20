@@ -12,12 +12,10 @@ var ControllerClient = function(socket) {
 };
 
 ControllerClient.prototype.connectedHandler = function(e) {
-  console.log("Controller connected.");
   this.addController(e.gamepad);
 };
 
 ControllerClient.prototype.disconnectedHandler = function(e) {
-  console.log("Controller disconnected.");
   this.removeController(e.gamepad);
 };
 
@@ -32,10 +30,16 @@ ControllerClient.prototype.addController = function(controller) {
 
   var controller_id = controller.index;
   this.controllers[controller_id] = controller_info;
+
+  $('#status')[0].innerHTML = "Detected controller. Ready to play!";
 };
 
 ControllerClient.prototype.removeController = function(controller) {
   delete this.controllers[controller.index];
+};
+
+ControllerClient.prototype.numberControllersDetected = function() {
+  return Object.keys(this.controllers).length;
 };
 
 ControllerClient.prototype.hasController = function(controller) {
@@ -49,6 +53,10 @@ ControllerClient.prototype.findControllers = function() {
     if(!this.hasController(gamepad)) {
       this.addController(gamepad);
     }
+  }
+
+  if(this.numberControllersDetected() == 0) {
+    $('#status')[0].innerHTML = "Plug in a controller and press any button.";
   }
 };
 
@@ -95,7 +103,6 @@ ControllerClient.prototype.readControllers = function() {
 };
 
 function setup_controller_client(socket) {
-  console.log("Setting up controller client.");
   var client = new ControllerClient(socket);
 
   function findControllers() { client.findControllers(); }
@@ -114,11 +121,13 @@ function main() {
   var socket = io();
 
   socket.on('player_id', function(player_id) {
-    console.log("ID: "+player_id);
+    $('#status')[0].innerHTML = 'Connected to server.';
+    $('#player_id')[0].innerHTML = "Player ID#: "+player_id;
+
+    setup_controller_client(socket);
   });
 
   socket.emit('set_role', 'controller');
-//  setup_controller_client(socket);
 }
 
 main();
