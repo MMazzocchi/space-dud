@@ -78,7 +78,10 @@ ControllerClient.prototype.buttonPressed = function(button) {
 ControllerClient.prototype.dumpState = function() {
   for(var controller_id in this.controllers) {
     var controller_info = this.controllers[controller_id];
-    controller_info.state = {};
+    controller_info.state = {
+      buttons: {},
+      axes: {}
+    };
   }
 };
 
