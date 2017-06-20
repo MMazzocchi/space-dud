@@ -1,3 +1,6 @@
+var HOST = '0.0.0.0';
+var PORT = 3000;
+
 var express = require('express');
 var app = express();
 var http = require('http').Server(app);
@@ -23,8 +26,8 @@ app.get('/', function(req, res){
   res.sendFile(__dirname + '/html/index.html');
 });
 
-http.listen(3000, function(){
-  console.log('listening on *:3000');
+http.listen(PORT, HOST, function(){
+  console.log('listening on '+HOST+':'+PORT);
 });
 
 io.on('connection', function(socket) {
