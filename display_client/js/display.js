@@ -11,17 +11,17 @@ $(function() {
 
     $('.choose-player-btn').click(function(e) {
       e.preventDefault();
+      var player_id = e.target.innerHTML;
+
       $('#content')[0].innerHTML = "";
       $('#status')[0].innerHTML = "Waiting for events...";
-
-      var player_id = e.target.innerHTML;
-      socket.emit('choose_player', player_id);
 
       var client = new DisplayClient(socket);
       client.onAnyChange(function(data) {
         $('#status')[0].innerHTML = "Received event: "+JSON.stringify(data);
       });
 
+      socket.emit('choose_player', player_id);
     });
   };
 
