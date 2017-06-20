@@ -12,7 +12,7 @@ Player.prototype.setDisplayClient = function(client) {
 }
 
 Player.prototype.hasDisplayClient = function() {
-  return (this.display_client == undefined);
+  return (this.display_client != null);
 };
 
 Player.prototype.setControllerClient = function(client) {
@@ -24,7 +24,7 @@ Player.prototype.setControllerClient = function(client) {
 }
 
 Player.prototype.hasControllerClient = function() {
-  return (this.controller_client == undefined);
+  return (this.controller_client != null);
 };
 
 Player.prototype.toJSON = function() {
