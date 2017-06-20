@@ -12,14 +12,14 @@ $(function() {
     $('.choose-player-btn').click(function(e) {
       e.preventDefault();
       $('#content')[0].innerHTML = "";
-      $('#status')[0].innerHTML = "Choosing player...";
+      $('#status')[0].innerHTML = "Waiting for events...";
 
       var player_id = e.target.innerHTML;
       socket.emit('choose_player', player_id);
 
       var client = new DisplayClient(socket);
       client.onAnyChange(function(data) {
-        console.log(JSON.stringify(data));
+        $('#status')[0].innerHTML = "Received event: "+JSON.stringify(data);
       });
 
     });
