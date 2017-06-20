@@ -10,6 +10,10 @@ app.use('/controller', express.static(__dirname + '/controller_client'));
 app.use('/css', express.static(__dirname + '/controller_client/css'));
 app.use('/js', express.static(__dirname + '/controller_client/js'));
 
+app.use('/display', express.static(__dirname + '/display_client'));
+app.use('/css', express.static(__dirname + '/display_client/css'));
+app.use('/js', express.static(__dirname + '/display_client/js'));
+
 app.use('/js', express.static(__dirname + '/node_modules/bootstrap/dist/js')); 
 app.use('/js', express.static(__dirname + '/node_modules/jquery/dist')); 
 app.use('/js', express.static(__dirname + '/node_modules/jquery/dist')); 
@@ -75,6 +79,7 @@ io.on('connection', function(socket) {
       socket.emit('player_id', player_id);
 
     } else if(role == 'display') {
+      console.log("Display role set.");
       // TODO: Respond with player list
       // TODO: Allow for choice of player
     }
