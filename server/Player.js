@@ -8,6 +8,7 @@ Player.prototype.setDisplayClient = function(client) {
 
   if(this.controller_client != null) {
     this.controller_client.setDisplayClient(client);
+    this.controller_client.dumpState();
   }
 }
 
@@ -20,6 +21,7 @@ Player.prototype.setControllerClient = function(client) {
 
   if(this.display_client != null) {
     this.controller_client.setDisplayClient(this.display_client);
+    this.controller_client.dumpState();
   }
 }
 
