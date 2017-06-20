@@ -80,7 +80,8 @@ io.on('connection', function(socket) {
 
     } else if(role == 'display') {
       console.log("Display role set.");
-      // TODO: Respond with player list
+
+      socket.emit('player_list', game.getPlayerList());
       // TODO: Allow for choice of player
     }
   });
