@@ -75,14 +75,20 @@ io.on('connection', function(socket) {
   socket.on('set_role', function(role) {
     if(role == 'controller') {
       var player = new Player();
+      var client = new ControllerClient(socket);
+      player.setControllerClient(client);
+
       var player_id = game.addPlayer(player);
       socket.emit('player_id', player_id);
 
     } else if(role == 'display') {
-      console.log("Display role set.");
+      socket.on('choose_player', function(player_id) {
+        var player = game.getPlayer(player_id);
+        var client = new DisplayClient(socket);
+        player.setDisplayClient(client);
+      });
 
       socket.emit('player_list', game.getPlayerList());
-      // TODO: Allow for choice of player
     }
   });
 });
