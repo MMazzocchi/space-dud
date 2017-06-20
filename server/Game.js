@@ -39,4 +39,17 @@ Game.prototype.toJSON = function() {
   return info;
 };
 
+Game.prototype.getPlayerList = function() {
+  var id_list = [];
+
+  for(var player_id in this.player_lookup) {
+    var player = this.player_lookup[player_id];
+    if(!player.hasDisplayClient()) {
+      id_list.push(player_id);
+    }
+  }
+
+  return id_list;
+};
+
 module.exports = Game;

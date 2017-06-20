@@ -11,6 +11,10 @@ Player.prototype.setDisplayClient = function(client) {
   }
 }
 
+Player.prototype.hasDisplayClient = function() {
+  return (this.display_client == undefined);
+};
+
 Player.prototype.setControllerClient = function(client) {
   this.controller_client = client;
 
@@ -18,6 +22,10 @@ Player.prototype.setControllerClient = function(client) {
     this.controller_client.setDisplayClient(this.display_client);
   }
 }
+
+Player.prototype.hasControllerClient = function() {
+  return (this.controller_client == undefined);
+};
 
 Player.prototype.toJSON = function() {
   var info = {
