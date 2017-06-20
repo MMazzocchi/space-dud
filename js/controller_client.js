@@ -52,10 +52,10 @@ ControllerClient.prototype.findControllers = function() {
   }
 };
 
-ControllerClient.prototype.emitButtonEvent = function(button_id, value) {
+ControllerClient.prototype.emitControllerEvent = function(type, id, value) {
   var data = {
-    type: 'button',
-    id: button_id,
+    type: type,
+    id: id,
     value: value
   };
 
@@ -75,11 +75,19 @@ ControllerClient.prototype.readControllers = function() {
       if((state.buttons[i] == undefined) ||
          (state.buttons[i] != pressed)) {
         state.buttons[i] = pressed;
-        this.emitButtonEvent(i, pressed);
+        this.emitControllerEvent('button', i, pressed);
       }
     }
 
-    //TODO: Axes!
+    for(var i = 0; i < controller.axes.length; i++) {
+      var value = controller.axes[i];
+
+      if((state.axes[i] == undefined) ||
+         (state.axes[i] != value)) {
+        state.axes[i] = value;
+        this.emitControllerEvent('axis', i, value);
+      }
+    }
   }
 
   var client = this;
