@@ -1,27 +1,31 @@
 $(function() {
-  function setup_controller_client(socket) {
-    var client = new ControllerClient(socket);
-  
-    function findControllers() { client.findControllers(); }
-    function connectedHandler(e) { client.connectedHandler(e); }
-    function disconnectedHandler(e) { client.disconnectedHandler(e); }
-  
-    setInterval(findControllers, 500);
-  
-    window.addEventListener("gamepadconnected", connectedHandler);
-    window.addEventListener("gamepaddisconnected", disconnectedHandler);
-  
-    client.readControllers();
+  function callBack(player_id) {
+    $('#player_id')[0].innerHTML = "Player ID: "+player_id;
+    $('#status')[0].innerHTML = "Plug in a controller and press any button.";
   }
-  
-  var socket = io();
-  
-  socket.on('player_id', function(player_id) {
-    $('#status')[0].innerHTML = 'Connected to server.';
-    $('#player_id')[0].innerHTML = "Player ID#: "+player_id;
-  
-    setup_controller_client(socket);
-  });
-  
-  socket.emit('set_role', 'controller');
+
+  var client = new ControllerClient(callBack);
+
+  function findControllers() {
+    client.findControllers();
+  }
+
+  function connectedHandler(e) { 
+    client.connectedHandler(e);
+
+    if(this.numberControllersDetected() == 0) {
+      $('#status')[0].innerHTML = "Plug in a controller and press any button.";
+    } else {
+      $('#status')[0].innerHTML = "Controller detected! Ready to play.";
+    }
+  }
+
+  function disconnectedHandler(e) {
+    client.disconnectedHandler(e);
+  }
+
+  setInterval(findControllers, 500);
+
+  window.addEventListener("gamepadconnected", connectedHandler);
+  window.addEventListener("gamepaddisconnected", disconnectedHandler);
 });

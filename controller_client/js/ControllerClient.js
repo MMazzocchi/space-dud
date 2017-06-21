@@ -1,11 +1,29 @@
-var ControllerClient = function(socket) {
-  this.socket = socket;
+var ControllerClient = function(onReadyHandler) {
+  this.onReadyHandler = onReadyHandler;
   this.controllers = {};
 
+  this.socket = io();
+
   var client = this;
-  socket.on('dump_state', function() {
+  this.socket.on('dump_state', function() {
     client.dumpState();
   });
+
+  this.socket.on('player_id', function(player_id) {
+    if(onReadyHandler) {
+      onReadyHandler(player_id);
+    }
+
+    this.player_id = player_id;
+  });
+  
+  this.socket.emit('set_role', 'controller');
+
+  this.readControllers();
+};
+
+ControllerClient.prototype.getPlayerId = function() {
+  return this.player_id;
 };
 
 ControllerClient.prototype.connectedHandler = function(e) {
@@ -50,10 +68,6 @@ ControllerClient.prototype.findControllers = function() {
     if(!this.hasController(gamepad)) {
       this.addController(gamepad);
     }
-  }
-
-  if(this.numberControllersDetected() == 0) {
-    $('#status')[0].innerHTML = "Plug in a controller and press any button.";
   }
 };
 
