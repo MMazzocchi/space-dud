@@ -27,7 +27,6 @@ var DisplayClient = require('./server/DisplayClient.js');
 var game = new Game();
 
 app.get('/', function(req, res){
-  console.log("Request for /");
   res.sendFile(__dirname + '/html/index.html');
 });
 
@@ -36,8 +35,6 @@ http.listen(PORT, HOST, function(){
 });
 
 io.on('connection', function(socket) {
-  console.log("User connected.");
-
   socket.on('set_role', function(role) {
     if(role == 'controller') {
       var player = new Player();

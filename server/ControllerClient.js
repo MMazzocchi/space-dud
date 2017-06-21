@@ -5,8 +5,6 @@ var ControllerClient = function(socket) {
   this.socket.on("controller_event", function(controller_event) {
     if(client.display_client) {
       client.display_client.sendEvent(controller_event);
-    } else {
-      console.log("No display client connected! Event will be dropped.");
     }
   });
 };
