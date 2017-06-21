@@ -3,8 +3,6 @@
   "version": "0.0.1",
   "description": "HTTP server plugin that routes events from HTML5 gamepad clients to display clients on different devices.",
   "dependencies": {
-    "bootstrap": "^3.3.7",
-    "jquery": "^3.2.1",
     "socket.io": "^2.0.3"
   }
 }
