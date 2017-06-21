@@ -1,4 +1,14 @@
 var DisplayClient = function() {
+  this.state = {
+    button: {},
+    axis: {}
+  };
+
+  this.callbacks = {
+    button: {},
+    axis: {}
+  };
+
   this.socket = io();
 
   var client = this;
@@ -21,6 +31,12 @@ DisplayClient.prototype.onPlayerList = function(callback) {
 };
 
 DisplayClient.prototype.processEvent = function(data) {
+  this.state[data.type][data.id] = data.value;
+
+  if(this.callbacks[data.type][data.id]) {
+    this.callbacks[data.type][data.id](data.value);
+  }
+
   if(this.anyChangeCallback != undefined) {
     this.anyChangeCallback(data);
   }
