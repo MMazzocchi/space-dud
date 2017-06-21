@@ -60,3 +60,22 @@ DisplayClient.prototype.selectPlayer = function(player_id) {
   this.player_id = player_id;
   this.socket.emit('choose_player', player_id);
 };
+
+DisplayClient.prototype.getEventTypes = function() {
+  var types = [];
+  for(var id in this.state.button) {
+    types.push({
+      type: 'button',
+      id: id
+    });
+  }
+
+  for(var id in this.state.axis) {
+    types.push({
+      type: 'axis',
+      id: id
+    });
+  }
+
+  return types;
+};
