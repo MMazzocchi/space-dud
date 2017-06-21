@@ -22,8 +22,16 @@ var DisplayClient = function() {
   this.socket.emit('set_role', 'display');
 };
 
+DisplayClient.prototype.onControllerEvent = function(type, id, callback) {
+  this.callbacks[type][id] = async function(data) {
+    callback(data);
+  };
+};
+
 DisplayClient.prototype.onAnyChange = function(callback) {
-  this.anyChangeCallback = callback;
+  this.anyChangeCallback = async function(data) {
+    callback(data);
+  };
 };
 
 DisplayClient.prototype.onPlayerList = function(callback) {
@@ -34,7 +42,7 @@ DisplayClient.prototype.processEvent = function(data) {
   this.state[data.type][data.id] = data.value;
 
   if(this.callbacks[data.type][data.id]) {
-    this.callbacks[data.type][data.id](data.value);
+    this.callbacks[data.type][data.id](data);
   }
 
   if(this.anyChangeCallback != undefined) {
