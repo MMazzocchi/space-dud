@@ -79,3 +79,7 @@ DisplayClient.prototype.getEventTypes = function() {
 
   return types;
 };
+
+DisplayClient.prototype.getState = function(type, id) {
+  return this.state[type][id];
+};
