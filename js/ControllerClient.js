@@ -1,5 +1,37 @@
 var ControllerClient = (function() {
 
+  function readControllers() {
+    for(var controller_id in this.controllers) {
+      var controller_info = this.controllers[controller_id];
+      var controller = controller_info.controller;
+      var state = controller_info.state;
+  
+      for(var i = 0; i < controller.buttons.length; i++) {
+        var button = controller.buttons[i];
+        var pressed = this.buttonPressed(button);
+  
+        if((state.buttons[i] == undefined) ||
+           (state.buttons[i] != pressed)) {
+          state.buttons[i] = pressed;
+          this.emitControllerEvent('button', i, pressed);
+        }
+      }
+  
+      for(var i = 0; i < controller.axes.length; i++) {
+        var value = controller.axes[i];
+  
+        if((state.axes[i] == undefined) ||
+           (state.axes[i] != value)) {
+          state.axes[i] = value;
+          this.emitControllerEvent('axis', i, value);
+        }
+      }
+    }
+  
+    var client = this;
+    window.requestAnimationFrame(function() { readControllers.call(client) });
+  };
+
   function ControllerClient(onReadyHandler) {
     this.onReadyHandler = onReadyHandler;
     this.controllers = {};
@@ -21,7 +53,7 @@ var ControllerClient = (function() {
     
     this.socket.emit('set_role', 'controller');
   
-    this.readControllers();
+    readControllers.call(this);
   }
 
   ControllerClient.prototype.getPlayerId = function() {
@@ -101,37 +133,5 @@ var ControllerClient = (function() {
     }
   };
   
-  ControllerClient.prototype.readControllers = function() {
-    for(var controller_id in this.controllers) {
-      var controller_info = this.controllers[controller_id];
-      var controller = controller_info.controller;
-      var state = controller_info.state;
-  
-      for(var i = 0; i < controller.buttons.length; i++) {
-        var button = controller.buttons[i];
-        var pressed = this.buttonPressed(button);
-  
-        if((state.buttons[i] == undefined) ||
-           (state.buttons[i] != pressed)) {
-          state.buttons[i] = pressed;
-          this.emitControllerEvent('button', i, pressed);
-        }
-      }
-  
-      for(var i = 0; i < controller.axes.length; i++) {
-        var value = controller.axes[i];
-  
-        if((state.axes[i] == undefined) ||
-           (state.axes[i] != value)) {
-          state.axes[i] = value;
-          this.emitControllerEvent('axis', i, value);
-        }
-      }
-    }
-  
-    var client = this;
-    window.requestAnimationFrame(function() { client.readControllers() });
-  };
-
   return ControllerClient;
 })();
