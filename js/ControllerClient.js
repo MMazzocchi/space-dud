@@ -89,8 +89,6 @@ var ControllerClient = (function() {
   
     var controller_id = controller.index;
     this.controllers[controller_id] = controller_info;
-  
-    $('#status')[0].innerHTML = "Detected controller. Ready to play!";
   };
   
   ControllerClient.prototype.removeController = function(controller) {
