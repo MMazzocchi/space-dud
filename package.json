@@ -3,6 +3,11 @@
   "version": "0.0.2",
   "author": "Max Mazzocchi <maxwell.mazzocchi@gmail.com>",
   "description": "HTTP server plugin that routes events from HTML5 gamepad clients to display clients on different devices.",
+  "license": "GPL-3.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/MMazzocchi/gamepad-server-plugin.git"
+  },
   "dependencies": {
     "socket.io": "^2.0.3"
   }
