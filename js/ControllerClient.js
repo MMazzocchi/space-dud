@@ -1,5 +1,15 @@
 var ControllerClient = (function() {
 
+  function emitControllerEvent(type, id, value) {
+    var data = {
+      type: type,
+      id: id,
+      value: value
+    };
+  
+    this.socket.emit('controller_event', data);
+  };
+
   function readControllers() {
     for(var controller_id in this.controllers) {
       var controller_info = this.controllers[controller_id];
@@ -13,7 +23,7 @@ var ControllerClient = (function() {
         if((state.buttons[i] == undefined) ||
            (state.buttons[i] != pressed)) {
           state.buttons[i] = pressed;
-          this.emitControllerEvent('button', i, pressed);
+          emitControllerEvent.call(this, 'button', i, pressed);
         }
       }
   
@@ -23,7 +33,7 @@ var ControllerClient = (function() {
         if((state.axes[i] == undefined) ||
            (state.axes[i] != value)) {
           state.axes[i] = value;
-          this.emitControllerEvent('axis', i, value);
+          emitControllerEvent.call(this, 'axis', i, value);
         }
       }
     }
@@ -104,17 +114,7 @@ var ControllerClient = (function() {
       }
     }
   };
-  
-  ControllerClient.prototype.emitControllerEvent = function(type, id, value) {
-    var data = {
-      type: type,
-      id: id,
-      value: value
-    };
-  
-    this.socket.emit('controller_event', data);
-  };
-  
+   
   ControllerClient.prototype.buttonPressed = function(button) {
     if(typeof(button) == 'object') {
       return button.pressed;
