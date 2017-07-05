@@ -1,5 +1,17 @@
 var DisplayClient = (function() {
 
+  function processEvent(data) {
+    this.state[data.type][data.id] = data.value;
+  
+    if(this.callbacks[data.type][data.id]) {
+      this.callbacks[data.type][data.id](data);
+    }
+  
+    if(this.anyChangeCallback != undefined) {
+      this.anyChangeCallback(data);
+    }
+  };
+
   function DisplayClient() {
     this.state = {
       button: {},
@@ -15,7 +27,7 @@ var DisplayClient = (function() {
   
     var client = this;
     this.socket.on('controller_event', function(data) {
-      client.processEvent(data);
+      processEvent.call(client, data);
     });
   
     this.socket.emit('set_role', 'display');
@@ -32,19 +44,7 @@ var DisplayClient = (function() {
       callback(data);
     };
   };
-  
-  DisplayClient.prototype.processEvent = function(data) {
-    this.state[data.type][data.id] = data.value;
-  
-    if(this.callbacks[data.type][data.id]) {
-      this.callbacks[data.type][data.id](data);
-    }
-  
-    if(this.anyChangeCallback != undefined) {
-      this.anyChangeCallback(data);
-    }
-  };
-  
+   
   DisplayClient.prototype.selectPlayer = function(player_id, callback) {
     if(this.choosePlayerCallback == undefined) {
       var client = this;
