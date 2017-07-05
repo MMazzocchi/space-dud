@@ -1,4 +1,4 @@
-var ControllerClient = (function() {
+var ControllerConnection = (function() {
 
   function emitControllerEvent(type, id, value) {
     var data = {
@@ -42,7 +42,7 @@ var ControllerClient = (function() {
     window.requestAnimationFrame(function() { readControllers.call(client) });
   };
 
-  function ControllerClient(onReadyHandler) {
+  function ControllerConnection(onReadyHandler) {
     this.onReadyHandler = onReadyHandler;
     this.controllers = {};
   
@@ -66,19 +66,19 @@ var ControllerClient = (function() {
     readControllers.call(this);
   }
 
-  ControllerClient.prototype.getPlayerId = function() {
+  ControllerConnection.prototype.getPlayerId = function() {
     return this.player_id;
   };
   
-  ControllerClient.prototype.connectedHandler = function(e) {
+  ControllerConnection.prototype.connectedHandler = function(e) {
     this.addController(e.gamepad);
   };
   
-  ControllerClient.prototype.disconnectedHandler = function(e) {
+  ControllerConnection.prototype.disconnectedHandler = function(e) {
     this.removeController(e.gamepad);
   };
   
-  ControllerClient.prototype.addController = function(controller) {
+  ControllerConnection.prototype.addController = function(controller) {
     var controller_info = {
       controller: controller,
       state: {
@@ -91,19 +91,19 @@ var ControllerClient = (function() {
     this.controllers[controller_id] = controller_info;
   };
   
-  ControllerClient.prototype.removeController = function(controller) {
+  ControllerConnection.prototype.removeController = function(controller) {
     delete this.controllers[controller.index];
   };
   
-  ControllerClient.prototype.numberControllersDetected = function() {
+  ControllerConnection.prototype.numberControllersDetected = function() {
     return Object.keys(this.controllers).length;
   };
   
-  ControllerClient.prototype.hasController = function(controller) {
+  ControllerConnection.prototype.hasController = function(controller) {
     return (controller.index in this.controllers);
   };
   
-  ControllerClient.prototype.findControllers = function() {
+  ControllerConnection.prototype.findControllers = function() {
     var gamepads = navigator.getGamepads ? navigator.getGamepads() : (navigator.webkitGetGamepads ? navigator.webkitGetGamepads() : []);
     for(var i=0; i<gamepads.length; i++) { 
       var gamepad = gamepad[i];
@@ -113,7 +113,7 @@ var ControllerClient = (function() {
     }
   };
    
-  ControllerClient.prototype.buttonPressed = function(button) {
+  ControllerConnection.prototype.buttonPressed = function(button) {
     if(typeof(button) == 'object') {
       return button.pressed;
     }
@@ -121,7 +121,7 @@ var ControllerClient = (function() {
     return button == 1.0;
   };
   
-  ControllerClient.prototype.dumpState = function() {
+  ControllerConnection.prototype.dumpState = function() {
     for(var controller_id in this.controllers) {
       var controller_info = this.controllers[controller_id];
       controller_info.state = {
@@ -131,5 +131,5 @@ var ControllerClient = (function() {
     }
   };
   
-  return ControllerClient;
+  return ControllerConnection;
 })();

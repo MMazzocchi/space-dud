@@ -1,4 +1,4 @@
-var DisplayClient = (function() {
+var DisplayConnection = (function() {
 
   function processEvent(data) {
     this.state[data.type][data.id] = data.value;
@@ -12,7 +12,7 @@ var DisplayClient = (function() {
     }
   };
 
-  function DisplayClient() {
+  function DisplayConnection() {
     this.state = {
       button: {},
       axis: {}
@@ -33,19 +33,19 @@ var DisplayClient = (function() {
     this.socket.emit('set_role', 'display');
   };
   
-  DisplayClient.prototype.onControllerEvent = function(type, id, callback) {
+  DisplayConnection.prototype.onControllerEvent = function(type, id, callback) {
     this.callbacks[type][id] = async function(data) {
       callback(data);
     };
   };
   
-  DisplayClient.prototype.onAnyChange = function(callback) {
+  DisplayConnection.prototype.onAnyChange = function(callback) {
     this.anyChangeCallback = async function(data) {
       callback(data);
     };
   };
    
-  DisplayClient.prototype.selectPlayer = function(player_id, callback) {
+  DisplayConnection.prototype.selectPlayer = function(player_id, callback) {
     if(this.choosePlayerCallback == undefined) {
       var client = this;
       this.socket.on('valid_player_choice', function(valid) {
@@ -61,7 +61,7 @@ var DisplayClient = (function() {
     this.socket.emit('choose_player', player_id);
   };
   
-  DisplayClient.prototype.getEventTypes = function() {
+  DisplayConnection.prototype.getEventTypes = function() {
     var types = [];
     for(var id in this.state.button) {
       types.push({
@@ -80,10 +80,10 @@ var DisplayClient = (function() {
     return types;
   };
   
-  DisplayClient.prototype.getState = function(type, id) {
+  DisplayConnection.prototype.getState = function(type, id) {
     return this.state[type][id];
   };
 
-  return DisplayClient;
+  return DisplayConnection;
 })();
 
