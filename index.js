@@ -21,11 +21,16 @@ module.exports = function(http) {
       } else if(role == 'display') {
         socket.on('choose_player', function(player_id) {
           var player = game.getPlayer(player_id);
-          var client = new DisplayClient(socket);
-          player.setDisplayClient(client);
+          if(player == undefined) {
+            socket.emit('valid_player_choice', false);
+
+          } else {
+            var client = new DisplayClient(socket);
+            player.setDisplayClient(client);
+
+            socket.emit('valid_player_choice', true);
+          }
         });
-  
-        socket.emit('player_list', game.getPlayerList());
       }
     });
   });
