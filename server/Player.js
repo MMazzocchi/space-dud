@@ -29,13 +29,4 @@ Player.prototype.hasControllerClient = function() {
   return (this.controller_client != null);
 };
 
-Player.prototype.toJSON = function() {
-  var info = {
-    'display': this.display_client,
-    'controller': this.controller_client
-  };
-
-  return info;
-}
-
 module.exports = Player;

@@ -17,8 +17,4 @@ ControllerClient.prototype.dumpState = function() {
   this.socket.emit('dump_state');
 };
 
-ControllerClient.prototype.toJSON = function() {
-  return "ControllerClient";
-};
-
 module.exports = ControllerClient;

@@ -25,20 +25,6 @@ Game.prototype.getPlayer = function(player_id) {
   return this.player_lookup[player_id];
 };
 
-Game.prototype.toJSON = function() {
-  var info = {
-    'players': {},
-    'manager': this.manager
-  };
-
-  for(var player_id in this.player_lookup) {
-    var player = this.player_lookup[player_id];
-    info['players'][player_id] = player;
-  }
-
-  return info;
-};
-
 Game.prototype.getPlayerList = function() {
   var id_list = [];
 
