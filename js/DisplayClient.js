@@ -44,7 +44,18 @@ DisplayClient.prototype.processEvent = function(data) {
 };
 
 DisplayClient.prototype.selectPlayer = function(player_id, callback) {
-  this.player_id = player_id;
+  if(this.choosePlayerCallback == undefined) {
+    var client = this;
+    this.socket.on('valid_player_choice', function(valid) {
+      if(valid) {
+        client.player_id = player_id;
+      }
+
+      client.choosePlayerCallback(valid);
+    });
+  }
+  this.choosePlayerCallback = callback;
+
   this.socket.emit('choose_player', player_id);
 };
 
