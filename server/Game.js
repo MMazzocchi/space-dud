@@ -7,14 +7,14 @@ var Game = function() {
   this.next_player_id = Date.now() + this.PLAYER_ID_INTERVAL;
 };
 
-Game.prototype.getNewPlayerId = function() {
+function getNewPlayerId() {
   var id = this.next_player_id;
   this.next_player_id += this.PLAYER_ID_INTERVAL;
   return id;
 }
 
 Game.prototype.addPlayer = function(player) {
-  var player_id = this.getNewPlayerId();
+  var player_id = getNewPlayerId.call(this);
   this.player_lookup[player_id] = player;
 
   this.next_player_id += 1;
