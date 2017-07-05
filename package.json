@@ -1,6 +1,6 @@
 {
   "name": "gamepad-server-plugin",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "author": "Max Mazzocchi <maxwell.mazzocchi@gmail.com>",
   "description": "HTTP server plugin that routes events from HTML5 gamepad clients to display clients on different devices.",
   "dependencies": {
