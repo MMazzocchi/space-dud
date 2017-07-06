@@ -1,9 +1,15 @@
+var debug = require('debug')('gamepad-server-plugin:Player');
+
 var Player = function() {
+  debug('Created a new Player.');
+
   this.display_client = null;
   this.controller_client = null;
 }
 
 Player.prototype.setDisplayClient = function(client) {
+  debug('Connected a display client.');
+
   this.display_client = client;
 
   if(this.controller_client != null) {
@@ -17,6 +23,8 @@ Player.prototype.hasDisplayClient = function() {
 };
 
 Player.prototype.setControllerClient = function(client) {
+  debug('Connected a controller client.');
+
   this.controller_client = client;
 
   if(this.display_client != null) {

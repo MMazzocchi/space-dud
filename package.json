@@ -9,6 +9,7 @@
     "url": "https://github.com/MMazzocchi/gamepad-server-plugin.git"
   },
   "dependencies": {
+    "debug": "^2.6.8",
     "socket.io": "^2.0.3"
   }
 }

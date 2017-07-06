@@ -1,4 +1,5 @@
 module.exports = function(http) {
+  var debug = require('debug')('gamepad-server-plugin');
   var io = require('socket.io')(http);
   
   var Game = require('./server/Game.js');
@@ -9,8 +10,13 @@ module.exports = function(http) {
   var game = new Game();
   
   io.on('connection', function(socket) {
+    debug('Client connected.');
+
     socket.on('set_role', function(role) {
+
       if(role == 'controller') {
+        debug('Client chose the "controller" role.');
+
         var player = new Player();
         var client = new ControllerClient(socket);
         player.setControllerClient(client);
@@ -19,18 +25,27 @@ module.exports = function(http) {
         socket.emit('player_id', player_id);
   
       } else if(role == 'display') {
+        debug('Client chose the "display" role.');
+
         socket.on('choose_player', function(player_id) {
           var player = game.getPlayer(player_id);
+
           if(player == undefined) {
+            debug('Display client chose invalid player with id: '+player_id);
             socket.emit('valid_player_choice', false);
 
           } else {
+            debug('Display client chose valid player with id: '+player_id);
+
             var client = new DisplayClient(socket);
             player.setDisplayClient(client);
 
             socket.emit('valid_player_choice', true);
           }
         });
+
+      } else {
+        debug('Client chose an invalid role: '+role);
       }
     });
   });
