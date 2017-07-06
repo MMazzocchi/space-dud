@@ -1,6 +1,6 @@
 {
   "name": "gamepad-event-tunnel",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "author": "Max Mazzocchi <maxwell.mazzocchi@gmail.com>",
   "description": "HTTP server plugin module that routes events from HTML5 gamepad clients to display clients on different devices.",
   "license": "GPL-3.0",
