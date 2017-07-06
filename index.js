@@ -1,5 +1,5 @@
 module.exports = function(http) {
-  var debug = require('debug')('gamepad-server-plugin');
+  var debug = require('debug')('gamepad-event-tunnel');
   var io = require('socket.io')(http);
   
   var Game = require('./server/Game.js');

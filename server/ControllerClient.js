@@ -1,4 +1,4 @@
-var debug = require('debug')('gamepad-server-plugin:ControllerClient');
+var debug = require('debug')('gamepad-event-tunnel:ControllerClient');
 
 var ControllerClient = function(socket) {
   debug('Created a new controller client.');

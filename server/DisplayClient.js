@@ -1,4 +1,4 @@
-var debug = require('debug')('gamepad-server-plugin:DisplayClient');
+var debug = require('debug')('gamepad-event-tunnel:DisplayClient');
 
 var DisplayClient = function(socket) {
   debug('Created a new DisplayClient.');

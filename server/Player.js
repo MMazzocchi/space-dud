@@ -1,4 +1,4 @@
-var debug = require('debug')('gamepad-server-plugin:Player');
+var debug = require('debug')('gamepad-event-tunnel:Player');
 
 var Player = function() {
   debug('Created a new Player.');
