@@ -1,4 +1,8 @@
+var debug = require('debug')('gamepad-event-tunnel:Game');
+
 var Game = function() {
+  debug('Created a new Game.');
+
   this.PLAYER_ID_INTERVAL = 100000+Math.floor(Math.random()*100000);
 
   this.manager = null;
@@ -16,6 +20,8 @@ function getNewPlayerId() {
 Game.prototype.addPlayer = function(player) {
   var player_id = getNewPlayerId.call(this);
   this.player_lookup[player_id] = player;
+
+  debug('Added a new player with id: '+player_id);
 
   this.next_player_id += 1;
   return player_id;
