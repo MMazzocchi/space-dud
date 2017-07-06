@@ -1,4 +1,4 @@
-var debug = require('debug')('gamepad-event-tunnel:DisplayClient');
+var debug = require('debug')('space-dud:DisplayClient');
 
 var DisplayClient = function(socket) {
   debug('Created a new DisplayClient.');

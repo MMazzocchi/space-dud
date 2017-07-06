@@ -1,4 +1,4 @@
-var debug = require('debug')('gamepad-event-tunnel:ControllerClient');
+var debug = require('debug')('space-dud:ControllerClient');
 
 var ControllerClient = function(socket) {
   debug('Created a new controller client.');

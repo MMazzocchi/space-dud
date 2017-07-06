@@ -1,12 +1,12 @@
 {
-  "name": "gamepad-event-tunnel",
+  "name": "space-dud",
   "version": "0.1.0",
   "author": "Max Mazzocchi <maxwell.mazzocchi@gmail.com>",
   "description": "HTTP server plugin module that routes events from HTML5 gamepad clients to display clients on different devices.",
   "license": "GPL-3.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/MMazzocchi/gamepad-event-tunnel.git"
+    "url": "https://github.com/MMazzocchi/space-dud.git"
   },
   "dependencies": {
     "debug": "^2.6.8",

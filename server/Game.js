@@ -1,4 +1,4 @@
-var debug = require('debug')('gamepad-event-tunnel:Game');
+var debug = require('debug')('space-dud:Game');
 
 var Game = function() {
   debug('Created a new Game.');
