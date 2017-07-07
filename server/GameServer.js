@@ -1,8 +1,6 @@
 var debug = require('debug')('space-dud:GameServer');
 
 var Game = require('./Game.js');
-var Player = require('./Player.js');
-var DisplayClient = require('./DisplayClient.js');
 
 function chooseControllerRole(socket) {
   debug('Client chose the "controller" role.');
@@ -46,7 +44,7 @@ var GameServer = function(http) {
   this.game = new Game();
 
   var server = this;
-  io.on('connection', function(socket) {
+  this.io.on('connection', function(socket) {
     debug('Client connected.');
 
     socket.on('set_role', function(role) {
