@@ -1,6 +1,7 @@
 var assert = require('assert');
 var Game = require('../server/Game.js');
 var Player = require('../server/Player.js');
+var DummySocket = require('./DummySocket.js');
 
 const UUID_REGEX = 
   /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/;
@@ -42,6 +43,25 @@ describe('Game', function() {
       var player = game.getPlayer(BAD_UUID);
 
       assert.equal(player, undefined);
+    });
+  });
+
+  describe('#createControllerClient', function() {
+    it('should create a player with a controller client, and send the ID.',
+       function(done) {
+      var dummy_socket = new DummySocket();
+      dummy_socket.on('player_id', function(player_id) {
+        assert(UUID_REGEX.test(player_id));
+
+        var player = game.getPlayer(player_id);
+        assert.notEqual(player, undefined);
+
+        assert(player.hasControllerClient());        
+
+        done();
+      });
+
+      game.createControllerClient(dummy_socket);
     });
   });
 });
