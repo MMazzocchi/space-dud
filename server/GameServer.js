@@ -49,7 +49,7 @@ function chooseDisplayRole(socket) {
   });
 };
 
-function setRole(role) {
+function setRole(role, socket) {
   if(role == 'controller') {
     chooseControllerRole.call(this, socket);
 
@@ -72,7 +72,7 @@ var GameServer = function(http) {
     debug('Client connected.');
 
     socket.on('set_role', function(role) {
-      setRole.call(this, role);
+      setRole.call(this, role, socket);
     });
   });
 };
