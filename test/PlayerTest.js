@@ -1,5 +1,5 @@
 var assert = require('assert');
-var TestSocket = require('./TestSocket.js');
+var DummySocket = require('./DummySocket.js');
 var Player = require('../server/Player.js');
 var DisplayClient = require('../server/DisplayClient.js');
 var ControllerClient = require('../server/ControllerClient.js');
@@ -32,15 +32,15 @@ describe('Player', function() {
        function(done) {
       var player = new Player();
 
-      var test_socket = new TestSocket();
-      test_socket.on('dump_state', function() {
+      var dummy_socket = new DummySocket();
+      dummy_socket.on('dump_state', function() {
         done();
       });
 
-      var controller_client = new ControllerClient(test_socket);
+      var controller_client = new ControllerClient(dummy_socket);
       player.setControllerClient(controller_client);
 
-      var display_client = new DisplayClient(test_socket);
+      var display_client = new DisplayClient();
       player.setDisplayClient(display_client);
     });
   });
@@ -54,8 +54,8 @@ describe('Player', function() {
     it('should return true if controller client is set.', function() {
       var player = new Player();
 
-      var test_socket = new TestSocket();
-      var controller_client = new ControllerClient(test_socket);
+      var dummy_socket = new DummySocket();
+      var controller_client = new ControllerClient(dummy_socket);
 
       player.setControllerClient(controller_client);
       assert(player.hasControllerClient());
@@ -67,15 +67,15 @@ describe('Player', function() {
        function(done) {
       var player = new Player();
 
-      var display_client = new DisplayClient(test_socket);
+      var display_client = new DisplayClient();
       player.setDisplayClient(display_client);
 
-      var test_socket = new TestSocket();
-      test_socket.on('dump_state', function() {
+      var dummy_socket = new DummySocket();
+      dummy_socket.on('dump_state', function() {
         done();
       });
 
-      var controller_client = new ControllerClient(test_socket);
+      var controller_client = new ControllerClient(dummy_socket);
       player.setControllerClient(controller_client);
     });
   });
