@@ -55,9 +55,6 @@ var GameServer = function(http) {
   this.io = require('socket.io')(http);
   this.game = new Game();
 
-  this.socketToPlayerMap = {};
-  this.playerToSocketsMap = {};
-
   io.on('connection', function(socket) {
     debug('Client connected.');
 
