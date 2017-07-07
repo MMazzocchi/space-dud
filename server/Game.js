@@ -3,6 +3,7 @@ var uuid = require('uuid/v1');
 
 var Player = require('./Player.js');
 var ControllerClient = require('./ControllerClient.js');
+var DisplayClient = require('./DisplayClient.js');
 
 var Game = function() {
   debug('Created a new Game.');
@@ -18,6 +19,17 @@ Game.prototype.createControllerClient = function(socket) {
 
   var player_id = this.addPlayer(player);
   client.sendPlayerId(player_id);
+};
+
+Game.prototype.createDisplayClient = function(socket, player_id) {
+  var player = this.getPlayer(player_id);
+  if(player == undefined) {
+    throw new Error('No player with id '+player_id+' exists.');
+
+  } else {
+    var client = new DisplayClient(socket);
+    player.setDisplayClient(client);
+  }
 };
 
 Game.prototype.addPlayer = function(player) {

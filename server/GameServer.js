@@ -12,20 +12,17 @@ function chooseControllerRole(socket) {
 function chooseDisplayRole(socket) {
   debug('Client chose the "display" role.');
 
+  var server = this;
   socket.on('choose_player', function(player_id) {
-    var player = game.getPlayer(player_id);
 
-    if(player == undefined) {
-      debug('Display client chose invalid player with id: '+player_id);
-      socket.emit('valid_player_choice', false);
-
-    } else {
+    try {
+      server.game.createDisplayClient(socket, player_id);
       debug('Display client chose valid player with id: '+player_id);
-
-      var client = new DisplayClient(socket);
-      player.setDisplayClient(client);
-
       socket.emit('valid_player_choice', true);
+  
+    } catch(e) {
+      debug('An error occured while creating the display client: '+e.message);
+      socket.emit('valid_player_choice', false);
     }
   });
 };

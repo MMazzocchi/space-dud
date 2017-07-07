@@ -64,4 +64,33 @@ describe('Game', function() {
       game.createControllerClient(dummy_socket);
     });
   });
+
+  describe('#createDisplayClient', function() {
+    it('should add a display client to the player.', function(done) {
+
+      var controller_socket = new DummySocket();
+      controller_socket.on('player_id', function(player_id) {
+
+        var display_socket = new DummySocket();
+        game.createDisplayClient(display_socket, player_id);
+
+        var player = game.getPlayer(player_id);
+        assert(player.hasDisplayClient());
+
+        done();
+      });
+
+      game.createControllerClient(controller_socket);
+    });
+
+    it('should throw an error if the player does not exist.', function(done) {
+      var display_socket = new DummySocket();
+      try {
+        game.createDisplayClient(display_socket, BAD_UUID);
+
+      } catch(e) {
+        done();
+      }
+    });
+  });
 });
