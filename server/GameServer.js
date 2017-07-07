@@ -2,18 +2,11 @@ var debug = require('debug')('space-dud:GameServer');
 
 var Game = require('./Game.js');
 var Player = require('./Player.js');
-var ControllerClient = require('./ControllerClient.js');
 var DisplayClient = require('./DisplayClient.js');
 
 function chooseControllerRole(socket) {
   debug('Client chose the "controller" role.');
-
-  var player = new Player();
-  var client = new ControllerClient(socket);
-  player.setControllerClient(client);
-
-  var player_id = game.addPlayer(player);
-  socket.emit('player_id', player_id);
+  this.game.createControllerClient(socket);
 };
 
 function chooseDisplayRole(socket) {
@@ -55,11 +48,12 @@ var GameServer = function(http) {
   this.io = require('socket.io')(http);
   this.game = new Game();
 
+  var server = this;
   io.on('connection', function(socket) {
     debug('Client connected.');
 
     socket.on('set_role', function(role) {
-      setRole.call(this, role, socket);
+      setRole.call(server, role, socket);
     });
   });
 };

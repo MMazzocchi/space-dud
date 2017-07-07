@@ -1,11 +1,23 @@
 var debug = require('debug')('space-dud:Game');
 var uuid = require('uuid/v1');
 
+var Player = require('./Player.js');
+var ControllerClient = require('./ControllerClient.js');
+
 var Game = function() {
   debug('Created a new Game.');
 
   this.manager = null;
   this.player_lookup = {};
+};
+
+Game.prototype.createControllerClient = function(socket) {
+  var player = new Player();
+  var client = new ControllerClient(socket);
+  player.setControllerClient(client);
+
+  var player_id = this.addPlayer(player);
+  client.sendPlayerId(player_id);
 };
 
 Game.prototype.addPlayer = function(player) {
