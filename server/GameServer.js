@@ -1,9 +1,9 @@
 var debug = require('debug')('space-dud:App');
 
-var Game = require('Game.js');
-var Player = require('Player.js');
-var ControllerClient = require('ControllerClient.js');
-var DisplayClient = require('DisplayClient.js');
+var Game = require('./Game.js');
+var Player = require('./Player.js');
+var ControllerClient = require('./ControllerClient.js');
+var DisplayClient = require('./DisplayClient.js');
 
 function createPlayer(socket) {
   var player = new Player();
