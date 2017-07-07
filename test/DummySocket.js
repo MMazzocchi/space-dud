@@ -7,7 +7,9 @@ DummySocket.prototype.on = function(name, callback) {
 };
 
 DummySocket.prototype.emit = function(name, ...args) {
-  this.callback_map[name](...args);
+  if(this.callback_map[name]) {
+    this.callback_map[name](...args);
+  }
 };
 
 module.exports = DummySocket;
