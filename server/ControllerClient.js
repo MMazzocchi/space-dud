@@ -27,4 +27,8 @@ ControllerClient.prototype.dumpState = function() {
   this.socket.emit('dump_state');
 };
 
+ControllerClient.prototype.sendPlayerId = function(player_id) {
+  this.socket.emit('player_id', player_id);
+};
+
 module.exports = ControllerClient;

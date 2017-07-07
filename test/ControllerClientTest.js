@@ -8,6 +8,7 @@ const REFERENCE_EVENT = {
   id: '1',
   value: '1'
 };
+const REFERENCE_ID = '00000000-0000-0000-0000-000000000000';
 
 describe('ControllerClient', function() {
   describe('#ControllerClient', function() {
@@ -38,4 +39,18 @@ describe('ControllerClient', function() {
       client.dumpState();
     });
   });
+
+  describe('#sendPlayerId', function() {
+    it('should send the player ID.', function(done) {
+      var dummy_socket = new DummySocket();
+      dummy_socket.on('player_id', function(player_id) {
+        assert.equal(player_id, REFERENCE_ID);
+        done();
+      });
+
+      var client = new ControllerClient(dummy_socket);
+      client.sendPlayerId(REFERENCE_ID);
+    });
+  });
+
 });
