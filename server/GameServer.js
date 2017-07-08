@@ -53,24 +53,24 @@ function serveStaticFile(req, res) {
   }
 }
 
-function setupServer(srv) {
+function setupServer(http) {
 
   // Serve the static files
-  var evs = srv.listeners('request').slice(0);
-  srv.removeAllListeners('request');
+  var evs = http.listeners('request').slice(0);
+  http.removeAllListeners('request');
 
-  srv.on('request', function(req, res) {
+  http.on('request', function(req, res) {
     if(req.url.indexOf('/space-dud') === 0) {
       serveStaticFile.call(this, req, res);
 
     } else {
       for(var i = 0; i < evs.length; i++) {
-        evs[i].call(srv, req, res);
+        evs[i].call(http, req, res);
       }
     }
   });  
 
-  this.io = require('socket.io')(this.http).of('/space-dud');
+  this.io = require('socket.io')(http).of('/space-dud');
   this.io.on('connection', (socket) => {
     debug('Client connected.');
 
@@ -80,9 +80,9 @@ function setupServer(srv) {
   });
 }
 
-var GameServer = function(srv) {
+var GameServer = function(http) {
   this.game = new Game();
-  setupServer.call(this, srv);
+  setupServer.call(this, http);
 };
 
-module.exports = function(host, port) { return new GameServer(host, port); }
+module.exports = GameServer; 
