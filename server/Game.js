@@ -26,6 +26,9 @@ Game.prototype.createDisplayClient = function(socket, player_id) {
   if(player == undefined) {
     throw new Error('No player with id '+player_id+' exists.');
 
+  } else if(player.hasDisplayClient()) {
+    throw new Error('Player '+player_id+' already has a display client.');
+
   } else {
     var client = new DisplayClient(socket);
     player.setDisplayClient(client);

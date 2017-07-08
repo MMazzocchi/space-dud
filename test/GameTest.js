@@ -92,5 +92,26 @@ describe('Game', function() {
         done();
       }
     });
+
+    it('should throw an error if the player already has a display client.',
+       function(done) {
+
+      var controller_socket = new DummySocket();
+      controller_socket.on('player_id', function(player_id) {
+
+        var display_socket1 = new DummySocket();
+        game.createDisplayClient(display_socket1, player_id);
+
+        var display_socket2 = new DummySocket();
+        try {
+          game.createDisplayClient(display_socket2, player_id);
+
+        } catch(e) {
+          done();
+        }
+      });
+
+      game.createControllerClient(controller_socket);
+    });
   });
 });
