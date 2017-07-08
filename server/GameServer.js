@@ -10,11 +10,10 @@ function chooseControllerRole(socket) {
 function chooseDisplayRole(socket) {
   debug('Client chose the "display" role.');
 
-  var server = this;
-  socket.on('choose_player', function(player_id) {
+  socket.on('choose_player', (player_id) => {
 
     try {
-      server.game.createDisplayClient(socket, player_id);
+      this.game.createDisplayClient(socket, player_id);
       debug('Display client chose valid player with id: '+player_id);
       socket.emit('valid_player_choice', true);
   
@@ -43,12 +42,11 @@ var GameServer = function(http) {
   this.io = require('socket.io')(http);
   this.game = new Game();
 
-  var server = this;
-  this.io.on('connection', function(socket) {
+  this.io.on('connection', (socket) => {
     debug('Client connected.');
 
-    socket.on('set_role', function(role) {
-      setRole.call(server, role, socket);
+    socket.on('set_role', (role) => {
+      setRole.call(this, role, socket);
     });
   });
 };

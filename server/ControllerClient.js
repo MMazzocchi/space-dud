@@ -4,11 +4,10 @@ var ControllerClient = function(socket) {
   debug('Created a new controller client.');
 
   this.socket = socket;
-  var client = this;
 
-  this.socket.on("controller_event", function(controller_event) {
-    if(client.display_client) {
-      client.display_client.sendEvent(controller_event);
+  this.socket.on("controller_event", (controller_event) => {
+    if(this.display_client) {
+      this.display_client.sendEvent(controller_event);
 
     } else {
       debug('No display client was connected to this controller client. '+
