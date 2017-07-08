@@ -1,4 +1,7 @@
 var debug = require('debug')('space-dud:GameServer');
+var express = require('express');
+var read = require('fs').readFileSync;
+var exists = require('fs').existsSync;
 
 var Game = require('./Game.js');
 
@@ -37,11 +40,37 @@ function setRole(role, socket) {
   }
 };
 
-var GameServer = function(http) {
-  
-  this.io = require('socket.io')(http).of('/space-dud');
-  this.game = new Game();
+function serveStaticFile(req, res) {
+  var filename = req.url.substr(req.url.lastIndexOf("/")+1);
+  var path = __dirname+"/../client/"+filename
+  if(exists(path)) {
+    res.setHeader('Content-Type', 'application/javascript');
+    res.writeHead(200);
+    res.end(read(path));
+  } else {
+    res.writeHead(404);
+    res.end();
+  }
+}
 
+function setupServer(srv) {
+
+  // Serve the static files
+  var evs = srv.listeners('request').slice(0);
+  srv.removeAllListeners('request');
+
+  srv.on('request', function(req, res) {
+    if(req.url.indexOf('/space-dud') === 0) {
+      serveStaticFile.call(this, req, res);
+
+    } else {
+      for(var i = 0; i < evs.length; i++) {
+        evs[i].call(srv, req, res);
+      }
+    }
+  });  
+
+  this.io = require('socket.io')(this.http).of('/space-dud');
   this.io.on('connection', (socket) => {
     debug('Client connected.');
 
@@ -49,6 +78,11 @@ var GameServer = function(http) {
       setRole.call(this, role, socket);
     });
   });
+}
+
+var GameServer = function(srv) {
+  this.game = new Game();
+  setupServer.call(this, srv);
 };
 
-module.exports = GameServer; 
+module.exports = function(host, port) { return new GameServer(host, port); }
