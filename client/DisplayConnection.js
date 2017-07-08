@@ -25,9 +25,8 @@ var DisplayConnection = (function() {
   
     this.socket = io();
   
-    var client = this;
-    this.socket.on('controller_event', function(data) {
-      processEvent.call(client, data);
+    this.socket.on('controller_event', (data) => {
+      processEvent.call(this, data);
     });
   
     this.socket.emit('set_role', 'display');
@@ -47,13 +46,12 @@ var DisplayConnection = (function() {
    
   DisplayConnection.prototype.selectPlayer = function(player_id, callback) {
     if(this.choosePlayerCallback == undefined) {
-      var client = this;
-      this.socket.on('valid_player_choice', function(valid) {
+      this.socket.on('valid_player_choice', (valid) => {
         if(valid) {
-          client.player_id = player_id;
+          this.player_id = player_id;
         }
   
-        client.choosePlayerCallback(valid);
+        this.choosePlayerCallback(valid);
       });
     }
     this.choosePlayerCallback = callback;

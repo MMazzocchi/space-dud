@@ -38,8 +38,7 @@ var ControllerConnection = (function() {
       }
     }
   
-    var client = this;
-    window.requestAnimationFrame(function() { readControllers.call(client) });
+    window.requestAnimationFrame(() => { readControllers.call(this) });
   };
 
   function ControllerConnection(onReadyHandler) {
@@ -48,12 +47,11 @@ var ControllerConnection = (function() {
   
     this.socket = io();
 
-    var client = this;
-    this.socket.on('dump_state', function() {
-      client.dumpState();
+    this.socket.on('dump_state', () => {
+      this.dumpState();
     });
   
-    this.socket.on('player_id', function(player_id) {
+    this.socket.on('player_id', (player_id) => {
       if(onReadyHandler) {
         onReadyHandler(player_id);
       }
