@@ -39,7 +39,7 @@ function setRole(role, socket) {
 
 var GameServer = function(http) {
   
-  this.io = require('socket.io')(http);
+  this.io = require('socket.io')(http).of('/space-dud');
   this.game = new Game();
 
   this.io.on('connection', (socket) => {

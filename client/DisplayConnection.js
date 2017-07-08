@@ -23,7 +23,7 @@ var DisplayConnection = (function() {
       axis: {}
     };
   
-    this.socket = io();
+    this.socket = io('/space-dud');
   
     this.socket.on('controller_event', (data) => {
       processEvent.call(this, data);

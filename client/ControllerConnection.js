@@ -45,7 +45,7 @@ var ControllerConnection = (function() {
     this.onReadyHandler = onReadyHandler;
     this.controllers = {};
   
-    this.socket = io();
+    this.socket = io('/space-dud');
 
     this.socket.on('dump_state', () => {
       this.dumpState();
