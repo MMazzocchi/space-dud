@@ -8,9 +8,10 @@ $ npm install space-dud
 ## Usage
 `space-dud` creates a tunnel from one web client to another, through a web server. When a gamepad is connected to the "controller" client, all events are captured and sent to the server. The server then forwards these events to the "display" client, which can react to them appropriately.
 ### Server
-`space-dud` provides a function which takes one argument: an HTTP service. Once given the HTTP service, all that's needed to to serve the clients.
+`space-dud` provides a function which takes one argument: an HTTP service. Once given the HTTP service, all that's needed is to serve the clients.
 
 Example _index.js_:
+> **Hint:** All these examples are in a runnable package at [space-dud-example](https://github.com/MMazzocchi/space-dud-example)!
 ```javascript
 const HOST = '0.0.0.0';
 const PORT = 3000;
