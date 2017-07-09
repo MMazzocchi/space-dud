@@ -1,6 +1,6 @@
 {
   "name": "space-dud",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "author": "Max Mazzocchi <maxwell.mazzocchi@gmail.com>",
   "description": "HTTP server plugin module that routes events from HTML5 gamepad clients to display clients on different devices.",
   "license": "GPL-3.0",
