@@ -1,5 +1,6 @@
 var debug = require('debug')('space-dud:Game');
-var uuid = require('uuid/v1');
+//var uuid = require('uuid/v1');
+var shortid = require('shortid');
 
 var Player = require('./Player.js');
 var ControllerClient = require('./ControllerClient.js');
@@ -36,7 +37,7 @@ Game.prototype.createDisplayClient = function(socket, player_id) {
 };
 
 Game.prototype.addPlayer = function(player) {
-  var player_id = uuid();
+  var player_id = shortid.generate();
   this.player_lookup[player_id] = player;
 
   debug('Added a new player with id: '+player_id);
