@@ -1,5 +1,4 @@
 var debug = require('debug')('space-dud:Game');
-//var uuid = require('uuid/v1');
 var shortid = require('shortid');
 
 var Player = require('./Player.js');
