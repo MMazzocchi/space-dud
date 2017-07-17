@@ -1,11 +1,11 @@
 var assert = require('assert');
+var shortid = require('shortid');
+
 var Game = require('../server/Game.js');
 var Player = require('../server/Player.js');
 var DummySocket = require('./DummySocket.js');
 
-const UUID_REGEX = 
-  /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/;
-const BAD_UUID = '00000000-0000-0000-0000-000000000000';
+const BAD_UUID = '0000000';
 
 describe('Game', function() {
   var game = new Game();
@@ -15,7 +15,7 @@ describe('Game', function() {
        function() {
       var player = new Player();
       var uuid = game.addPlayer(player);
-      assert(UUID_REGEX.test(uuid));
+      assert(shortid.isValid(uuid));
     });
 
     it('should not return a duplicate UUID on subsequent calls.', function() {
@@ -51,7 +51,7 @@ describe('Game', function() {
        function(done) {
       var dummy_socket = new DummySocket();
       dummy_socket.on('player_id', function(player_id) {
-        assert(UUID_REGEX.test(player_id));
+        assert(shortid.isValid(player_id));
 
         var player = game.getPlayer(player_id);
         assert.notEqual(player, undefined);
