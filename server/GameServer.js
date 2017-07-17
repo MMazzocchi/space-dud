@@ -1,5 +1,4 @@
 var debug = require('debug')('space-dud:GameServer');
-var express = require('express');
 var read = require('fs').readFileSync;
 var exists = require('fs').existsSync;
 

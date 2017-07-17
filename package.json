@@ -1,6 +1,6 @@
 {
   "name": "space-dud",
-  "version": "0.1.0",
+  "version": "1.0.2",
   "author": "Max Mazzocchi <maxwell.mazzocchi@gmail.com>",
   "description": "HTTP server plugin module that routes events from HTML5 gamepad clients to display clients on different devices.",
   "license": "GPL-3.0",
@@ -12,8 +12,8 @@
     "debug": "^2.6.8",
     "fs": "0.0.1-security",
     "mocha": "^3.4.2",
-    "socket.io": "^2.0.3",
-    "uuid": "^3.1.0"
+    "shortid": "^2.2.8",
+    "socket.io": "^2.0.3"
   },
   "scripts": {
     "test": "mocha"
