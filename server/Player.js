@@ -16,6 +16,8 @@ Player.prototype.setDisplayClient = function(client) {
     this.controller_client.setDisplayClient(client);
     this.controller_client.dumpState();
   }
+
+  return this;
 }
 
 Player.prototype.hasDisplayClient = function() {
@@ -31,6 +33,8 @@ Player.prototype.setControllerClient = function(client) {
     this.controller_client.setDisplayClient(this.display_client);
     this.controller_client.dumpState();
   }
+
+  return this;
 }
 
 Player.prototype.hasControllerClient = function() {

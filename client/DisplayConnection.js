@@ -36,12 +36,16 @@ var DisplayConnection = (function() {
     this.callbacks[type][id] = async function(data) {
       callback(data);
     };
+
+    return this;
   };
   
   DisplayConnection.prototype.onAnyChange = function(callback) {
     this.anyChangeCallback = async function(data) {
       callback(data);
     };
+
+    return this;
   };
    
   DisplayConnection.prototype.selectPlayer = function(player_id, callback) {
@@ -57,6 +61,8 @@ var DisplayConnection = (function() {
     this.choosePlayerCallback = callback;
   
     this.socket.emit('choose_player', player_id);
+
+    return this;
   };
   
   DisplayConnection.prototype.getEventTypes = function() {

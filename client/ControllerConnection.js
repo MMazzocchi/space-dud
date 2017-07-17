@@ -87,10 +87,14 @@ var ControllerConnection = (function() {
   
     var controller_id = controller.index;
     this.controllers[controller_id] = controller_info;
+
+    return this;
   };
   
   ControllerConnection.prototype.removeController = function(controller) {
     delete this.controllers[controller.index];
+
+    return this;
   };
   
   ControllerConnection.prototype.numberControllersDetected = function() {
@@ -127,6 +131,8 @@ var ControllerConnection = (function() {
         axes: {}
       };
     }
+
+    return this;
   };
   
   return ControllerConnection;

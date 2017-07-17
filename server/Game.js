@@ -19,6 +19,8 @@ Game.prototype.createControllerClient = function(socket) {
 
   var player_id = this.addPlayer(player);
   client.sendPlayerId(player_id);
+
+  return this;
 };
 
 Game.prototype.createDisplayClient = function(socket, player_id) {
@@ -33,6 +35,8 @@ Game.prototype.createDisplayClient = function(socket, player_id) {
     var client = new DisplayClient(socket);
     player.setDisplayClient(client);
   }
+
+  return this;
 };
 
 Game.prototype.addPlayer = function(player) {

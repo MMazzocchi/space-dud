@@ -8,6 +8,8 @@ var DisplayClient = function(socket) {
 
 DisplayClient.prototype.sendEvent = function(controller_event) {
   this.socket.emit('controller_event', controller_event);
+
+  return this;
 };
 
 module.exports = DisplayClient;
