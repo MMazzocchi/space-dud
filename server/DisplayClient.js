@@ -1,15 +1,21 @@
-var debug = require('debug')('space-dud:DisplayClient');
-
 var DisplayClient = function(socket) {
+
+  var that = {};
+
+  // Fields
+  var debug = require('debug')('space-dud:DisplayClient');
   debug('Created a new DisplayClient.');
 
-  this.socket = socket;
-};
+  // Private functions
 
-DisplayClient.prototype.sendEvent = function(controller_event) {
-  this.socket.emit('controller_event', controller_event);
+  // Public functions
+  that.sendEvent = function(controller_event) {
+    socket.emit('controller_event', controller_event);
 
-  return this;
+    return that;
+  };
+
+  return that;
 };
 
 module.exports = DisplayClient;
