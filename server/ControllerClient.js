@@ -1,38 +1,45 @@
-var debug = require('debug')('space-dud:ControllerClient');
-
 var ControllerClient = function(socket) {
+  var debug = require('debug')('space-dud:ControllerClient');
   debug('Created a new controller client.');
 
-  this.socket = socket;
+  var that = {};
 
-  this.socket.on("controller_event", (controller_event) => {
-    if(this.display_client) {
-      this.display_client.sendEvent(controller_event);
+  // Fields
+  var display_client = undefined;
+
+  socket.on("controller_event", (controller_event) => {
+    if(display_client !== undefined) {
+      display_client.sendEvent(controller_event);
 
     } else {
       debug('No display client was connected to this controller client. '+
             'An event was dropped.');
     }
   });
-};
 
-ControllerClient.prototype.setDisplayClient = function(display_client) {
-  this.display_client = display_client;
+  // Private functions
 
-  return this;
-};
+  // Public functions
+  that.setDisplayClient = function(new_display_client) {
+    display_client = new_display_client;
+  
+    return that;
+  };
 
-ControllerClient.prototype.dumpState = function() {
-  debug('Requesting a state dump.');
+  that.dumpState = function() {
+    debug('Requesting a state dump.');
+    socket.emit('dump_state');
 
-  this.socket.emit('dump_state');
-  return this;
-};
+    return that;
+  };
 
-ControllerClient.prototype.sendPlayerId = function(player_id) {
-  this.socket.emit('player_id', player_id);
+  that.sendPlayerId = function(player_id) {
+    socket.emit('player_id', player_id);
+  
+    return that;
+  };
 
-  return this;
+  return that;
 };
 
 module.exports = ControllerClient;
