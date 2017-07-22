@@ -10,33 +10,21 @@ const BAD_UUID = '0000000';
 describe('Game', function() {
   var game = new Game();
 
-  describe('#addPlayer', function() {
-    it('should return a correctly formatted UUID when a player is added.',
-       function() {
-      var player = new Player();
-      var uuid = game.addPlayer(player);
-      assert(shortid.isValid(uuid));
-    });
-
-    it('should not return a duplicate UUID on subsequent calls.', function() {
-      var player_1 = new Player();
-      var uuid_1 = game.addPlayer(player_1);
-
-      var player_2 = new Player();
-      var uuid_2 = game.addPlayer(player_2);
-
-      assert.notEqual(uuid_1, uuid_2);
-    });
-  });
-
   describe('#getPlayer', function() {
-    it('should return the player added with the correct UUID.', function() {
-      var player = new Player();
-      var uuid = game.addPlayer(player);
+    it('should return a player given a valid UUID.', function(done) {
+      var controller_socket = new DummySocket();
+      controller_socket.on('player_id', function(player_id) {
 
-      var returned_player = game.getPlayer(uuid);
+        var display_socket = new DummySocket();
+        game.createDisplayClient(display_socket, player_id);
 
-      assert.equal(player, returned_player);
+        var player = game.getPlayer(player_id);
+        assert.notEqual(player, undefined);
+
+        done();
+      });
+
+      game.createControllerClient(controller_socket);
     });
 
     it('should return undefined if an invalid UUID is supplied.', function() {
