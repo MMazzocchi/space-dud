@@ -7,7 +7,7 @@ var DisplayConnection = (function() {
       this.callbacks[data.type][data.id](data);
     }
   
-    if(this.anyChangeCallback != undefined) {
+    if(this.anyChangeCallback !== undefined) {
       this.anyChangeCallback(data);
     }
   };
@@ -49,7 +49,7 @@ var DisplayConnection = (function() {
   };
    
   DisplayConnection.prototype.selectPlayer = function(player_id, callback) {
-    if(this.choosePlayerCallback == undefined) {
+    if(this.choosePlayerCallback === undefined) {
       this.socket.on('valid_player_choice', (valid) => {
         if(valid) {
           this.player_id = player_id;

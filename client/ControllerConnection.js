@@ -20,7 +20,7 @@ var ControllerConnection = (function() {
         var button = controller.buttons[i];
         var pressed = this.buttonPressed(button);
   
-        if((state.buttons[i] == undefined) ||
+        if((state.buttons[i] === undefined) ||
            (state.buttons[i] != pressed)) {
           state.buttons[i] = pressed;
           emitControllerEvent.call(this, 'button', i, pressed);
@@ -30,8 +30,8 @@ var ControllerConnection = (function() {
       for(var i = 0; i < controller.axes.length; i++) {
         var value = controller.axes[i];
   
-        if((state.axes[i] == undefined) ||
-           (state.axes[i] != value)) {
+        if((state.axes[i] === undefined) ||
+           (state.axes[i] !== value)) {
           state.axes[i] = value;
           emitControllerEvent.call(this, 'axis', i, value);
         }
@@ -116,11 +116,11 @@ var ControllerConnection = (function() {
   };
    
   ControllerConnection.prototype.buttonPressed = function(button) {
-    if(typeof(button) == 'object') {
+    if(typeof(button) === 'object') {
       return button.pressed;
     }
   
-    return button == 1.0;
+    return button === 1.0;
   };
   
   ControllerConnection.prototype.dumpState = function() {

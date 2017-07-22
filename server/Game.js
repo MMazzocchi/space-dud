@@ -25,7 +25,7 @@ Game.prototype.createControllerClient = function(socket) {
 
 Game.prototype.createDisplayClient = function(socket, player_id) {
   var player = this.getPlayer(player_id);
-  if(player == undefined) {
+  if(player === undefined) {
     throw new Error('No player with id '+player_id+' exists.');
 
   } else if(player.hasDisplayClient()) {

@@ -26,10 +26,10 @@ function chooseDisplayRole(socket) {
 };
 
 function setRole(role, socket) {
-  if(role == 'controller') {
+  if(role === 'controller') {
     chooseControllerRole.call(this, socket);
 
-  } else if(role == 'display') {
+  } else if(role === 'display') {
     chooseDisplayRole.call(this, socket);
 
   } else {
