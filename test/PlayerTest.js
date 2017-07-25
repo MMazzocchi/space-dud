@@ -27,24 +27,6 @@ describe('Player', function() {
     });
   });
 
-  describe('#setDisplayClient', function() {
-    it('should trigger a dump state if controller client is set.',
-       function(done) {
-      var player = new Player();
-
-      var dummy_socket = new DummySocket();
-      dummy_socket.on('dump_state', function() {
-        done();
-      });
-
-      var controller_client = new ControllerClient(dummy_socket);
-      player.setControllerClient(controller_client);
-
-      var display_client = new DisplayClient();
-      player.setDisplayClient(display_client);
-    });
-  });
-
   describe('#hasControllerClient', function() {
     it('should return false if no controller client is set.', function() {
       var player = new Player();
@@ -59,24 +41,6 @@ describe('Player', function() {
 
       player.setControllerClient(controller_client);
       assert(player.hasControllerClient());
-    });
-  });
-
-  describe('#setControllerClient', function() {
-    it('should trigger a dump state if display client is set.',
-       function(done) {
-      var player = new Player();
-
-      var display_client = new DisplayClient();
-      player.setDisplayClient(display_client);
-
-      var dummy_socket = new DummySocket();
-      dummy_socket.on('dump_state', function() {
-        done();
-      });
-
-      var controller_client = new ControllerClient(dummy_socket);
-      player.setControllerClient(controller_client);
     });
   });
 });

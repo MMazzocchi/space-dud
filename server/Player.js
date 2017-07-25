@@ -16,7 +16,6 @@ var Player = function() {
   
     if(controller_client !== null) {
       controller_client.setDisplayClient(client);
-      controller_client.dumpState();
     }
   
     return that;
@@ -33,7 +32,6 @@ var Player = function() {
   
     if(display_client !== null) {
       controller_client.setDisplayClient(display_client);
-      controller_client.dumpState();
     }
   
     return this;
