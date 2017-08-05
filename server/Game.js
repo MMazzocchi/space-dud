@@ -4,8 +4,8 @@ var Game = function() {
 
   // Imports
   var Player = require('./Player.js');
-  var ControllerClient = require('./ControllerClient.js');
-  var DisplayClient = require('./DisplayClient.js');
+  var ControllerClient = require('./clients/ControllerClient.js');
+  var DisplayClient = require('./clients/DisplayClient.js');
 
   // Fields
   var debug = require('debug')('space-dud:Game');

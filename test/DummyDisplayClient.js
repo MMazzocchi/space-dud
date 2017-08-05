@@ -1,4 +1,4 @@
-var ConsumerClient = require("../server/ConsumerClient.js");
+var ConsumerClient = require("../server/clients/ConsumerClient.js");
 
 var DummyDisplayClient = function() {
   var that = new ConsumerClient();

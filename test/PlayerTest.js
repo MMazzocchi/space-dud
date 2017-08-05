@@ -1,11 +1,13 @@
 var assert = require('assert');
-var DummySocket = require('./DummySocket.js');
 var Player = require('../server/Player.js');
-var DisplayClient = require('../server/DisplayClient.js');
-var ConsumerClient = require('../server/ConsumerClient.js');
-var ControllerClient = require('../server/ControllerClient.js');
+
+var DisplayClient = require('../server/clients/DisplayClient.js');
+var ConsumerClient = require('../server/clients/ConsumerClient.js');
+var ControllerClient = require('../server/clients/ControllerClient.js');
+
 var DummyControllerClient = require('./DummyControllerClient.js');
 var DummyDisplayClient = require('./DummyDisplayClient.js');
+var DummySocket = require('./DummySocket.js');
 
 const NUM_CLIENTS = 20;
 const REFERENCE_EVENT = {

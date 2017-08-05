@@ -1,5 +1,5 @@
 var assert = require('assert');
-var ConsumerClient = require('../server/ConsumerClient.js');
+var ConsumerClient = require('../server/clients/ConsumerClient.js');
 
 const REFERENCE_EVENT = {
   type: 'button',

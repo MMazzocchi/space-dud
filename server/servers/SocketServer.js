@@ -4,7 +4,7 @@ var SocketServer = function(http) {
 
   // Imports
   var Socket = require('socket.io');
-  var Game = require('./Game.js');
+  var Game = require('../Game.js');
 
   // Fields
   var debug = require('debug')('space-dud:SocketServer');
