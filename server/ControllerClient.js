@@ -5,25 +5,24 @@ var ControllerClient = function(socket) {
   var that = {};
 
   // Fields
-  var display_client = undefined;
-
-  socket.on("controller_event", (controller_event) => {
-    if(display_client !== undefined) {
-      display_client.consume(controller_event);
-
-    } else {
-      debug('No display client was connected to this controller client. '+
-            'An event was dropped.');
-    }
-  });
+  var event_callback = undefined;
 
   // Private functions
+  function setup() {
+    socket.on("controller_event", (controller_event) => {
+      if(event_callback !== undefined) {
+        event_callback(controller_event);
+
+      } else {
+        debug('No event callback was defined for this controller client. '+
+              'An event was dropped.');
+      }
+    });
+  };
 
   // Public functions
-  that.setDisplayClient = function(new_display_client) {
-    display_client = new_display_client;
-  
-    return that;
+  that.onControllerEvent = function(callback) {
+    event_callback = callback;
   };
 
   that.dumpState = function() {
@@ -38,6 +37,9 @@ var ControllerClient = function(socket) {
   
     return that;
   };
+
+  // After instantiation, setup
+  setup();
 
   return that;
 };

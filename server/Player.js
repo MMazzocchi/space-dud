@@ -8,6 +8,11 @@ var Player = function() {
   var debug = require('debug')('space-dud:Player');
   debug('Created a new Player.');
 
+  // Private methods
+  function handleControllerEvent(controller_event) {
+    display_client.consume(controller_event);
+  };
+
   // Public methods
   that.setDisplayClient = function(client) {
     debug('Connected a display client.');
@@ -15,7 +20,6 @@ var Player = function() {
     display_client = client;
   
     if(controller_client !== null) {
-      controller_client.setDisplayClient(client);
       controller_client.dumpState();
     }
   
@@ -30,9 +34,9 @@ var Player = function() {
     debug('Connected a controller client.');
   
     controller_client = client;
-  
+    controller_client.onControllerEvent(handleControllerEvent);
+ 
     if(display_client !== null) {
-      controller_client.setDisplayClient(display_client);
       controller_client.dumpState();
     }
   
