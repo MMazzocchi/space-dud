@@ -4,16 +4,16 @@ var DummyDisplayClient = function() {
   var that = new ConsumerClient();
 
   // Private fields
-  var sendEventCallback = undefined;
+  var consumeCallback = undefined;
 
   // Public methods
-  that.onSendEvent = function(callback) {
-    sendEventCallback = callback;
+  that.onConsume = function(callback) {
+    consumeCallback = callback;
   };
   
-  that.sendEvent = function(...args) {
-    if(sendEventCallback !== undefined) {
-      sendEventCallback(...args);
+  that.consume = function(...args) {
+    if(consumeCallback !== undefined) {
+      consumeCallback(...args);
     }
   };
 

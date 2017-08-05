@@ -9,7 +9,7 @@ var ControllerClient = function(socket) {
 
   socket.on("controller_event", (controller_event) => {
     if(display_client !== undefined) {
-      display_client.sendEvent(controller_event);
+      display_client.consume(controller_event);
 
     } else {
       debug('No display client was connected to this controller client. '+

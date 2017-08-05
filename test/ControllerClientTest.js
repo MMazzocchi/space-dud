@@ -15,7 +15,7 @@ describe('ControllerClient', function() {
     it('should send any event to the connected display client.',
        function(done) {
       var dummy_display_client = new DummyDisplayClient();
-      dummy_display_client.onSendEvent(function(controller_event) {
+      dummy_display_client.onConsume(function(controller_event) {
         assert.equal(controller_event, REFERENCE_EVENT);
         done();
       });
