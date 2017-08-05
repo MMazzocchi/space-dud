@@ -12,7 +12,7 @@ var DisplayClient = function(socket) {
 
   // Public functions
   // Override
-  that.consume = function(controller_event) {
+  that.consume = async function(controller_event) {
     socket.emit('controller_event', controller_event);
 
     return that;
