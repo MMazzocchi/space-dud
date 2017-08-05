@@ -11,6 +11,7 @@ var Game = function() {
   var debug = require('debug')('space-dud:Game');
   var shortid = require('shortid');
   var player_lookup = {};
+  var on_player_ready_callback = undefined;
 
   debug('Created a new Game.');
 
@@ -32,7 +33,11 @@ var Game = function() {
   
     var player_id = addPlayer(player);
     client.sendPlayerId(player_id);
-  
+
+    if(on_player_ready_callback !== undefined) {
+      on_player_ready_callback(player);
+    } 
+ 
     return that;
   };
   
@@ -55,6 +60,12 @@ var Game = function() {
     } else {
       return undefined;
     }
+  };
+
+  that.onPlayerReady = function(callback) {
+    on_player_ready_callback = async function(player) {
+      callback(player);
+    };
   };
 
   return that;

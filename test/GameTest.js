@@ -81,4 +81,17 @@ describe('Game', function() {
       }
     });
   });
+
+  describe('#onPlayerReady', function() {
+    it('should call the callback when a Player is ready', function(done) {
+
+      game.onPlayerReady(function(player) {
+        assert.notEqual(player, undefined);
+        done();
+      });
+
+      var socket = new DummySocket();
+      game.createControllerClient(socket);
+    });
+  });
 });
