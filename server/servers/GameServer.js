@@ -14,6 +14,11 @@ var GameServer = function(http) {
   var static_server = new StaticServer(http);
   var socket_server = new SocketServer(game, http);
 
+  // Public functions
+  that.getGame = function() {
+    return game;
+  };
+
   return that;
 };
 
