@@ -3,6 +3,7 @@ var Player = function() {
   var that = {};
   var consumer_clients = [];
   var controller_client = null;
+  var controller_event_callback = undefined;
 
   // Fields
   var debug = require('debug')('space-dud:Player');
@@ -10,8 +11,8 @@ var Player = function() {
 
   // Private methods
   function handleControllerEvent(controller_event) {
-    for(var i=0; i<consumer_clients.length; i++) {
-      consumer_clients[i].consume(controller_event);
+    if(controller_event_callback !== undefined) {
+      controller_event_callback(controller_event);
     }
   };
 
@@ -33,6 +34,14 @@ var Player = function() {
     return that;
   };
 
+  that.sendEventToConsumers = function(new_event) {
+    for(var i=0; i<consumer_clients.length; i++) {
+      consumer_clients[i].consume(new_event);
+    }
+
+    return that;
+  };
+
   that.setControllerClient = function(client) {
     debug('Connected a controller client.');
   
@@ -41,11 +50,17 @@ var Player = function() {
  
     controller_client.dumpState();
   
-    return this;
+    return that;
   }
   
   that.hasControllerClient = function() {
     return (controller_client != null);
+  };
+
+  that.onControllerEvent = function(callback) {
+    controller_event_callback = async function(controller_event) {
+      callback(controller_event);
+    };
   };
 
   return that;

@@ -25,23 +25,6 @@ describe('Player', function() {
     });
   });
 
-  describe('#addConsumerClient', function() {
-    it('should pass events onto new consumer client', function(done) {
-      var dummy_controller = new DummyControllerClient();
-      var dummy_display = new DummyDisplayClient();
-      dummy_display.onConsume(function(controller_event) {
-        assert.equal(controller_event, REFERENCE_EVENT);
-        done();
-      });
-
-      var player = new Player();
-      player.setControllerClient(dummy_controller);
-      player.addConsumerClient(dummy_display);
-
-      dummy_controller.controllerEvent(REFERENCE_EVENT);
-    });
-  })
-
   describe('#numConsumerClients', function() {
     it('should return number of consumer clients', function() {
       var player = new Player();
@@ -99,6 +82,45 @@ describe('Player', function() {
 
       player.setControllerClient(controller_client);
       assert(player.hasControllerClient());
+    });
+  });
+
+  describe('onControllerEvent', function() {
+    it('should catch controller events', function(done) {
+      var dummy_controller = new DummyControllerClient();
+      var player = new Player();
+
+      player.onControllerEvent(function(controller_event) {
+        assert.equal(controller_event, REFERENCE_EVENT);
+        done();
+      });
+      player.setControllerClient(dummy_controller);
+
+      dummy_controller.controllerEvent(REFERENCE_EVENT);
+    });
+  });
+
+  describe('#sendEventToConsumers', function() {
+    it('should send events to all consumers', function(done) {
+      var player = new Player();
+
+      var finished = 0;
+
+      for(var i=0; i<NUM_CLIENTS; i++) {
+        var display_client = new DummyDisplayClient();
+        display_client.onConsume(function(new_event) {
+          assert.equal(new_event, REFERENCE_EVENT);
+
+          finished += 1;
+          if(finished === NUM_CLIENTS) {
+            done();
+          }
+        });
+
+        player.addConsumerClient(display_client);
+      }
+
+      player.sendEventToConsumers(REFERENCE_EVENT);
     });
   });
 });
