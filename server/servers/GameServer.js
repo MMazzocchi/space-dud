@@ -11,12 +11,14 @@ var GameServer = function(http) {
   var debug = require('debug')('space-dud:GameServer');
   var game = new Game();
 
-  var static_server = new StaticServer(http);
-  var socket_server = new SocketServer(game, http);
-
   // Public functions
   that.getGame = function() {
     return game;
+  };
+
+  that.start = function() {
+    new StaticServer(http);
+    new SocketServer(game, http);
   };
 
   return that;
