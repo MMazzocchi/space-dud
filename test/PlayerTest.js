@@ -15,11 +15,13 @@ const REFERENCE_EVENT = {
   id: '1',
   value: '1'
 };
+const REFERENCE_ID = 'r1RjTXHDW';
+
 
 describe('Player', function() {
   describe('#Player', function() {
     it('should instantiate null for all clients', function() {
-      var player = new Player();
+      var player = new Player(REFERENCE_ID);
       assert.equal(player.numConsumerClients(), 0);
       assert(!player.hasControllerClient());
     });
@@ -27,7 +29,7 @@ describe('Player', function() {
 
   describe('#numConsumerClients', function() {
     it('should return number of consumer clients', function() {
-      var player = new Player();
+      var player = new Player(REFERENCE_ID);
       for(var i=0; i<NUM_CLIENTS; i++) {
         assert.equal(player.numConsumerClients(), i);
 
@@ -39,7 +41,7 @@ describe('Player', function() {
 
   describe('#clearConsumerClients', function() {
     it('should reset number of consumer clients', function() {
-      var player = new Player();
+      var player = new Player(REFERENCE_ID);
       for(var i=0; i<NUM_CLIENTS; i++) {
         var client = new ConsumerClient();
         player.addConsumerClient(client);
@@ -56,7 +58,7 @@ describe('Player', function() {
   describe('#setControllerClient', function() {
     it('should trigger a dump state',
        function(done) {
-      var player = new Player();
+      var player = new Player(REFERENCE_ID);
 
       var dummy_socket = new DummySocket();
       dummy_socket.on('dump_state', function() {
@@ -70,12 +72,12 @@ describe('Player', function() {
 
   describe('#hasControllerClient', function() {
     it('should return false if no controller client is set', function() {
-      var player = new Player();
+      var player = new Player(REFERENCE_ID);
       assert(!player.hasControllerClient());
     });
 
     it('should return true if controller client is set', function() {
-      var player = new Player();
+      var player = new Player(REFERENCE_ID);
 
       var dummy_socket = new DummySocket();
       var controller_client = new ControllerClient(dummy_socket);
@@ -88,7 +90,7 @@ describe('Player', function() {
   describe('onControllerEvent', function() {
     it('should catch controller events', function(done) {
       var dummy_controller = new DummyControllerClient();
-      var player = new Player();
+      var player = new Player(REFERENCE_ID);
 
       player.onControllerEvent(function(controller_event) {
         assert.equal(controller_event, REFERENCE_EVENT);
@@ -102,7 +104,7 @@ describe('Player', function() {
 
   describe('#sendEventToConsumers', function() {
     it('should send events to all consumers', function(done) {
-      var player = new Player();
+      var player = new Player(REFERENCE_ID);
 
       var finished = 0;
 
@@ -121,6 +123,13 @@ describe('Player', function() {
       }
 
       player.sendEventToConsumers(REFERENCE_EVENT);
+    });
+  });
+
+  describe('#getId', function() {
+    it('should return the ID', function() {
+      var player = new Player(REFERENCE_ID);
+      assert.equal(player.getId(), REFERENCE_ID);
     });
   });
 });

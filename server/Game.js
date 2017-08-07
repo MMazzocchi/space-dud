@@ -16,22 +16,24 @@ var Game = function() {
   debug('Created a new Game.');
 
   // Private functions
-  function addPlayer(player) {
-    var player_id = shortid.generate();
+  function addPlayer(player, player_id) {
     player_lookup[player_id] = player;
   
     debug('Added a new player with id: '+player_id);
   
-    return player_id;
+    return that;
   };
  
   // Public functions
   that.createControllerClient = function(socket) {
-    var player = new Player();
+    var player_id = shortid.generate();
+    var player = new Player(player_id);
+
+    addPlayer(player, player_id);
+
     var client = new ControllerClient(socket);
     player.setControllerClient(client);
-  
-    var player_id = addPlayer(player);
+
     client.sendPlayerId(player_id);
 
     if(on_player_ready_callback !== undefined) {

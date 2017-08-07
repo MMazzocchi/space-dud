@@ -1,4 +1,4 @@
-var Player = function() {
+var Player = function(id) {
 
   var that = {};
   var consumer_clients = [];
@@ -17,6 +17,10 @@ var Player = function() {
   };
 
   // Public methods
+  that.getId = function() {
+    return id;
+  };
+
   that.addConsumerClient = function(client) {
     debug('Added a consumer client.');
     consumer_clients.push(client); 
