@@ -4,35 +4,42 @@ var Game = function() {
 
   // Imports
   var Player = require('./Player.js');
-  var ControllerClient = require('./ControllerClient.js');
-  var DisplayClient = require('./DisplayClient.js');
+  var ControllerClient = require('./clients/ControllerClient.js');
+  var DisplayClient = require('./clients/DisplayClient.js');
 
   // Fields
   var debug = require('debug')('space-dud:Game');
   var shortid = require('shortid');
   var player_lookup = {};
+  var on_player_ready_callback = undefined;
 
   debug('Created a new Game.');
 
   // Private functions
-  function addPlayer(player) {
-    var player_id = shortid.generate();
+  function addPlayer(player, player_id) {
     player_lookup[player_id] = player;
   
     debug('Added a new player with id: '+player_id);
   
-    return player_id;
+    return that;
   };
  
   // Public functions
   that.createControllerClient = function(socket) {
-    var player = new Player();
+    var player_id = shortid.generate();
+    var player = new Player(player_id);
+
+    addPlayer(player, player_id);
+
     var client = new ControllerClient(socket);
     player.setControllerClient(client);
-  
-    var player_id = addPlayer(player);
+
     client.sendPlayerId(player_id);
-  
+
+    if(on_player_ready_callback !== undefined) {
+      on_player_ready_callback(player);
+    } 
+ 
     return that;
   };
   
@@ -41,12 +48,9 @@ var Game = function() {
     if(player === undefined) {
       throw new Error('No player with id '+player_id+' exists.');
   
-    } else if(player.hasDisplayClient()) {
-      throw new Error('Player '+player_id+' already has a display client.');
-  
     } else {
       var client = new DisplayClient(socket);
-      player.setDisplayClient(client);
+      player.addConsumerClient(client);
     }
   
     return that;
@@ -58,6 +62,12 @@ var Game = function() {
     } else {
       return undefined;
     }
+  };
+
+  that.onPlayerReady = function(callback) {
+    on_player_ready_callback = async function(player) {
+      callback(player);
+    };
   };
 
   return that;

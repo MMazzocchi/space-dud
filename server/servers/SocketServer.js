@@ -1,14 +1,12 @@
-var SocketServer = function(http) {
+var SocketServer = function(game, http) {
 
   var that = {};
 
   // Imports
   var Socket = require('socket.io');
-  var Game = require('./Game.js');
 
   // Fields
   var debug = require('debug')('space-dud:SocketServer');
-  var game = new Game();
   var io = undefined;
 
   // Private functions

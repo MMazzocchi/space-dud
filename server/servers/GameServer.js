@@ -5,11 +5,21 @@ var GameServer = function(http) {
   // Imports
   var SocketServer = require('./SocketServer.js');
   var StaticServer = require('./StaticServer.js');
+  var Game = require('../Game.js');
 
   // Fields
   var debug = require('debug')('space-dud:GameServer');
-  var static_server = new StaticServer(http);
-  var socket_server = new SocketServer(http);
+  var game = new Game();
+
+  // Public functions
+  that.getGame = function() {
+    return game;
+  };
+
+  that.start = function() {
+    new StaticServer(http);
+    new SocketServer(game, http);
+  };
 
   return that;
 };

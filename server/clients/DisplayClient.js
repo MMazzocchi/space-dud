@@ -1,6 +1,8 @@
+var ConsumerClient = require("./ConsumerClient.js");
+
 var DisplayClient = function(socket) {
 
-  var that = {};
+  var that = new ConsumerClient();
 
   // Fields
   var debug = require('debug')('space-dud:DisplayClient');
@@ -9,7 +11,8 @@ var DisplayClient = function(socket) {
   // Private functions
 
   // Public functions
-  that.sendEvent = function(controller_event) {
+  // Override
+  that.consume = async function(controller_event) {
     socket.emit('controller_event', controller_event);
 
     return that;

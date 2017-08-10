@@ -1,11 +1,23 @@
-var DummyDisplayClient = function() {};
+var ConsumerClient = require("../server/clients/ConsumerClient.js");
 
-DummyDisplayClient.prototype.onSendEvent = function(callback) {
-  this.sendEventCallback = callback;
-};
+var DummyDisplayClient = function() {
+  var that = new ConsumerClient();
 
-DummyDisplayClient.prototype.sendEvent = function(...args) {
-  this.sendEventCallback(...args);
+  // Private fields
+  var consumeCallback = undefined;
+
+  // Public methods
+  that.onConsume = function(callback) {
+    consumeCallback = callback;
+  };
+  
+  that.consume = function(...args) {
+    if(consumeCallback !== undefined) {
+      consumeCallback(...args);
+    }
+  };
+
+  return that;
 };
 
 module.exports = DummyDisplayClient;

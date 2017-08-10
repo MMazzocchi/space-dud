@@ -1,5 +1,5 @@
 var assert = require('assert');
-var DisplayClient = require('../server/DisplayClient.js');
+var DisplayClient = require('../server/clients/DisplayClient.js');
 var DummySocket = require('./DummySocket.js');
 
 const REFERENCE_EVENT = {
@@ -9,7 +9,7 @@ const REFERENCE_EVENT = {
 };
 
 describe('DisplayClient', function() {
-  describe('#sendEvent', function() {
+  describe('#consume', function() {
     it('should send events through the socket.', function(done) {
       var dummy_socket = new DummySocket();
       dummy_socket.on('controller_event', function(controller_event) {
@@ -18,7 +18,7 @@ describe('DisplayClient', function() {
       });
 
       var client = new DisplayClient(dummy_socket);
-      client.sendEvent(REFERENCE_EVENT);
+      client.consume(REFERENCE_EVENT);
     });
   });
 });
