@@ -6,7 +6,7 @@
 $ npm install space-dud
 ```
 ## Usage
-`space-dud` creates a tunnel from one web client to another, through a web server. When a gamepad is connected to the "controller" client, all events are captured and sent to the server. The server then forwards these events to the "display" client, which can react to them appropriately.
+`space-dud` creates a tunnel from one web client to another, through a web server. When a gamepad is connected to the "controller" client, all events are captured and sent to the server. The server can then forward these events to the "display" client, or process them itself.
 ### Server
 `space-dud` provides a function which takes one argument: an HTTP service. Once given the HTTP service, all that's needed is to serve the clients.
 
@@ -21,6 +21,15 @@ var express = require('express');
 var app = express();
 var http = require('http').Server(app);
 var space_dud = require('space-dud')(http);
+
+// On every event, pass it on to any connected consumers
+var game = space_dud.getGame();
+game.onPlayerReady(function(player) {
+  player.onControllerEvent(player.sendEventToConsumers);
+});
+
+// Start the game server
+space_dud.start();
 
 // Serve the static client files.
 app.use('/controller.html', express.static(__dirname+'/controller.html'));
@@ -45,15 +54,13 @@ Example _controller.html_:
         <script src="/space-dud/ControllerConnection.js"></script>
         <script>
 
-var client = new ControllerConnection((player_id) => {
+var client = new ControllerConnection(function (player_id) {
   document.getElementById('player_id').innerHTML = player_id;
 });
 
-setTimeout(() => { client.findControllers(); }, 500);
-window.addEventListener('gamepadconnected', 
-                        (e) => { client.connectedHandler(e); });
-window.addEventListener('gamepaddisconnected',
-                        (e) => { client.disconnectedHandler(e); });
+setTimeout(client.findControllers, 500);
+window.addEventListener('gamepadconnected', client.connectedHandler);
+window.addEventListener('gamepaddisconnected', client.disconnectedHandler);
 
         </script>
     </body>
