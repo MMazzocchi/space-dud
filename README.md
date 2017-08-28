@@ -86,7 +86,7 @@ Example _display.html_:
         <script>
 
 var client = new DisplayConnection();
-client.onAnyChange(function(data) {
+client.onEvent(function(data) {
     document.getElementById('event').innerHTML = 
         "Received event: "+JSON.stringify(data);
 });
