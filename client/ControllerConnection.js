@@ -23,6 +23,7 @@ var ControllerConnection = function(onReadyHandler) {
   // Private functions
   function emitControllerEvent(type, id, value) {
     var data = {
+      event_type: "controller",
       type: type,
       id: id,
       value: value
