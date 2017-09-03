@@ -12,7 +12,7 @@ describe('DisplayClient', function() {
   describe('#consume', function() {
     it('should send events through the socket.', function(done) {
       var dummy_socket = new DummySocket();
-      dummy_socket.on('controller_event', function(controller_event) {
+      dummy_socket.on('game_event', function(controller_event) {
         assert.equal(controller_event, REFERENCE_EVENT);
         done();
       });
