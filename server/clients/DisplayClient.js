@@ -12,8 +12,8 @@ var DisplayClient = function(socket) {
 
   // Public functions
   // Override
-  that.consume = async function(controller_event) {
-    socket.emit('controller_event', controller_event);
+  that.consume = async function(data) {
+    socket.emit('game_event', data);
 
     return that;
   };

@@ -9,7 +9,7 @@ var ConsumerClient = function() {
   // Private functions
 
   // Public functions
-  that.consume = function(controller_event) {
+  that.consume = function(data) {
     throw new Error("ConsumerClient.consume should be defined in all "+
                     "subclasses!");
   };
