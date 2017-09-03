@@ -17,13 +17,24 @@ const REFERENCE_EVENT = {
 };
 const REFERENCE_ID = 'r1RjTXHDW';
 
-
 describe('Player', function() {
   describe('#Player', function() {
     it('should instantiate null for all clients', function() {
       var player = new Player(REFERENCE_ID);
       assert.equal(player.numConsumerClients(), 0);
       assert(!player.hasControllerClient());
+    });
+  });
+
+  describe('#addConsumerClient', function() {
+    it('should call the consumer added callback', function(done) {
+      var player = new Player(REFERENCE_ID);
+      player.onConsumerAdded(function(client_id) {
+        done();
+      });
+
+      var client = new ConsumerClient();
+      player.addConsumerClient(client);
     });
   });
 
@@ -87,7 +98,7 @@ describe('Player', function() {
     });
   });
 
-  describe('onControllerEvent', function() {
+  describe('#onControllerEvent', function() {
     it('should catch controller events', function(done) {
       var dummy_controller = new DummyControllerClient();
       var player = new Player(REFERENCE_ID);
@@ -123,6 +134,24 @@ describe('Player', function() {
       }
 
       player.sendEventToConsumers(REFERENCE_EVENT);
+    });
+  });
+
+  describe('#sendEventToConsumer', function() {
+    it('should send event to one consumer', function(done) {
+      var player = new Player(REFERENCE_ID);
+
+      player.onConsumerAdded(function(client_id) {
+        player.sendEventToConsumer(REFERENCE_EVENT, client_id);
+      });
+
+      var display_client = new DummyDisplayClient();
+      display_client.onConsume(function(new_event) {
+        assert.equal(new_event, REFERENCE_EVENT);
+        done();
+      });
+
+      player.addConsumerClient(display_client);
     });
   });
 

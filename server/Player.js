@@ -1,7 +1,10 @@
 var Player = function(id) {
 
   var that = {};
+
   var consumer_clients = [];
+  var consumer_added_callback = undefined;
+
   var controller_client = null;
   var controller_event_callback = undefined;
 
@@ -23,8 +26,12 @@ var Player = function(id) {
 
   that.addConsumerClient = function(client) {
     debug('Added a consumer client.');
-    consumer_clients.push(client); 
-  
+    var client_id = consumer_clients.push(client) - 1; 
+ 
+    if(consumer_added_callback !== undefined) {
+      consumer_added_callback(client_id);
+    }
+ 
     return that;
   }
   
@@ -46,6 +53,12 @@ var Player = function(id) {
     return that;
   };
 
+  that.sendEventToConsumer = function(new_event, client_id) {
+    if(client_id < consumer_clients.length) {
+      consumer_clients[client_id].consume(new_event);
+    }
+  };
+
   that.setControllerClient = function(client) {
     debug('Connected a controller client.');
   
@@ -65,6 +78,12 @@ var Player = function(id) {
     controller_event_callback = async function(controller_event) {
       callback(controller_event);
     };
+  };
+
+  that.onConsumerAdded = function(callback) {
+    consumer_added_callback = async function(client_id) {
+      callback(client_id);
+    }
   };
 
   return that;
