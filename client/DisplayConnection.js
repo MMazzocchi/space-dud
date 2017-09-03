@@ -6,9 +6,10 @@ var DisplayConnection = function() {
   var eventCallback = undefined;
   var choosePlayerCallback = undefined;
   var player_id = undefined;
+  var callback_map = {};
 
   var socket = io('/space-dud');
-  socket.on('controller_event', (data) => {
+  socket.on('game_event', (data) => {
     processEvent.call(that, data);
   });
   
@@ -16,6 +17,10 @@ var DisplayConnection = function() {
   function processEvent(data) {
     if(eventCallback !== undefined) {
       eventCallback(data);
+    }
+
+    if(callback_map[data.event_type] !== undefined) {
+      callback_map[data.event_type](data);
     }
   };
  
@@ -27,7 +32,15 @@ var DisplayConnection = function() {
 
     return that;
   };
-   
+
+  that.onEventType = function(event_type, callback) {
+    callback_map[event_type] = async function(data) {
+      callback(data);
+    };
+
+    return that;
+  };
+
   that.selectPlayer = function(player_id, callback) {
     if(choosePlayerCallback === undefined) {
       socket.on('valid_player_choice', (valid) => {
