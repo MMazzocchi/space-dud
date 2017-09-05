@@ -41,11 +41,11 @@ var DisplayConnection = function() {
     return that;
   };
 
-  that.selectPlayer = function(player_id, callback) {
+  that.selectPlayer = function(selected_player_id, callback) {
     if(choosePlayerCallback === undefined) {
       socket.on('valid_player_choice', (valid) => {
         if(valid) {
-          player_id = player_id;
+          player_id = selected_player_id;
         }
   
         choosePlayerCallback(valid);
@@ -53,9 +53,13 @@ var DisplayConnection = function() {
     }
     choosePlayerCallback = callback;
   
-    socket.emit('choose_player', player_id);
+    socket.emit('choose_player', selected_player_id);
 
     return that;
+  };
+
+  that.getPlayerId = function() {
+    return player_id;
   };
   
   // After all instantiation, set the role to display
