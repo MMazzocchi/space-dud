@@ -89,6 +89,17 @@ describe('Player', function() {
       var controller_client = new ControllerClient(dummy_socket);
       player.setControllerClient(controller_client);
     });
+
+    it('should trigger disconnect event on disconnect',
+       function(done) {
+      var player = new Player(REFERENCE_ID);
+      player.onDisconnect(done);
+
+      var client = new DummyControllerClient();
+      player.setControllerClient(client);
+
+      client.triggerDisconnect();
+    });
   });
 
   describe('#hasControllerClient', function() {

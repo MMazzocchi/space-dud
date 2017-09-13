@@ -1,5 +1,7 @@
+var Observable = require('../server/Observable.js');
+
 var DummyControllerClient = function() {
-  var that = {};
+  var that = new Observable('disconnect');
 
   // Fields
   var event_callback = undefined;

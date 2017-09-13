@@ -65,6 +65,7 @@ var Player = function(id) {
   
     controller_client = client;
     controller_client.onControllerEvent(that.triggerControllerEvent);
+    controller_client.onDisconnect(that.triggerDisconnect);
  
     controller_client.dumpState();
   
