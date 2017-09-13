@@ -51,6 +51,14 @@ describe('Observable', function() {
         done();
       });
     });
+
+    it('should return without error if callback was not registered',
+       function() {
+      var obs = new Observable("event")
+
+      var callback = function() {};
+      obs.offEvent(callback);
+    });
   });
 
   describe('#clear*', function() {
