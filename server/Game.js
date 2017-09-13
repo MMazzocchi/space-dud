@@ -24,13 +24,20 @@ var Game = function() {
   
     return that;
   };
- 
+
+  function removePlayer(player_id) {
+    player_lookup[player_id] = undefined;
+  };
+
   // Public functions
   that.createControllerClient = function(socket) {
     var player_id = shortid.generate();
     var player = new Player(player_id);
 
     addPlayer(player, player_id);
+    player.onDisconnect(function() {
+      removePlayer(player_id);
+    });
 
     var client = new ControllerClient(socket);
     player.setControllerClient(client);
