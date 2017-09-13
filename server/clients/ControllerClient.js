@@ -1,13 +1,12 @@
+var Client = require('./Client.js');
 var Observable = require('../Observable.js');
 
 var ControllerClient = function(socket) {
   var debug = require('debug')('space-dud:ControllerClient');
   debug('Created a new controller client.');
 
-  var that = new Observable('controller_event');
-
-  // Fields
-  var event_callback = undefined;
+  var that = new Client(socket);
+  Observable.augment(that, 'controller_event');
 
   // Private functions
   function setup() {
