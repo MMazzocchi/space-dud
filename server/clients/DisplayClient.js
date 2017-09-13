@@ -7,11 +7,8 @@ var DisplayClient = function(socket) {
   var debug = require('debug')('space-dud:DisplayClient');
   debug('Created a new DisplayClient.');
 
-  // Private functions
-
   // Public functions
-  // Override
-  that.consume = async function(data) {
+  that.consume = function(data) {
     socket.emit('game_event', data);
 
     return that;

@@ -34,7 +34,7 @@ var DisplayConnection = function() {
   };
 
   that.onEventType = function(event_type, callback) {
-    callback_map[event_type] = async function(data) {
+    callback_map[event_type] = function(data) {
       callback(data);
     };
 
