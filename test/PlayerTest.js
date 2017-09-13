@@ -2,9 +2,9 @@ var assert = require('assert');
 var Player = require('../server/Player.js');
 
 var DisplayClient = require('../server/clients/DisplayClient.js');
-var ConsumerClient = require('../server/clients/ConsumerClient.js');
 var ControllerClient = require('../server/clients/ControllerClient.js');
 
+var DummyConsumerClient = require('./DummyConsumerClient.js');
 var DummyControllerClient = require('./DummyControllerClient.js');
 var DummyDisplayClient = require('./DummyDisplayClient.js');
 var DummySocket = require('./DummySocket.js');
@@ -33,7 +33,7 @@ describe('Player', function() {
         done();
       });
 
-      var client = new ConsumerClient();
+      var client = new DummyConsumerClient();
       player.addConsumerClient(client);
     });
   });
@@ -44,7 +44,7 @@ describe('Player', function() {
       for(var i=0; i<NUM_CLIENTS; i++) {
         assert.equal(player.numConsumerClients(), i);
 
-        var client = new ConsumerClient();
+        var client = new DummyConsumerClient();
         player.addConsumerClient(client);
       }
     });
@@ -54,7 +54,7 @@ describe('Player', function() {
     it('should reset number of consumer clients', function() {
       var player = new Player(REFERENCE_ID);
       for(var i=0; i<NUM_CLIENTS; i++) {
-        var client = new ConsumerClient();
+        var client = new DummyConsumerClient();
         player.addConsumerClient(client);
       }
 

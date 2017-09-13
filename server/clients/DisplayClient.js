@@ -1,8 +1,7 @@
 var ConsumerClient = require("./ConsumerClient.js");
 
 var DisplayClient = function(socket) {
-
-  var that = new ConsumerClient();
+  var that = new ConsumerClient(socket);
 
   // Fields
   var debug = require('debug')('space-dud:DisplayClient');

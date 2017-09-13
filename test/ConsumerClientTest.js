@@ -1,5 +1,6 @@
 var assert = require('assert');
 var ConsumerClient = require('../server/clients/ConsumerClient.js');
+var DummySocket = require('./DummySocket.js');
 
 const REFERENCE_EVENT = {
   type: 'button',
@@ -10,6 +11,7 @@ const REFERENCE_EVENT = {
 describe('ConsumerClient', function() {
   describe('#consume', function() {
     it('should throw an error.', function(done) {
+      var socket = new DummySocket();
 
       try {
         var client = new ConsumerClient();

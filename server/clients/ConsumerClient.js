@@ -1,6 +1,7 @@
-var ConsumerClient = function() {
+var Client = require('./Client.js');
 
-  var that = {};
+var ConsumerClient = function(socket) {
+  var that = new Client(socket);
 
   // Fields
   var debug = require('debug')('space-dud:ConsumerClient');
