@@ -1,5 +1,6 @@
 var assert = require('assert');
 var Observable = require('../server/Observable.js');
+var wait = require('./Util.js').wait;
 
 const REFERENCE_DATA = {
   'a': 1,
@@ -27,6 +28,52 @@ describe('Observable', function() {
       });
 
       obs.triggerSomethingHappened(REFERENCE_DATA);
+    });
+  });
+
+  describe('#off*', function() {
+    it('should remove a callback from the event trigger', function(done) {
+
+      var obs = new Observable("event");
+      var fired = false;
+
+      var callback = function() {
+        fired = true;
+      };
+
+      obs.onEvent(callback);
+      obs.offEvent(callback);
+
+      obs.triggerEvent();
+
+      wait(100).then(function() {
+        assert.equal(fired, false);
+        done();
+      });
+    });
+  });
+
+  describe('#clear*', function() {
+    it('should clear all callbacks from the event trigger', function(done) {
+
+      var obs = new Observable("event");
+      var fired = false;
+
+      var callback_1 = function() { fired = true; };
+      var callback_2 = function() { fired = true; };
+      var callback_3 = function() { fired = true; };
+
+      obs.onEvent(callback_1);
+      obs.onEvent(callback_2);
+      obs.onEvent(callback_3);
+      obs.clearEvent();
+
+      obs.triggerEvent();
+
+      wait(100).then(function() {
+        assert.equal(fired, false);
+        done();
+      });
     });
   });
 
