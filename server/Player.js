@@ -1,23 +1,15 @@
+var Observable = require('./Observable.js');
+
 var Player = function(id) {
 
-  var that = {};
+  var that = new Observable('consumer_added', 'controller_event');
 
   var consumer_clients = [];
-  var consumer_added_callback = undefined;
-
   var controller_client = null;
-  var controller_event_callback = undefined;
 
   // Fields
   var debug = require('debug')('space-dud:Player');
   debug('Created a new Player.');
-
-  // Private methods
-  function handleControllerEvent(controller_event) {
-    if(controller_event_callback !== undefined) {
-      controller_event_callback(controller_event);
-    }
-  };
 
   // Public methods
   that.getId = function() {
@@ -27,11 +19,7 @@ var Player = function(id) {
   that.addConsumerClient = function(client) {
     debug('Added a consumer client.');
     var client_id = consumer_clients.push(client) - 1; 
- 
-    if(consumer_added_callback !== undefined) {
-      consumer_added_callback(client_id);
-    }
- 
+    that.triggerConsumerAdded(client_id); 
     return that;
   }
   
@@ -41,7 +29,6 @@ var Player = function(id) {
   
   that.clearConsumerClients = function() {
     consumer_clients = [];
-
     return that;
   };
 
@@ -63,7 +50,7 @@ var Player = function(id) {
     debug('Connected a controller client.');
   
     controller_client = client;
-    controller_client.onControllerEvent(handleControllerEvent);
+    controller_client.onControllerEvent(that.triggerControllerEvent);
  
     controller_client.dumpState();
   
@@ -72,18 +59,6 @@ var Player = function(id) {
   
   that.hasControllerClient = function() {
     return (controller_client != null);
-  };
-
-  that.onControllerEvent = function(callback) {
-    controller_event_callback = async function(controller_event) {
-      callback(controller_event);
-    };
-  };
-
-  that.onConsumerAdded = function(callback) {
-    consumer_added_callback = async function(client_id) {
-      callback(client_id);
-    }
   };
 
   return that;

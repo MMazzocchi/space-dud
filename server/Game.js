@@ -1,6 +1,8 @@
+var Observable = require('./Observable.js');
+
 var Game = function() {
 
-  var that = {};
+  var that = new Observable('player_ready');
 
   // Imports
   var Player = require('./Player.js');
@@ -11,7 +13,6 @@ var Game = function() {
   var debug = require('debug')('space-dud:Game');
   var shortid = require('shortid');
   var player_lookup = {};
-  var on_player_ready_callback = undefined;
 
   debug('Created a new Game.');
 
@@ -35,10 +36,7 @@ var Game = function() {
     player.setControllerClient(client);
 
     client.sendPlayerId(player_id);
-
-    if(on_player_ready_callback !== undefined) {
-      on_player_ready_callback(player);
-    } 
+    that.triggerPlayerReady(player);
  
     return that;
   };
@@ -62,12 +60,6 @@ var Game = function() {
     } else {
       return undefined;
     }
-  };
-
-  that.onPlayerReady = function(callback) {
-    on_player_ready_callback = async function(player) {
-      callback(player);
-    };
   };
 
   return that;
