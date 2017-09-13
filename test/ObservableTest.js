@@ -29,4 +29,20 @@ describe('Observable', function() {
       obs.triggerSomethingHappened(REFERENCE_DATA);
     });
   });
+
+  describe('#augment', function() {
+    it('should augment an object with observable methods', function() {
+      var obs = new Observable("something_happened");
+      assert.notEqual(obs.onSomethingHappened, undefined);
+      assert.notEqual(obs.offSomethingHappened, undefined);
+      assert.notEqual(obs.clearSomethingHappened, undefined);
+      assert.notEqual(obs.triggerSomethingHappened, undefined);
+
+      Observable.augment(obs, "something_else_happened");
+      assert.notEqual(obs.onSomethingElseHappened, undefined);
+      assert.notEqual(obs.offSomethingElseHappened, undefined);
+      assert.notEqual(obs.clearSomethingElseHappened, undefined);
+      assert.notEqual(obs.triggerSomethingElseHappened, undefined);
+    });
+  });
 });
