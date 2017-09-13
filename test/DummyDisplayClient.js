@@ -1,5 +1,7 @@
-var DummyDisplayClient = function(socket) {
-  var that = {};
+var DummyConsumerClient = require('./DummyConsumerClient.js');
+
+var DummyDisplayClient = function() {
+  var that = new DummyConsumerClient();
 
   // Private fields
   var consumeCallback = undefined;

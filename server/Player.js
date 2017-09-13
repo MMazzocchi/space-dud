@@ -2,7 +2,8 @@ var Observable = require('./Observable.js');
 
 var Player = function(id) {
 
-  var that = new Observable('consumer_added', 'controller_event');
+  var that = new Observable('consumer_added', 'controller_event',
+                            'disconnect');
 
   var consumer_clients = [];
   var controller_client = null;
@@ -10,6 +11,14 @@ var Player = function(id) {
   // Fields
   var debug = require('debug')('space-dud:Player');
   debug('Created a new Player.');
+
+  // Private methods
+  function removeConsumerClient(client) {
+    var index = consumer_clients.indexOf(client);
+    if(index !== -1) {
+      consumer_clients.splice(index, 1);
+    }
+  };
 
   // Public methods
   that.getId = function() {
@@ -19,6 +28,11 @@ var Player = function(id) {
   that.addConsumerClient = function(client) {
     debug('Added a consumer client.');
     var client_id = consumer_clients.push(client) - 1; 
+
+    client.onDisconnect(function() {
+      removeConsumerClient(client);
+    });
+
     that.triggerConsumerAdded(client_id); 
     return that;
   }

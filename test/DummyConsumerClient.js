@@ -1,5 +1,9 @@
+var Observable = require('../server/Observable.js');
+
 var DummyConsumerClient = function() {
-  return {};
+  var that = new Observable('disconnect');
+
+  return that;
 };
 
 module.exports = DummyConsumerClient;

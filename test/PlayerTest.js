@@ -36,6 +36,16 @@ describe('Player', function() {
       var client = new DummyConsumerClient();
       player.addConsumerClient(client);
     });
+
+    it('should remove the client on disconnect', function() {
+      var player = new Player(REFERENCE_ID);
+      var client = new DummyConsumerClient();
+
+      player.addConsumerClient(client);
+      client.triggerDisconnect();
+
+      assert.equal(player.numConsumerClients(), 0);
+    });
   });
 
   describe('#numConsumerClients', function() {
