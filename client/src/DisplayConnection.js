@@ -1,12 +1,12 @@
+var Observable = require('../../shared/Observable.js');
+
 var DisplayConnection = function() {
 
-  var that = {};
+  var that = new Observable('event', 'player_chosen');
 
   // Fields
-  var eventCallback = undefined;
-  var choosePlayerCallback = undefined;
   var player_id = undefined;
-  var callback_map = {};
+  var observable_map = {};
 
   var socket = io('/space-dud');
   socket.on('game_event', (data) => {
@@ -15,43 +15,30 @@ var DisplayConnection = function() {
   
   // Private functions
   function processEvent(data) {
-    if(eventCallback !== undefined) {
-      eventCallback(data);
-    }
+    that.triggerEvent(data);
 
-    if(callback_map[data.event_type] !== undefined) {
-      callback_map[data.event_type](data);
+    if(observable_map[data.event_type] !== undefined) {
+      observable_map[data.event_type].triggerEvent(data);
     }
   };
  
   // Public functions
-  that.onEvent = function(callback) {
-    eventCallback = async function(data) {
-      callback(data);
-    };
-
-    return that;
-  };
-
   that.onEventType = function(event_type, callback) {
-    callback_map[event_type] = function(data) {
-      callback(data);
-    };
+    var observable = new Observable('event');
+    observable.onEvent(callback);
 
+    observable_map[event_type] = observable;
     return that;
   };
 
-  that.selectPlayer = function(selected_player_id, callback) {
-    if(choosePlayerCallback === undefined) {
-      socket.on('valid_player_choice', (valid) => {
-        if(valid) {
-          player_id = selected_player_id;
-        }
+  that.selectPlayer = function(selected_player_id) {
+    socket.on('valid_player_choice', (valid) => {
+      if(valid) {
+        player_id = selected_player_id;
+      }
   
-        choosePlayerCallback(valid);
-      });
-    }
-    choosePlayerCallback = callback;
+      that.triggerPlayerChosen(valid);
+    });
   
     socket.emit('choose_player', selected_player_id);
 
