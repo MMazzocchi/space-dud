@@ -1,5 +1,5 @@
 var assert = require('assert');
-var Observable = require('../server/Observable.js');
+var Observable = require('../shared/Observable.js');
 var wait = require('./Util.js').wait;
 
 const REFERENCE_DATA = {

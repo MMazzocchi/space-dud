@@ -1,4 +1,4 @@
-var Observable = require('../server/Observable.js');
+var Observable = require('../shared/Observable.js');
 
 var DummyControllerClient = function() {
   var that = new Observable('disconnect');

@@ -1,5 +1,5 @@
 var Client = require('./Client.js');
-var Observable = require('../Observable.js');
+var Observable = require('../../shared/Observable.js');
 
 var ControllerClient = function(socket) {
   var debug = require('debug')('space-dud:ControllerClient');

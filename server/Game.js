@@ -1,4 +1,4 @@
-var Observable = require('./Observable.js');
+var Observable = require('../shared/Observable.js');
 
 var Game = function() {
 
