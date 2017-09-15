@@ -67,3 +67,5 @@ var DisplayConnection = function() {
 
   return that;
 };
+
+module.exports = DisplayConnection;

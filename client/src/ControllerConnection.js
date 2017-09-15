@@ -141,3 +141,5 @@ var ControllerConnection = function(onReadyHandler) {
 
   return that;  
 };
+
+module.exports = ControllerConnection;
