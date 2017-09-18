@@ -25,7 +25,7 @@ var SocketServer = function(game, http) {
         socket.emit('valid_player_choice', true);
     
       } catch(e) {
-        debug('An error occured while creating the display client: '+e.message);
+        debug('An error occured while creating the display client: '+e.stack);
         socket.emit('valid_player_choice', false);
       }
     });
