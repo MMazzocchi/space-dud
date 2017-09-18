@@ -24,10 +24,30 @@ var DisplayConnection = function() {
  
   // Public functions
   that.onEventType = function(event_type, callback) {
-    var observable = new Observable('event');
-    observable.onEvent(callback);
+    if(observable_map[event_type] === undefined) {
+      var observable = new Observable('event');
+      observable_map[event_type] = observable;
+    }
 
-    observable_map[event_type] = observable;
+    observable_map[event_type].onEvent(callback);
+    return that;
+  };
+
+  that.offEventType = function(event_type, callback) {
+    var observable = observable_map[event_type];
+    if(observable !== undefined) {
+      observable.offEvent(callback);
+    }
+
+    return that;
+  };
+
+  that.clearEventType = function(event_type) {
+    var observable = observable_map[event_type];
+    if(observable !== undefined) {
+      observable.clearEvent();
+    }
+
     return that;
   };
 
