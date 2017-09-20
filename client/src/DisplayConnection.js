@@ -9,11 +9,24 @@ var DisplayConnection = function() {
   var observable_map = {};
 
   var socket = io('/space-dud');
-  socket.on('game_event', (data) => {
-    processEvent.call(that, data);
-  });
-  
+
   // Private functions
+  function setup() {
+    socket.on('game_event', (data) => {
+      processEvent.call(that, data);
+    });
+ 
+    socket.on('valid_player_choice', (valid) => {
+      if(!valid) {
+        player_id = undefined;
+      }
+  
+      that.triggerPlayerChosen(valid);
+    });
+
+    socket.emit('set_role', 'display');
+  };
+ 
   function processEvent(data) {
     that.triggerEvent(data);
 
@@ -52,14 +65,7 @@ var DisplayConnection = function() {
   };
 
   that.selectPlayer = function(selected_player_id) {
-    socket.on('valid_player_choice', (valid) => {
-      if(valid) {
-        player_id = selected_player_id;
-      }
-  
-      that.triggerPlayerChosen(valid);
-    });
-  
+    player_id = selected_player_id; 
     socket.emit('choose_player', selected_player_id);
 
     return that;
@@ -69,8 +75,7 @@ var DisplayConnection = function() {
     return player_id;
   };
   
-  // After all instantiation, set the role to display
-  socket.emit('set_role', 'display');
+  setup();
 
   return that;
 };
