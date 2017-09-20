@@ -37,9 +37,6 @@ var Observable = function() {
   var constructor = function(...event_names) {
     var that = {};
   
-    // Fields
-    var callbacks = {};
-  
     // Private methods
     function setup() {
       for(var i=0; i<event_names.length; i++) {
