@@ -17,7 +17,7 @@ var DisplayConnection = function() {
     });
  
     socket.on('valid_player_choice', (valid) => {
-      if(!valid) {
+      if(valid === false) {
         player_id = undefined;
       }
   
