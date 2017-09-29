@@ -43,7 +43,7 @@ var Game = function() {
     player.setControllerClient(client);
 
     client.sendPlayerId(player_id);
-    that.triggerPlayerReady(player);
+    that.emit('player_ready', player);
  
     return that;
   };
