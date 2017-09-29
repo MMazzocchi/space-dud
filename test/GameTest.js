@@ -57,7 +57,7 @@ describe('Game', function() {
     it('should remove added player when socket disconnects', function(done) {
       var game = new Game();
       var dummy_socket = new DummySocket();
-      game.onPlayerReady(function(player) {
+      game.on('player_ready', function(player) {
         dummy_socket.emit('disconnect');
         assert.equal(game.getPlayer(player.getId()), undefined);
         done();
@@ -96,10 +96,10 @@ describe('Game', function() {
     });
   });
 
-  describe('#onPlayerReady', function() {
+  describe('#on#player_ready', function() {
     it('should call the callback when a Player is ready', function(done) {
       var game = new Game();
-      game.onPlayerReady(function(player) {
+      game.on('player_ready', function(player) {
         assert.notEqual(player, undefined);
         done();
       });
