@@ -1,8 +1,8 @@
-var Observable = require('../shared/Observable.js');
+var EventEmitter = require('events');
 
 var Game = function() {
 
-  var that = new Observable('player_ready');
+  var that = new EventEmitter();
 
   // Imports
   var Player = require('./Player.js');
@@ -67,6 +67,14 @@ var Game = function() {
     } else {
       return undefined;
     }
+  };
+
+  that.onPlayerReady = function(callback) {
+    that.on('player_ready', callback);
+  };
+
+  that.triggerPlayerReady = function(...args) {
+    that.emit('player_ready', ...args);
   };
 
   return that;
