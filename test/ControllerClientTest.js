@@ -11,13 +11,13 @@ const REFERENCE_EVENT = {
 const REFERENCE_ID = '00000000-0000-0000-0000-000000000000';
 
 describe('ControllerClient', function() {
-  describe('#onControllerEvent', function() {
+  describe('#on("controller_event",...)', function() {
     it('should call the controller event callback on controller events.',
        function(done) {
       var dummy_socket = new DummySocket();
       var client = new ControllerClient(dummy_socket);
 
-      client.onControllerEvent(function(controller_event) {
+      client.on('controller_event', function(controller_event) {
         assert.equal(controller_event, REFERENCE_EVENT);
         done();
       });

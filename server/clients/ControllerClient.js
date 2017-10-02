@@ -1,16 +1,16 @@
 var Client = require('./Client.js');
-var Observable = require('../../shared/Observable.js');
 
 var ControllerClient = function(socket) {
   var debug = require('debug')('space-dud:ControllerClient');
   debug('Created a new controller client.');
 
   var that = new Client(socket);
-  Observable.augment(that, 'controller_event');
 
   // Private functions
   function setup() {
-    socket.on("controller_event", that.triggerControllerEvent);
+    socket.on("controller_event", function(...args) {
+      that.emit('controller_event', ...args);
+    });
   };
 
   // Public functions
@@ -25,6 +25,26 @@ var ControllerClient = function(socket) {
     socket.emit('player_id', player_id);
   
     return that;
+  };
+
+  /**
+   * @deprecated
+   */
+  that.onControllerEvent = function(...args) {
+    console.log('ControllerClient.onControllerEvent is deprecated. Use ControllerClient.on('+
+                '"controller_event",...) instead. This method will be removed '+
+                'in release 2.6.0.');
+    that.on("controller_event", ...args);
+  };
+
+  /**
+   * @deprecated
+   */
+  that.triggerControllerEvent = function(...args) {
+    console.log('ControllerClient.triggerControllerEvent is deprecated. Use ControllerClient.emit('+
+                '"controller_event",...) instead. This method will be removed '+
+                'in release 2.6.0.');
+    that.emit("controller_event", ...args);
   };
 
   // After instantiation, setup

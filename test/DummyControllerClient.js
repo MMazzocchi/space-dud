@@ -14,9 +14,7 @@ var DummyControllerClient = function() {
   };
 
   that.controllerEvent = function(controller_event) {
-    if(event_callback !== undefined) {
-      event_callback(controller_event);
-    }
+    that.emit('controller_event', controller_event);
   };
 
   that.dumpState = function() {};

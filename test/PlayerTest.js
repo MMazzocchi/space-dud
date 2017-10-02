@@ -119,7 +119,7 @@ describe('Player', function() {
     });
   });
 
-  describe('#onControllerEvent', function() {
+  describe('#on("controller_event",...)', function() {
     it('should catch controller events', function(done) {
       var dummy_controller = new DummyControllerClient();
       var player = new Player(REFERENCE_ID);

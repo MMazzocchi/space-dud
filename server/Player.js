@@ -63,7 +63,7 @@ var Player = function(id) {
   
     controller_client = client;
 
-    controller_client.onControllerEvent(function(...args) {
+    controller_client.on('controller_event', function(...args) {
       that.emit('controller_event', ...args);
     });
 
