@@ -24,8 +24,8 @@ var space_dud = require('space-dud')(http);
 
 // On every event, pass it on to any connected consumers
 var game = space_dud.getGame();
-game.onPlayerReady(function(player) {
-  player.onControllerEvent(player.sendEventToConsumers);
+game.on('player_ready', function(player) {
+  player.on('controller_event', player.sendEventToConsumers);
 });
 
 // Start the game server
@@ -86,7 +86,7 @@ Example _display.html_:
         <script>
 
 var client = new DisplayConnection();
-client.onEvent(function(data) {
+client.on('event', function(data) {
     document.getElementById('event').innerHTML = 
         "Received event: "+JSON.stringify(data);
 });
