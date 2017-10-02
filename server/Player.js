@@ -27,7 +27,7 @@ var Player = function(id) {
     debug('Added a consumer client.');
     var client_id = consumer_clients.push(client) - 1; 
 
-    client.onDisconnect(function() {
+    client.on('disconnect', function() {
       removeConsumerClient(client);
     });
 
@@ -67,7 +67,7 @@ var Player = function(id) {
       that.emit('controller_event', ...args);
     });
 
-    controller_client.onDisconnect(function(...args) {
+    controller_client.on('disconnect', function(...args) {
       that.emit('disconnect', ...args);
     });
 

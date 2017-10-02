@@ -1,7 +1,9 @@
-var Observable = require('../shared/Observable.js');
+var Client = require('../server/clients/Client.js');
+var DummySocket = require('./DummySocket.js');
 
 var DummyControllerClient = function() {
-  var that = new Observable('disconnect');
+  var socket = new DummySocket();
+  var that = new Client(socket);
 
   // Fields
   var event_callback = undefined;

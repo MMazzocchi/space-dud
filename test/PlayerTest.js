@@ -42,7 +42,7 @@ describe('Player', function() {
       var client = new DummyConsumerClient();
 
       player.addConsumerClient(client);
-      client.triggerDisconnect();
+      client.emit('disconnect');
 
       assert.equal(player.numConsumerClients(), 0);
     });
@@ -98,7 +98,7 @@ describe('Player', function() {
       var client = new DummyControllerClient();
       player.setControllerClient(client);
 
-      client.triggerDisconnect();
+      client.emit('disconnect');
     });
   });
 

@@ -1,7 +1,9 @@
-var Observable = require('../shared/Observable.js');
+var Client = require('../server/clients/Client.js');
+var DummySocket = require('./DummySocket.js');
 
 var DummyConsumerClient = function() {
-  var that = new Observable('disconnect');
+  var socket = new DummySocket();
+  var that = new Client(socket);
 
   return that;
 };

@@ -14,7 +14,7 @@ describe('Client', function() {
        function(done) {
       var socket = new DummySocket();
       var client = new Client(socket);
-      client.onDisconnect(done);
+      client.on('disconnect', done);
 
       socket.emit('disconnect');
     });
