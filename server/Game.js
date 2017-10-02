@@ -73,8 +73,8 @@ var Game = function() {
    * @deprecated
    */
   that.onPlayerReady = function(callback) {
-    debug('Game.onPlayerReady is deprecated. Use Game.on("player_ready", ...) '+
-          'instead. This method will be removed in release 2.6.0.');
+    console.log('Game.onPlayerReady is deprecated. Use Game.on("player_ready",'+
+                '...) instead. This method will be removed in release 2.6.0.');
     that.on('player_ready', callback);
   };
 
@@ -82,9 +82,9 @@ var Game = function() {
    * @deprecated
    */
   that.triggerPlayerReady = function(...args) {
-    debug('Game.triggerPlayerReady is deprecated. Use '+
-          'Game.emit("player_ready", ...) instead. This method will be '+
-          'removed in release 2.6.0.');
+    console.log('Game.triggerPlayerReady is deprecated. Use '+
+                'Game.emit("player_ready", ...) instead. This method will be '+
+                'removed in release 2.6.0.');
     that.emit('player_ready', ...args);
   };
 
