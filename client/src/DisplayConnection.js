@@ -1,8 +1,7 @@
-var Observable = require('../../shared/Observable.js');
+var EventEmitter = require('events');
 
 var DisplayConnection = function() {
-
-  var that = new Observable('event', 'player_chosen');
+  var that = new EventEmitter();
 
   // Fields
   var player_id = undefined;
@@ -21,35 +20,35 @@ var DisplayConnection = function() {
         player_id = undefined;
       }
   
-      that.triggerPlayerChosen(valid);
+      that.emit('player_chosen', valid);
     });
 
     socket.emit('set_role', 'display');
   };
  
   function processEvent(data) {
-    that.triggerEvent(data);
+    that.emit('event', data);
 
     if(observable_map[data.event_type] !== undefined) {
-      observable_map[data.event_type].triggerEvent(data);
+      observable_map[data.event_type].emit('event', data);
     }
   };
  
   // Public functions
   that.onEventType = function(event_type, callback) {
     if(observable_map[event_type] === undefined) {
-      var observable = new Observable('event');
+      var observable = new EventEmitter;
       observable_map[event_type] = observable;
     }
 
-    observable_map[event_type].onEvent(callback);
+    observable_map[event_type].on('event', callback);
     return that;
   };
 
   that.offEventType = function(event_type, callback) {
     var observable = observable_map[event_type];
     if(observable !== undefined) {
-      observable.offEvent(callback);
+      observable.removeListener('event', callback);
     }
 
     return that;
@@ -58,7 +57,7 @@ var DisplayConnection = function() {
   that.clearEventType = function(event_type) {
     var observable = observable_map[event_type];
     if(observable !== undefined) {
-      observable.clearEvent();
+      observable.removeAllListeners('event');
     }
 
     return that;
@@ -74,6 +73,42 @@ var DisplayConnection = function() {
   that.getPlayerId = function() {
     return player_id;
   };
+
+  /**
+   * @deprecated
+   */
+  that.onEvent = function(callback) {
+    console.log('DisplayConnection.onEvent is deprecated. Use DisplayConnection.on("event",'+
+                '...) instead. This method will be removed in release 2.6.0.');
+    that.on('event', callback);
+  };
+
+  /**
+   * @deprecated
+   */
+  that.triggerEvent = function(...args) {
+    console.log('DisplayConnection.triggerEvent is deprecated. Use DisplayConnection.emit("event",'+
+                '...) instead. This method will be removed in release 2.6.0.');
+    that.emit('event', ...args);
+  };
+
+  /**
+   * @deprecated
+   */
+  that.onPlayerChosen = function(callback) {
+    console.log('DisplayConnection.onPlayerChosen is deprecated. Use DisplayConnection.on("player_chosen",'+
+                '...) instead. This method will be removed in release 2.6.0.');
+    that.on('player_chosen', callback);
+  };
+
+  /**
+   * @deprecated
+   */
+  that.triggerPlayerChosen = function(...args) {
+    console.log('DisplayConnection.triggerPlayerChosen is deprecated. Use DisplayConnection.emit("player_chosen",'+
+                '...) instead. This method will be removed in release 2.6.0.');
+    that.emit('player_chosen', ...args);
+  }; 
   
   setup();
 
