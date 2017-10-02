@@ -29,7 +29,7 @@ describe('Player', function() {
   describe('#addConsumerClient', function() {
     it('should call the consumer added callback', function(done) {
       var player = new Player(REFERENCE_ID);
-      player.onConsumerAdded(function(client_id) {
+      player.on('consumer_added', function(client_id) {
         done();
       });
 
@@ -93,7 +93,7 @@ describe('Player', function() {
     it('should trigger disconnect event on disconnect',
        function(done) {
       var player = new Player(REFERENCE_ID);
-      player.onDisconnect(done);
+      player.on('disconnect', done);
 
       var client = new DummyControllerClient();
       player.setControllerClient(client);
@@ -124,7 +124,7 @@ describe('Player', function() {
       var dummy_controller = new DummyControllerClient();
       var player = new Player(REFERENCE_ID);
 
-      player.onControllerEvent(function(controller_event) {
+      player.on('controller_event', function(controller_event) {
         assert.equal(controller_event, REFERENCE_EVENT);
         done();
       });
@@ -162,7 +162,7 @@ describe('Player', function() {
     it('should send event to one consumer', function(done) {
       var player = new Player(REFERENCE_ID);
 
-      player.onConsumerAdded(function(client_id) {
+      player.on('consumer_added', function(client_id) {
         player.sendEventToConsumer(REFERENCE_EVENT, client_id);
       });
 

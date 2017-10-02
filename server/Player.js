@@ -1,9 +1,7 @@
-var Observable = require('../shared/Observable.js');
+var EventEmitter = require('events');
 
 var Player = function(id) {
-
-  var that = new Observable('consumer_added', 'controller_event',
-                            'disconnect');
+  var that = new EventEmitter();
 
   var consumer_clients = [];
   var controller_client = null;
@@ -33,7 +31,7 @@ var Player = function(id) {
       removeConsumerClient(client);
     });
 
-    that.triggerConsumerAdded(client_id); 
+    that.emit('consumer_added', client_id); 
     return that;
   }
   
@@ -64,9 +62,15 @@ var Player = function(id) {
     debug('Connected a controller client.');
   
     controller_client = client;
-    controller_client.onControllerEvent(that.triggerControllerEvent);
-    controller_client.onDisconnect(that.triggerDisconnect);
- 
+
+    controller_client.onControllerEvent(function(...args) {
+      that.emit('controller_event', ...args);
+    });
+
+    controller_client.onDisconnect(function(...args) {
+      that.emit('disconnect', ...args);
+    });
+
     controller_client.dumpState();
   
     return that;
@@ -74,6 +78,65 @@ var Player = function(id) {
   
   that.hasControllerClient = function() {
     return (controller_client != null);
+  };
+  /**
+   * @deprecated
+   */
+  that.onConsumerAdded = function(...args) {
+    console.log('Player.onConsumerAdded is deprecated. Use Player.on('+
+                '"consumer_added",...) instead. This method will be removed '+
+                'in release 2.6.0.');
+    that.on("consumer_added", ...args);
+  };
+
+  /**
+   * @deprecated
+   */
+  that.triggerConsumerAdded = function(...args) {
+    console.log('Player.triggerConsumerAdded is deprecated. Use Player.emit('+
+                '"consumer_added",...) instead. This method will be removed '+
+                'in release 2.6.0.');
+    that.emit("consumer_added", ...args);
+  };
+
+  /**
+   * @deprecated
+   */
+  that.onDisconnect = function(...args) {
+    console.log('Player.onDisconnect is deprecated. Use Player.on('+
+                '"disconnect",...) instead. This method will be removed '+
+                'in release 2.6.0.');
+    that.on("disconnect", ...args);
+  };
+
+  /**
+   * @deprecated
+   */
+  that.triggerDisconnect = function(...args) {
+    console.log('Player.triggerDisconnect is deprecated. Use Player.emit('+
+                '"disconnect",...) instead. This method will be removed '+
+                'in release 2.6.0.');
+    that.emit("disconnect", ...args);
+  };
+
+  /**
+   * @deprecated
+   */
+  that.onControllerEvent = function(...args) {
+    console.log('Player.onControllerEvent is deprecated. Use Player.on('+
+                '"controller_event",...) instead. This method will be removed '+
+                'in release 2.6.0.');
+    that.on("controller_event", ...args);
+  };
+
+  /**
+   * @deprecated
+   */
+  that.triggerControllerEvent = function(...args) {
+    console.log('Player.triggerControllerEvent is deprecated. Use Player.emit('+
+                '"controller_event",...) instead. This method will be removed '+
+                'in release 2.6.0.');
+    that.emit("controller_event", ...args);
   };
 
   return that;

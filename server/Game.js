@@ -35,7 +35,7 @@ var Game = function() {
     var player = new Player(player_id);
 
     addPlayer(player, player_id);
-    player.onDisconnect(function() {
+    player.on('disconnect', function() {
       removePlayer(player_id);
     });
 
