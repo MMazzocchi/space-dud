@@ -37,7 +37,7 @@ var DisplayConnection = function() {
   // Public functions
   that.onEventType = function(event_type, callback) {
     if(observable_map[event_type] === undefined) {
-      var observable = new EventEmitter;
+      var observable = new EventEmitter();
       observable_map[event_type] = observable;
     }
 
