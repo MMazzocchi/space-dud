@@ -17,7 +17,7 @@
     "nyc": "^11.2.1"
   },
   "scripts": {
-    "preinstall": "npm run build",
+    "prepublish": "npm run build",
     "start": "node index.js",
     "test": "nyc mocha",
     "build": "bash ./scripts/build.sh"
