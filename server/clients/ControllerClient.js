@@ -27,26 +27,6 @@ var ControllerClient = function(socket) {
     return that;
   };
 
-  /**
-   * @deprecated
-   */
-  that.onControllerEvent = function(...args) {
-    console.log('ControllerClient.onControllerEvent is deprecated. Use ControllerClient.on('+
-                '"controller_event",...) instead. This method will be removed '+
-                'in release 2.6.0.');
-    that.on("controller_event", ...args);
-  };
-
-  /**
-   * @deprecated
-   */
-  that.triggerControllerEvent = function(...args) {
-    console.log('ControllerClient.triggerControllerEvent is deprecated. Use ControllerClient.emit('+
-                '"controller_event",...) instead. This method will be removed '+
-                'in release 2.6.0.');
-    that.emit("controller_event", ...args);
-  };
-
   // After instantiation, setup
   setup();
 
