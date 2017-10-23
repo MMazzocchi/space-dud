@@ -74,42 +74,6 @@ var DisplayConnection = function() {
     return player_id;
   };
 
-  /**
-   * @deprecated
-   */
-  that.onEvent = function(callback) {
-    console.log('DisplayConnection.onEvent is deprecated. Use DisplayConnection.on("event",'+
-                '...) instead. This method will be removed in release 2.6.0.');
-    that.on('event', callback);
-  };
-
-  /**
-   * @deprecated
-   */
-  that.triggerEvent = function(...args) {
-    console.log('DisplayConnection.triggerEvent is deprecated. Use DisplayConnection.emit("event",'+
-                '...) instead. This method will be removed in release 2.6.0.');
-    that.emit('event', ...args);
-  };
-
-  /**
-   * @deprecated
-   */
-  that.onPlayerChosen = function(callback) {
-    console.log('DisplayConnection.onPlayerChosen is deprecated. Use DisplayConnection.on("player_chosen",'+
-                '...) instead. This method will be removed in release 2.6.0.');
-    that.on('player_chosen', callback);
-  };
-
-  /**
-   * @deprecated
-   */
-  that.triggerPlayerChosen = function(...args) {
-    console.log('DisplayConnection.triggerPlayerChosen is deprecated. Use DisplayConnection.emit("player_chosen",'+
-                '...) instead. This method will be removed in release 2.6.0.');
-    that.emit('player_chosen', ...args);
-  }; 
-  
   setup();
 
   return that;
