@@ -1,14 +1,14 @@
-var io = require('socket.io-client');
+var Connection = require('./Connection.js');
 
 var ControllerConnection = function(onReadyHandler) {
 
-  var that = {};
+  var that = new Connection('controller');
 
   // Fields
   var onReadyHandler = onReadyHandler;
   var controllers = {};
   var player_id = undefined;  
-  var socket = io('/space-dud');
+  var socket = that.getSocket();
 
   socket.on('dump_state', () => {
     that.dumpState();
@@ -137,8 +137,6 @@ var ControllerConnection = function(onReadyHandler) {
     return that;
   };
 
-  // After instantiation, set role and start controller read loop
-  socket.emit('set_role', 'controller');
   readControllers();
 
   return that;  

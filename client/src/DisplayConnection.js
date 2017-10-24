@@ -1,12 +1,12 @@
-var io = require('socket.io-client');
 var EventEmitter = require('events');
+var Connection = require('./Connection.js');
 
 var DisplayConnection = function() {
-  var that = new EventEmitter();
+  var that = Connection.mixin(new EventEmitter(), 'display');
 
   // Fields
   var player_id = undefined;
-  var socket = io('/space-dud');
+  var socket = that.getSocket(); 
 
   // Private functions
   function setup() {
@@ -21,8 +21,6 @@ var DisplayConnection = function() {
   
       that.emit('player_chosen', valid);
     });
-
-    socket.emit('set_role', 'display');
   };
  
   function processEvent(data) {
