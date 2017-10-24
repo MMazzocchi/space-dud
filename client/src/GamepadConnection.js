@@ -1,24 +1,20 @@
 var ControllerConnection = require('./ControllerConnectionBase.js');
 
 var GamepadConnection = function(onReadyHandler) {
+  if(onReadyHandler !== undefined) {
+    console.warn("GamepadConnection takes no arguments. To replicate the "+
+                 "functionality of ControllerConnection(onReadyHandler), use "+
+                 "GamepadConnection.on('player_id', <callback>);");
+  }
+
   var that = new ControllerConnection('gamepad');
 
   // Fields
-  var onReadyHandler = onReadyHandler;
   var controllers = {};
-  var player_id = undefined;  
   var socket = that.getSocket();
 
   socket.on('dump_state', () => {
     that.dumpState();
-  });
-  
-  socket.on('player_id', (player_id) => {
-    if(onReadyHandler) {
-      onReadyHandler(player_id);
-    }
-  
-    player_id = player_id;
   });
   
   // Private functions
@@ -83,10 +79,6 @@ var GamepadConnection = function(onReadyHandler) {
   };
  
   // Public functions
-  that.getPlayerId = function() {
-    return player_id;
-  };
-  
   that.connectedHandler = function(e) {
     addController(e.gamepad);
   };
