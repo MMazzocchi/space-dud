@@ -1,6 +1,6 @@
 var assert = require('assert');
 var DummySocket = require('./DummySocket.js');
-var Client = require('../server/clients/Client.js');
+var Client = require('../../server/clients/Client.js');
 
 const REFERENCE_EVENT = {
   type: 'button',

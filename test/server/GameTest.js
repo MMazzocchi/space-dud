@@ -1,8 +1,8 @@
 var assert = require('assert');
 var shortid = require('shortid');
 
-var Game = require('../server/Game.js');
-var Player = require('../server/Player.js');
+var Game = require('../../server/Game.js');
+var Player = require('../../server/Player.js');
 var DummySocket = require('./DummySocket.js');
 
 const BAD_UUID = '0000000';

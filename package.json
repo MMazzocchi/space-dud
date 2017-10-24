@@ -19,7 +19,7 @@
   "scripts": {
     "prepublish": "npm run build",
     "start": "node index.js",
-    "test": "nyc mocha",
+    "test": "nyc mocha --recursive",
     "build": "bash ./scripts/build.sh"
   }
 }
