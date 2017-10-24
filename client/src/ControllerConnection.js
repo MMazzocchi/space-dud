@@ -1,6 +1,11 @@
 var Connection = require('./Connection.js');
 
+/**
+ * @ deprecated
+ */
 var ControllerConnection = function(onReadyHandler) {
+  console.warn("ControllerConnection is deprecated. It will be removed "+
+               "in release 2.7.0. Please use GamepadConnection instead.");
 
   var that = new Connection('controller');
 
