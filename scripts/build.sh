@@ -1,7 +1,8 @@
 #!/usr/bin/bash
 
 src_files="./client/src/DisplayConnection.js \
-           ./client/src/ControllerConnection.js"
+           ./client/src/ControllerConnection.js \
+           ./client/src/GamepadConnection.js"
 js_dir=./client/js
 
 if [[ ! -e $js_dir ]]
