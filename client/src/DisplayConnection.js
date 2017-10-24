@@ -1,3 +1,4 @@
+var io = require('socket.io-client');
 var EventEmitter = require('events');
 
 var DisplayConnection = function() {

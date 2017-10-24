@@ -1,3 +1,5 @@
+var io = require('socket.io-client');
+
 var ControllerConnection = function(onReadyHandler) {
 
   var that = {};
