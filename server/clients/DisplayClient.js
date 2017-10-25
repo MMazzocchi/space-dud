@@ -1,10 +1,10 @@
 var ConsumerClient = require("./ConsumerClient.js");
+var debug = require('debug')('space-dud:DisplayClient');
 
 var DisplayClient = function(socket) {
   var that = new ConsumerClient(socket);
 
   // Fields
-  var debug = require('debug')('space-dud:DisplayClient');
   debug('Created a new DisplayClient.');
 
   // Public functions

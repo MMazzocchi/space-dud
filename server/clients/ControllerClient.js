@@ -1,7 +1,7 @@
 var Client = require('./Client.js');
+var debug = require('debug')('space-dud:ControllerClient');
 
 var ControllerClient = function(socket) {
-  var debug = require('debug')('space-dud:ControllerClient');
   debug('Created a new controller client.');
 
   var that = new Client(socket);
@@ -22,6 +22,7 @@ var ControllerClient = function(socket) {
   };
 
   that.sendPlayerId = function(player_id) {
+    debug('Sending player id.');
     socket.emit('player_id', player_id);
   
     return that;

@@ -3,15 +3,17 @@ var EventEmitter = require('events');
 var Player = function(id) {
   var that = new EventEmitter();
 
+  // Fields
+  var debug = require('debug')('space-dud:Player#'+id);
   var consumer_clients = [];
   var controller_client = null;
 
-  // Fields
-  var debug = require('debug')('space-dud:Player');
   debug('Created a new Player.');
 
   // Private methods
   function removeConsumerClient(client) {
+    debug('Removing consumer client');
+
     var index = consumer_clients.indexOf(client);
     if(index !== -1) {
       consumer_clients.splice(index, 1);

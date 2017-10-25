@@ -1,14 +1,14 @@
-var GameServer = function(http) {
+var SocketServer = require('./SocketServer.js');
+var StaticServer = require('./StaticServer.js');
+var Game = require('../Game.js');
+var debug = require('debug')('space-dud:GameServer');
 
+var GameServer = function(http) {
   var that = {};
 
-  // Imports
-  var SocketServer = require('./SocketServer.js');
-  var StaticServer = require('./StaticServer.js');
-  var Game = require('../Game.js');
+  debug('Setting up GameServer.');
 
   // Fields
-  var debug = require('debug')('space-dud:GameServer');
   var game = new Game();
 
   // Public functions

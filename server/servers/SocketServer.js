@@ -1,17 +1,18 @@
-var SocketServer = function(game, http) {
+var debug = require('debug')('space-dud:SocketServer');
+var Socket = require('socket.io');
 
+var SocketServer = function(game, http) {
   var that = {};
 
-  // Imports
-  var Socket = require('socket.io');
+  debug('Setting up SocketServer.');
 
   // Fields
-  var debug = require('debug')('space-dud:SocketServer');
-  var io = undefined;
+  var io = Socket(http).of('/space-dud');
 
   // Private functions
   function chooseControllerRole(socket) {
     debug('Client chose the "controller" role.');
+
     game.createControllerClient(socket);
   };
   
@@ -45,7 +46,6 @@ var SocketServer = function(game, http) {
   };
   
   function setupServer() {
-    io = Socket(http).of('/space-dud');
     io.on('connection', (socket) => {
       debug('Client connected.');
   

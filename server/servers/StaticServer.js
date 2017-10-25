@@ -1,23 +1,29 @@
+var debug = require('debug')('space-dud:StaticServer');
+var read = require('fs').readFileSync;
+var exists = require('fs').existsSync;
+
 var StaticServer = function(http) {
+
+  debug('Setting up StaticServer.');
 
   var that = {};
 
   // Fields
-  var debug = require('debug')('space-dud:StaticServer');
-  var read = require('fs').readFileSync;
-  var exists = require('fs').existsSync;
-
   // Private functions
   function serveStaticFile(req, res) {
     var filename = req.url.substr(req.url.lastIndexOf("/")+1);
     var path = __dirname+"/../../client/dist/"+filename
 
     if(exists(path)) {
+      debug('Request for '+filename+' succeeded.');
+
       res.setHeader('Content-Type', 'application/javascript');
       res.writeHead(200);
       res.end(read(path));
 
     } else {
+      debug('Request for '+filename+' failed.');
+
       res.writeHead(404);
       res.end();
     }

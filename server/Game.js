@@ -1,4 +1,5 @@
 var EventEmitter = require('events');
+var debug = require('debug')('space-dud:Game');
 
 var Game = function() {
 
@@ -10,7 +11,6 @@ var Game = function() {
   var DisplayClient = require('./clients/DisplayClient.js');
 
   // Fields
-  var debug = require('debug')('space-dud:Game');
   var shortid = require('shortid');
   var player_lookup = {};
 
@@ -26,6 +26,8 @@ var Game = function() {
   };
 
   function removePlayer(player_id) {
+    debug('Removing player with id: '+player_id);
+
     player_lookup[player_id] = undefined;
   };
 
