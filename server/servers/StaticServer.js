@@ -10,7 +10,7 @@ var StaticServer = function(http) {
   // Private functions
   function serveStaticFile(req, res) {
     var filename = req.url.substr(req.url.lastIndexOf("/")+1);
-    var path = __dirname+"/../../client/js/"+filename
+    var path = __dirname+"/../../client/dist/"+filename
 
     if(exists(path)) {
       res.setHeader('Content-Type', 'application/javascript');

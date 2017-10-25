@@ -4,11 +4,11 @@ src_files="./client/src/DisplayConnection.js \
            ./client/src/ControllerConnection.js \
            ./client/src/KeyboardConnection.js \
            ./client/src/GamepadConnection.js"
-js_dir=./client/js
+dist_dir=./client/dist
 
-if [[ ! -e $js_dir ]]
+if [[ ! -e $dist_dir ]]
 then
-  mkdir $js_dir
+  mkdir $dist_dir
 fi
 
 for src_name in $src_files
@@ -17,5 +17,5 @@ do
 
   echo "Generating class for $class_name..."
 
-  browserify -s $class_name -e $src_name -o $js_dir/$class_name.js
+  browserify -s $class_name -e $src_name -o $dist_dir/$class_name.js
 done
