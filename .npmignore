@@ -1,0 +1,5 @@
+scripts/
+test/
+client/src/
+.nyc_output/
+.gitignore
