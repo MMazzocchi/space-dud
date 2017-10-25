@@ -2,6 +2,7 @@
 
 src_files="./client/src/DisplayConnection.js \
            ./client/src/ControllerConnection.js \
+           ./client/src/KeyboardConnection.js \
            ./client/src/GamepadConnection.js"
 js_dir=./client/js
 
