@@ -4,11 +4,11 @@
 ## How to Run
 Clone the `space-dud` repository:
 ```
-$ git clone https://github.com/MMazzocchi/space-dud-example.git
+$ git clone https://github.com/MMazzocchi/space-dud.git
 ```
-A `space-dud-example/` directory should now be available. Change directories to it, and install the required modules:
+A `space-dud/example/` directory should now be available. Change directories to it, and install the required modules:
 ```
-$ cd space-dud-example/
+$ cd space-dud/example/
 $ npm install
 ```
 All modules shoule now be installed. Start the server:
