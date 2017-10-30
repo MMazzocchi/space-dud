@@ -11,7 +11,7 @@ $ npm install space-dud
 `space-dud` provides a function which takes one argument: an HTTP service. Once given the HTTP service, all that's needed is to serve the clients.
 
 Example _index.js_:
-> **Hint:** All these examples are in a runnable package at [space-dud-example](https://github.com/MMazzocchi/space-dud-example)!
+> **Hint:** All these examples are in a runnable package in the [space-dud repository](https://github.com/MMazzocchi/space-dud/tree/master/example)!
 ```javascript
 const HOST = '0.0.0.0';
 const PORT = 3000;
@@ -50,17 +50,20 @@ Example _controller.html_:
 <html>
     <body>
         <p>Player ID: <span id="player_id">None</span>
-        <script src="/socket.io/socket.io.js"></script>
-        <script src="/space-dud/ControllerConnection.js"></script>
+        <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+        <script src="/space-dud/GamepadConnection.js"></script>
         <script>
 
-var client = new ControllerConnection(function (player_id) {
-  document.getElementById('player_id').innerHTML = player_id;
+$(function() {
+    var client = new GamepadConnection();
+    client.on('player_id', function (player_id) {
+        document.getElementById('player_id').innerHTML = player_id;
+    });
+  
+    setTimeout(client.findControllers, 500);
+    window.addEventListener('gamepadconnected', client.connectedHandler);
+    window.addEventListener('gamepaddisconnected', client.disconnectedHandler);
 });
-
-setTimeout(client.findControllers, 500);
-window.addEventListener('gamepadconnected', client.connectedHandler);
-window.addEventListener('gamepaddisconnected', client.disconnectedHandler);
 
         </script>
     </body>
