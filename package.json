@@ -8,13 +8,15 @@
     "type": "git",
     "url": "https://github.com/MMazzocchi/space-dud.git"
   },
+  "devDependencies": {
+    "nyc": "^11.2.1",
+    "mocha": "^3.4.2"
+  },
   "dependencies": {
     "debug": "^2.6.8",
     "fs": "0.0.1-security",
-    "mocha": "^3.4.2",
     "shortid": "^2.2.8",
-    "socket.io": "^2.0.3",
-    "nyc": "^11.2.1"
+    "socket.io": "^2.0.3"
   },
   "scripts": {
     "prepare": "npm run build",
