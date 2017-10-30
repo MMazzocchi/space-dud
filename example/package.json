@@ -1,11 +1,11 @@
 {
   "name": "space-dud-example",
-  "version": "1.1.0",
+  "version": "1.0.0",
   "author": "Max Mazzocchi <maxwell.mazzocchi@gmail.com>",
   "description": "Example setup for the space-dud package.",
   "license": "GPL-3.0",
   "dependencies": {
     "express": "^4.15.3",
-    "space-dud": "^2.5.1"
+    "space-dud": "^2.6.0"
   }
 }
