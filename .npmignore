@@ -1,5 +1,6 @@
 scripts/
 test/
+example/
 client/src/
 .nyc_output/
 .gitignore

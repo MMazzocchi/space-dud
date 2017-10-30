@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <p>Player ID: 
+      <input id="player_id" type="text"/>
+      <input id="submit_player_id" type="button" value="Submit"/>
+    </p>
+ 
+    <p>Last event received was: <span id="event">None</span>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/space-dud/DisplayConnection.js"></script>
+    <script>
+
+var client = new DisplayConnection();
+client.on('event', function(data) {
+    document.getElementById('event').innerHTML = 
+        "Received event: "+JSON.stringify(data);
+});
+
+document.getElementById('submit_player_id').onclick = function(e) {
+    var player_id = document.getElementById('player_id').value;
+    client.selectPlayer(player_id);
+};
+
+    </script>
+  </body>
+</html>
