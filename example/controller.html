@@ -3,18 +3,19 @@
     <body>
         <p>Player ID: <span id="player_id">None</span>
         <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-        <script src="/space-dud/KeyboardConnection.js"></script>
+        <script src="/space-dud/GamepadConnection.js"></script>
         <script>
+
 $(function() {
-  var body = $('body')[0];
-  var client = new KeyboardConnection(body);
-  client.on('player_id', function (player_id) {
-    document.getElementById('player_id').innerHTML = player_id;
-  });
+    var client = new GamepadConnection();
+    client.on('player_id', function (player_id) {
+        document.getElementById('player_id').innerHTML = player_id;
+    });
+  
+    setTimeout(client.findControllers, 500);
+    window.addEventListener('gamepadconnected', client.connectedHandler);
+    window.addEventListener('gamepaddisconnected', client.disconnectedHandler);
 });
-//setTimeout(client.findControllers, 500);
-//window.addEventListener('gamepadconnected', client.connectedHandler);
-//window.addEventListener('gamepaddisconnected', client.disconnectedHandler);
 
         </script>
     </body>
