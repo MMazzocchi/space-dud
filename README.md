@@ -96,8 +96,7 @@ Example _display.html_:
  
     <p>Last event received was: <span id="event">None</span>
 
-    <script src="/socket.io/socket.io.js"></script>
-    <script src="/space-dud/DisplayConnection.js"></script>
+    <script src="/space-dud-client.js"></script>
     <script>
 
 var client = new DisplayConnection();
