@@ -1,12 +1,6 @@
 var ControllerConnection = require('./ControllerConnection.js');
 
 var GamepadConnection = function(onReadyHandler) {
-  if(onReadyHandler !== undefined) {
-    console.warn("GamepadConnection takes no arguments. To replicate the "+
-                 "functionality of ControllerConnection(onReadyHandler), use "+
-                 "GamepadConnection.on('player_id', <callback>);");
-  }
-
   var that = new ControllerConnection('gamepad');
 
   // Fields
