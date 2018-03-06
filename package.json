@@ -1,8 +1,8 @@
 {
   "name": "space-dud",
-  "version": "2.6.0",
+  "version": "2.7.0",
   "author": "Max Mazzocchi <maxwell.mazzocchi@gmail.com>",
-  "description": "HTTP server plugin that routes events from HTML5 gamepad clients to connected clients on different devices.",
+  "description": "HTTP server plugin that routes events from input clients to output clients on different devices.",
   "license": "MIT",
   "repository": {
     "type": "git",
