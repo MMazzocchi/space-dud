@@ -28,10 +28,11 @@ game.on('player_ready', function(player) {
   player.on('controller_event', player.sendEventToConsumers);
 });
 
-// Start the game server
+// Start the space-dud server.
 space_dud.start();
 
-// Serve the static client files.
+// Serve the static files.
+app.use('/space-dud-client.js', express.static(__dirname+'/space-dud-client.js'));
 app.use('/controller.html', express.static(__dirname+'/controller.html'));
 app.use('/display.html', express.static(__dirname+'/display.html'));
 
@@ -49,21 +50,31 @@ Example _controller.html_:
 <!DOCTYPE html>
 <html>
     <body>
-        <p>Player ID: <span id="player_id">None</span>
-        <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-        <script src="/space-dud/GamepadConnection.js"></script>
+        <p>Player ID: <span id="player_id">None</span></p>
+
+        <input id="A" type="button" value="A"/>
+        <input id="B" type="button" value="B"/>
+
+        <script src="/space-dud-client.js"></script>
         <script>
 
-$(function() {
-    var client = new GamepadConnection();
-    client.on('player_id', function (player_id) {
-        document.getElementById('player_id').innerHTML = player_id;
-    });
-  
-    setTimeout(client.findControllers, 500);
-    window.addEventListener('gamepadconnected', client.connectedHandler);
-    window.addEventListener('gamepaddisconnected', client.disconnectedHandler);
+var client = new SpaceDudClient.ControllerConnection();
+client.on('player_id', function (player_id) {
+    document.getElementById('player_id').innerHTML = player_id;
 });
+
+document.getElementById('A').onmousedown = function() {
+    client.sendEvent(0, 'button', 1);
+};
+document.getElementById('A').onmouseup = function() {
+    client.sendEvent(0, 'button', 0);
+};
+document.getElementById('B').onmousedown = function() {
+    client.sendEvent(1, 'button', 1);
+};
+document.getElementById('B').onmouseup = function() {
+    client.sendEvent(1, 'button', 0);
+};
 
         </script>
     </body>
@@ -77,21 +88,21 @@ Example _display.html_:
 ```html
 <!DOCTYPE html>
 <html>
-    <body>
-        <p>Player ID: 
-            <input id="player_id" type="text"/>
-            <input id="submit_player_id" type="button" value="Submit"/>
-        </p>
-        <p>Last event received was: <span id="event">None</span>
+  <body>
+    <p>Player ID: 
+      <input id="player_id" type="text"/>
+      <input id="submit_player_id" type="button" value="Submit"/>
+    </p>
+ 
+    <p>Last event received was: <span id="event">None</span>
 
-        <script src="/socket.io/socket.io.js"></script>
-        <script src="/space-dud/DisplayConnection.js"></script>
-        <script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/space-dud/DisplayConnection.js"></script>
+    <script>
 
 var client = new DisplayConnection();
 client.on('event', function(data) {
-    document.getElementById('event').innerHTML = 
-        "Received event: "+JSON.stringify(data);
+    document.getElementById('event').innerHTML = JSON.stringify(data);
 });
 
 document.getElementById('submit_player_id').onclick = function(e) {
@@ -99,8 +110,8 @@ document.getElementById('submit_player_id').onclick = function(e) {
     client.selectPlayer(player_id);
 };
 
-        </script>
-    </body>
+    </script>
+  </body>
 </html>
 ```
 
