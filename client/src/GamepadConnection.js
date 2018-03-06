@@ -4,8 +4,8 @@ var GamepadConnection = function() {
   var that = new ControllerConnection('gamepad');
 
   // Fields
-  var controller_id = undefined;
-  var controller = undefined;
+  var gamepad_id = undefined;
+  var gamepad = undefined;
   var state = [];
   var socket = that.getSocket();
 
@@ -14,10 +14,10 @@ var GamepadConnection = function() {
   });
   
   // Private functions
-  function readController() {
-    if(controller !== undefined) {
-      for(var i = 0; i < controller.buttons.length; i++) {
-        var button = controller.buttons[i];
+  function readGamepad() {
+    if(gamepad !== undefined) {
+      for(var i = 0; i < gamepad.buttons.length; i++) {
+        var button = gamepad.buttons[i];
         var pressed = buttonPressed(button);
   
         if((state.buttons[i] === undefined) ||
@@ -27,8 +27,8 @@ var GamepadConnection = function() {
         }
       }
   
-      for(var i = 0; i < controller.axes.length; i++) {
-        var value = controller.axes[i];
+      for(var i = 0; i < gamepad.axes.length; i++) {
+        var value = gamepad.axes[i];
   
         if((state.axes[i] === undefined) ||
            (state.axes[i] !== value)) {
@@ -38,27 +38,27 @@ var GamepadConnection = function() {
       }
     }  
 
-    window.requestAnimationFrame(readController);
+    window.requestAnimationFrame(readGamepad);
   };
  
-  function addController(new_controller) {
-    if(controller !== undefined) {
-      controller = new_controller;
+  function addGamepad(new_gamepad) {
+    if(gamepad !== undefined) {
+      gamepad = new_gamepad;
       state = {
         buttons: {},
         axes: {}
       };
   
-      controller_id = controller.index;
+      gamepad_id = gamepad.index;
     }
 
     return that;
   };
   
-  function removeController(old_controller) {
-    if(controller_id === old_controller.index) {
-      controller = undefined;
-      controller_id = undefined;
+  function removeGamepad(old_gamepad) {
+    if(gamepad_id === old_gamepad.index) {
+      gamepad = undefined;
+      gamepad_id = undefined;
       state = undefined;
     }
 
@@ -75,15 +75,15 @@ var GamepadConnection = function() {
  
   // Public functions
   that.connectedHandler = function(e) {
-    addController(e.gamepad);
+    addGamepad(e.gamepad);
   };
   
   that.disconnectedHandler = function(e) {
-    removeController(e.gamepad);
+    removeGamepad(e.gamepad);
   };
 
   that.getGamepad = function() {
-    return controller;
+    return gamepad;
   };
   
   /**
@@ -94,7 +94,7 @@ var GamepadConnection = function() {
                  "GamepadConnection only uses one gamepad, this method will "+
                  "be removed in a future release.");
 
-    if(controller !== undefined) {
+    if(gamepad !== undefined) {
       return 1;
     } else {
       return 0;
@@ -104,24 +104,35 @@ var GamepadConnection = function() {
   /**
    * deprecated
    */
-  that.hasController = function(controller) {
-    console.log("GamepadConnection.hasController is deprecated. "+
-                "GamepadConnection only uses one gamepad, this method will "+
-                "be removed in a future release.");
+  that.hasController = function(new_gamepad) {
+    console.warn("GamepadConnection.hasController is deprecated. "+
+                 "GamepadConnection only uses one gamepad, this method will "+
+                 "be removed in a future release.");
 
-    return (controller.index === controller_id);
+    return (new_gamepad.index === gamepad_id);
   };
-  
+
+  /**
+   * deprecated
+   */ 
   that.findControllers = function() {
+    console.warn("GamepadConnection.findControllers is deprecated, and will "+
+                 "be removed in a future release. Use GamepadConnection."+
+                 "findGamepads instead.");
+
+    return that.findGamepads();
+  };
+
+  that.findGamepads = function() {
     var gamepads = navigator.getGamepads ? navigator.getGamepads() : (navigator.webkitGetGamepads ? navigator.webkitGetGamepads() : []);
     for(var i=0; i<gamepads.length; i++) { 
       var gamepad = gamepad[i];
-      addController(gamepad);
+      addGamepad(gamepad);
     }
   };
     
   that.dumpState = function() {
-    if(controller !== undefined) {
+    if(gamepad !== undefined) {
       state = {
         buttons: {},
         axes: {}
@@ -131,7 +142,7 @@ var GamepadConnection = function() {
     return that;
   };
 
-  readController();
+  readGamepad();
 
   return that;  
 };
