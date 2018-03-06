@@ -2,6 +2,9 @@ var debug = require('debug')('space-dud:StaticServer');
 var read = require('fs').readFileSync;
 var exists = require('fs').existsSync;
 
+/**
+ * deprecated
+ */
 var StaticServer = function(http) {
 
   debug('Setting up StaticServer.');
@@ -15,6 +18,8 @@ var StaticServer = function(http) {
     var path = __dirname+"/../../client/dist/"+filename
 
     if(exists(path)) {
+      console.warn("The space-dud static server is deprecated. Access files "+
+                   "using the standalone space-dud-client.js file.");
       debug('Request for '+filename+' succeeded.');
 
       res.setHeader('Content-Type', 'application/javascript');

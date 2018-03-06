@@ -14,7 +14,7 @@ then
   mkdir $dist_dir
 fi
 
-rm -f $dist_dir/*.js $dist_dir/*.map
+rm -f $dist_dir/*.js
 
 for src_name in $src_files
 do
@@ -23,6 +23,11 @@ do
   echo "Generating class for $class_name..."
 
   browserify -s $class_name -e $src_name -o $dist_dir/$class_name.js
+
+  echo "console.warn(\"Usage of the space-dud static file server is \
+deprecated. Access the $class_name class from the standalone \
+space-dud-client.js file.\");" >> $dist_dir/$class_name.js
+
 done
 
 echo "Generating space-dud-client files..."
