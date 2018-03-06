@@ -1,10 +1,12 @@
 var ControllerConnection = require('./ControllerConnection.js');
 
-var GamepadConnection = function(onReadyHandler) {
+var GamepadConnection = function() {
   var that = new ControllerConnection('gamepad');
 
   // Fields
-  var controllers = {};
+  var controller_id = undefined;
+  var controller = undefined;
+  var state = [];
   var socket = that.getSocket();
 
   socket.on('dump_state', () => {
@@ -12,12 +14,8 @@ var GamepadConnection = function(onReadyHandler) {
   });
   
   // Private functions
-  function readControllers() {
-    for(var controller_id in controllers) {
-      var controller_info = controllers[controller_id];
-      var controller = controller_info.controller;
-      var state = controller_info.state;
-  
+  function readController() {
+    if(controller !== undefined) {
       for(var i = 0; i < controller.buttons.length; i++) {
         var button = controller.buttons[i];
         var pressed = buttonPressed(button);
@@ -38,28 +36,31 @@ var GamepadConnection = function(onReadyHandler) {
           that.sendEvent(i, 'axis', value);
         }
       }
-    }
-  
-    window.requestAnimationFrame(readControllers);
+    }  
+
+    window.requestAnimationFrame(readController);
   };
  
-  function addController(controller) {
-    var controller_info = {
-      controller: controller,
-      state: {
+  function addController(new_controller) {
+    if(controller !== undefined) {
+      controller = new_controller;
+      state = {
         buttons: {},
         axes: {}
-      }
-    };
+      };
   
-    var controller_id = controller.index;
-    controllers[controller_id] = controller_info;
+      controller_id = controller.index;
+    }
 
     return that;
   };
   
-  function removeController(controller) {
-    delete controllers[controller.index];
+  function removeController(old_controller) {
+    if(controller_id === old_controller.index) {
+      controller = undefined;
+      controller_id = undefined;
+      state = undefined;
+    }
 
     return that;
   };
@@ -80,29 +81,48 @@ var GamepadConnection = function(onReadyHandler) {
   that.disconnectedHandler = function(e) {
     removeController(e.gamepad);
   };
-  
-  that.numberControllersDetected = function() {
-    return Object.keys(controllers).length;
+
+  that.getGamepad = function() {
+    return controller;
   };
   
+  /**
+   * deprecated
+   */
+  that.numberControllersDetected = function() {
+    console.warn("GamepadConnection.numberControllersDetected is deprecated. "+
+                 "GamepadConnection only uses one gamepad, this method will "+
+                 "be removed in a future release.");
+
+    if(controller !== undefined) {
+      return 1;
+    } else {
+      return 0;
+    }
+  };
+
+  /**
+   * deprecated
+   */
   that.hasController = function(controller) {
-    return (controller.index in controllers);
+    console.log("GamepadConnection.hasController is deprecated. "+
+                "GamepadConnection only uses one gamepad, this method will "+
+                "be removed in a future release.");
+
+    return (controller.index === controller_id);
   };
   
   that.findControllers = function() {
     var gamepads = navigator.getGamepads ? navigator.getGamepads() : (navigator.webkitGetGamepads ? navigator.webkitGetGamepads() : []);
     for(var i=0; i<gamepads.length; i++) { 
       var gamepad = gamepad[i];
-      if(!hasController(gamepad)) {
-        addController(gamepad);
-      }
+      addController(gamepad);
     }
   };
     
   that.dumpState = function() {
-    for(var controller_id in controllers) {
-      var controller_info = controllers[controller_id];
-      controller_info.state = {
+    if(controller !== undefined) {
+      state = {
         buttons: {},
         axes: {}
       };
@@ -111,7 +131,7 @@ var GamepadConnection = function(onReadyHandler) {
     return that;
   };
 
-  readControllers();
+  readController();
 
   return that;  
 };
