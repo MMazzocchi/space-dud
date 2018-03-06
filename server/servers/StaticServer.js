@@ -39,7 +39,7 @@ var StaticServer = function(http) {
     http.removeAllListeners('request');
   
     http.on('request', function(req, res) {
-      if(req.url.indexOf('/space-dud') === 0) {
+      if(req.url.indexOf('/space-dud/') === 0) {
         serveStaticFile(req, res);
   
       } else {
