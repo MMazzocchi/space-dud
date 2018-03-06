@@ -6,6 +6,6 @@
   "license": "MIT",
   "dependencies": {
     "express": "^4.15.3",
-    "space-dud": "^2.7.0"
+    "space-dud": "^2.7.1"
   }
 }

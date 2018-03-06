@@ -1,6 +1,6 @@
 {
   "name": "space-dud",
-  "version": "2.7.0",
+  "version": "2.7.1",
   "author": "Max Mazzocchi <maxwell.mazzocchi@gmail.com>",
   "description": "HTTP server plugin that routes events from input clients to output clients on different devices.",
   "license": "MIT",
