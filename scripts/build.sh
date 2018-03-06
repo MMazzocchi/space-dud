@@ -34,4 +34,4 @@ echo "Generating space-dud-client files..."
 
 browserify -s SpaceDudClient \
            -e $src_dir/SpaceDudClient \
-           -o $dist_dir/space-dud-client.js
+           | derequire > $dist_dir/space-dud-client.js
