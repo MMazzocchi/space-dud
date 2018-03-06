@@ -13,10 +13,11 @@ game.on('player_ready', function(player) {
   player.on('controller_event', player.sendEventToConsumers);
 });
 
-// Start the game server
+// Start the space-dud server.
 space_dud.start();
 
-// Serve the static client files.
+// Serve the static files.
+app.use('/space-dud-client.js', express.static(__dirname+'/space-dud-client.js'));
 app.use('/controller.html', express.static(__dirname+'/controller.html'));
 app.use('/display.html', express.static(__dirname+'/display.html'));
 

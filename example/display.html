@@ -14,8 +14,7 @@
 
 var client = new DisplayConnection();
 client.on('event', function(data) {
-    document.getElementById('event').innerHTML = 
-        "Received event: "+JSON.stringify(data);
+    document.getElementById('event').innerHTML = JSON.stringify(data);
 });
 
 document.getElementById('submit_player_id').onclick = function(e) {

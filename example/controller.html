@@ -1,21 +1,31 @@
 <!DOCTYPE html>
 <html>
     <body>
-        <p>Player ID: <span id="player_id">None</span>
-        <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-        <script src="/space-dud/GamepadConnection.js"></script>
+        <p>Player ID: <span id="player_id">None</span></p>
+
+        <input id="A" type="button" value="A"/>
+        <input id="B" type="button" value="B"/>
+
+        <script src="/space-dud-client.js"></script>
         <script>
 
-$(function() {
-    var client = new GamepadConnection();
-    client.on('player_id', function (player_id) {
-        document.getElementById('player_id').innerHTML = player_id;
-    });
-  
-    setTimeout(client.findControllers, 500);
-    window.addEventListener('gamepadconnected', client.connectedHandler);
-    window.addEventListener('gamepaddisconnected', client.disconnectedHandler);
+var client = new SpaceDudClient.ControllerConnection();
+client.on('player_id', function (player_id) {
+    document.getElementById('player_id').innerHTML = player_id;
 });
+
+document.getElementById('A').onmousedown = function() {
+    client.sendEvent(0, 'button', 1);
+};
+document.getElementById('A').onmouseup = function() {
+    client.sendEvent(0, 'button', 0);
+};
+document.getElementById('B').onmousedown = function() {
+    client.sendEvent(1, 'button', 1);
+};
+document.getElementById('B').onmouseup = function() {
+    client.sendEvent(1, 'button', 0);
+};
 
         </script>
     </body>
