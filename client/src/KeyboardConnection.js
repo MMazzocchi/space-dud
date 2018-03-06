@@ -1,4 +1,4 @@
-var ControllerConnection = require('./ControllerConnectionBase.js');
+var ControllerConnection = require('./ControllerConnection.js');
 
 var KeyboardConnection = function(element) {
   var that = new ControllerConnection('keyboard');

@@ -1,4 +1,4 @@
-var ControllerConnection = require('./ControllerConnectionBase.js');
+var ControllerConnection = require('./ControllerConnection.js');
 
 var GamepadConnection = function(onReadyHandler) {
   if(onReadyHandler !== undefined) {
