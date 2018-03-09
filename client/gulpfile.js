@@ -2,41 +2,44 @@ var gulp = require('gulp');
 var footer = require('gulp-footer');
 var browserify = require('browserify');
 var source = require('vinyl-source-stream');
+var path = require('path');
 
-const CLIENT_SRC = './src/';
-const CLIENT_DIST = './dist/';
+const SRC_DIR = path.join(__dirname, 'src');
+const DIST_DIR = path.join(__dirname, 'dist');
 
 function buildFile(in_file, out_dir, new_filename) {
   var filename = new_filename;
 
   if(filename === undefined) {
-    var tokens = in_file.split(/\/+/);
-    filename = tokens[tokens.length - 1];
+    filename = path.basename(in_file);
   }
 
   return new Promise(function(resolve) {
-    var stream = browserify(__dirname+"/"+in_file)
+    var stream = browserify(in_file)
       .bundle()
       .pipe(source(filename))
-      .pipe(gulp.dest(__dirname+"/"+out_dir));
+      .pipe(gulp.dest(out_dir));
 
     stream.on('end', function() {
-      resolve(out_dir+"/"+filename);
+      var out_file = path.join(out_dir, filename);
+      resolve(out_file);
     });
   });
 };
 
 function deprecate(in_file, out_dir) {
-  var tokens = in_file.split(/\/+/);
-  var filename = tokens[tokens.length - 1];
+  var filename = path.basename(in_file);
 
   return new Promise(function(resolve) {
-    gulp.src(in_file, { cwd: __dirname })
+    var stream = gulp.src(in_file)
       .pipe(footer("console.warn('"+filename+" has been deprecated, and will "+
                    "be removed in a future release.');"))
-      .pipe(gulp.dest(out_dir, { cwd: __dirname }));
+      .pipe(gulp.dest(out_dir));
 
-    resolve(out_dir+"/"+filename);
+    stream.on('end', function() {
+      var out_file = path.join(out_dir, filename);
+      resolve(out_file);
+    });
   });
 };
 
@@ -47,12 +50,14 @@ async function buildDeprecatedFile(in_file, out_dir, filename) {
 
 function build() {
   return Promise.all([
-    buildFile(CLIENT_SRC+'/SpaceDudClient.js', CLIENT_DIST, "space-dud-client.js"),
+    buildFile(path.join(SRC_DIR, 'SpaceDudClient.js'), DIST_DIR,
+                        "space-dud-client.js"),
 
-    buildDeprecatedFile(CLIENT_SRC+"/DisplayConnection.js",    CLIENT_DIST),
-    buildDeprecatedFile(CLIENT_SRC+"/ControllerConnection.js", CLIENT_DIST),
-    buildDeprecatedFile(CLIENT_SRC+"/KeyboardConnection.js",   CLIENT_DIST),
-    buildDeprecatedFile(CLIENT_SRC+"/GamepadConnection.js",    CLIENT_DIST)
+    buildDeprecatedFile(path.join(SRC_DIR, "DisplayConnection.js"), DIST_DIR),
+    buildDeprecatedFile(path.join(SRC_DIR, "ControllerConnection.js"),
+                        DIST_DIR),
+    buildDeprecatedFile(path.join(SRC_DIR, "KeyboardConnection.js"), DIST_DIR),
+    buildDeprecatedFile(path.join(SRC_DIR, "GamepadConnection.js"), DIST_DIR)
   ]);
 };
 
