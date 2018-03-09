@@ -51,3 +51,4 @@ function build() {
 
 gulp.task('client-build', build);
 gulp.task('client-clean', clean);
+gulp.task('client', gulp.series('client-clean', 'client-build'));
