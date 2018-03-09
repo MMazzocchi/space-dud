@@ -2,63 +2,46 @@ var gulp = require('gulp');
 var footer = require('gulp-footer');
 var browserify = require('browserify');
 var source = require('vinyl-source-stream');
+var buffer = require('vinyl-buffer');
 var path = require('path');
+var rename = require('gulp-rename');
+var merge = require('merge-stream');
 
 const SRC_DIR = path.join(__dirname, 'src');
 const DIST_DIR = path.join(__dirname, 'dist');
+const DEPRECATED_FOOTER = "console.warn('This file has been deprecated, and "+
+                          "will be removed in a future release.');"
 
-function buildFile(in_file, out_dir, new_filename) {
-  var filename = new_filename;
+function bundle(in_file) {
+  return browserify(path.join(SRC_DIR, in_file))
+    .bundle()
+    .pipe(source(in_file))
+    .pipe(buffer());
+};
 
-  if(filename === undefined) {
-    filename = path.basename(in_file);
+function deprecate(stream) {
+  return stream.pipe(footer(DEPRECATED_FOOTER));
+};
+
+function write(stream, filename) {
+  if(filename !== undefined) {
+    stream = stream
+      .pipe(rename(filename))
   }
 
-  return new Promise(function(resolve) {
-    var stream = browserify(in_file)
-      .bundle()
-      .pipe(source(filename))
-      .pipe(gulp.dest(out_dir));
-
-    stream.on('end', function() {
-      var out_file = path.join(out_dir, filename);
-      resolve(out_file);
-    });
-  });
-};
-
-function deprecate(in_file, out_dir) {
-  var filename = path.basename(in_file);
-
-  return new Promise(function(resolve) {
-    var stream = gulp.src(in_file)
-      .pipe(footer("console.warn('"+filename+" has been deprecated, and will "+
-                   "be removed in a future release.');"))
-      .pipe(gulp.dest(out_dir));
-
-    stream.on('end', function() {
-      var out_file = path.join(out_dir, filename);
-      resolve(out_file);
-    });
-  });
-};
-
-async function buildDeprecatedFile(in_file, out_dir, filename) {
-  var out_file = await buildFile(in_file, out_dir, filename);
-  return await deprecate(out_file, out_dir);
+  return stream
+    .pipe(gulp.dest(DIST_DIR));
 };
 
 function build() {
-  return Promise.all([
-    buildFile(path.join(SRC_DIR, 'SpaceDudClient.js'), DIST_DIR,
-                        "space-dud-client.js"),
+  return merge(
+    write(bundle('SpaceDudClient.js'), 'space-dud-client.js'),
 
-    buildDeprecatedFile(path.join(SRC_DIR, "DisplayConnection.js"), DIST_DIR),
-    buildDeprecatedFile(path.join(SRC_DIR, "ControllerConnection.js"),
-                        DIST_DIR),
-    buildDeprecatedFile(path.join(SRC_DIR, "KeyboardConnection.js"), DIST_DIR),
-    buildDeprecatedFile(path.join(SRC_DIR, "GamepadConnection.js"), DIST_DIR)
-  ]);
+    write(deprecate(bundle('ControllerConnection.js'))),
+    write(deprecate(bundle('GamepadConnection.js'))),
+    write(deprecate(bundle('KeyboardConnection.js'))),
+    write(deprecate(bundle('DisplayConnection.js')))
+  );
 };
 
 gulp.task('client-build', build);

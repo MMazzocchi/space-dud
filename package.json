@@ -12,8 +12,11 @@
     "browserify": "^16.1.1",
     "gulp": "^4.0.0",
     "gulp-footer": "^2.0.1",
+    "gulp-rename": "^1.2.2",
+    "merge-stream": "^1.0.1",
     "mocha": "^3.4.2",
     "nyc": "^11.2.1",
+    "vinyl-buffer": "^1.0.1",
     "vinyl-source-stream": "^2.0.0"
   },
   "dependencies": {
