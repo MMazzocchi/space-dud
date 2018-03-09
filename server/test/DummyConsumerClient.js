@@ -1,4 +1,4 @@
-var Client = require('../../server/src/clients/Client.js');
+var Client = require('../src/clients/Client.js');
 var DummySocket = require('./DummySocket.js');
 
 var DummyConsumerClient = function() {

@@ -1,5 +1,5 @@
 var assert = require('assert');
-var EventType = require('../../server/src/events/EventType.js');
+var EventType = require('../src/events/EventType.js');
 
 const NAME = "controller";
 const FIELD_NAMES = [ "id", "value", "type" ];

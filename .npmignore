@@ -2,3 +2,4 @@ test/
 example/
 client/src/
 .gitignore
+**/coverage/

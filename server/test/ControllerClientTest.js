@@ -1,5 +1,5 @@
 var assert = require('assert');
-var ControllerClient = require('../../server/src/clients/ControllerClient.js');
+var ControllerClient = require('../src/clients/ControllerClient.js');
 var DummyDisplayClient = require('./DummyDisplayClient.js');
 var DummySocket = require('./DummySocket.js');
 

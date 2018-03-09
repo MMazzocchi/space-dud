@@ -1,8 +1,8 @@
 var assert = require('assert');
-var Player = require('../../server/src/Player.js');
+var Player = require('../src/Player.js');
 
-var DisplayClient = require('../../server/src/clients/DisplayClient.js');
-var ControllerClient = require('../../server/src/clients/ControllerClient.js');
+var DisplayClient = require('../src/clients/DisplayClient.js');
+var ControllerClient = require('../src/clients/ControllerClient.js');
 
 var DummyConsumerClient = require('./DummyConsumerClient.js');
 var DummyControllerClient = require('./DummyControllerClient.js');

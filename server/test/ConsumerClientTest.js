@@ -1,5 +1,5 @@
 var assert = require('assert');
-var ConsumerClient = require('../../server/src/clients/ConsumerClient.js');
+var ConsumerClient = require('../src/clients/ConsumerClient.js');
 var DummySocket = require('./DummySocket.js');
 
 const REFERENCE_EVENT = {

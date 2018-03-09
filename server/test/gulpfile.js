@@ -4,13 +4,13 @@ var mocha = require('gulp-mocha');
 var path = require('path');
 
 function serverPreTest() {
-  return gulp.src(['../server/**/*.js'], {cwd: __dirname})
+  return gulp.src(['../src/**/*.js'], {cwd: __dirname})
     .pipe(istanbul({includeUntested: true}))
     .pipe(istanbul.hookRequire());
 };
 
 function serverTest() {
-  return gulp.src('./server/**/*.js', {cwd: __dirname})
+  return gulp.src('./**/*Test.js', {cwd: __dirname})
     .pipe(mocha({reporter: 'progress'}))
     .pipe(istanbul.writeReports({dir: path.join(__dirname, 'coverage')}));
 };
