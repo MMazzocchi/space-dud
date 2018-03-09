@@ -12,6 +12,8 @@
     "browserify": "^16.1.1",
     "gulp": "^4.0.0",
     "gulp-footer": "^2.0.1",
+    "gulp-istanbul": "^1.1.3",
+    "gulp-mocha": "^5.0.0",
     "gulp-rename": "^1.2.2",
     "merge-stream": "^1.0.1",
     "mocha": "^3.4.2",
