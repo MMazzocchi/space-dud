@@ -9,8 +9,12 @@
     "url": "https://github.com/MMazzocchi/space-dud.git"
   },
   "devDependencies": {
+    "browserify": "^16.1.1",
+    "gulp": "^4.0.0",
+    "gulp-footer": "^2.0.1",
+    "mocha": "^3.4.2",
     "nyc": "^11.2.1",
-    "mocha": "^3.4.2"
+    "vinyl-source-stream": "^2.0.0"
   },
   "dependencies": {
     "debug": "^2.6.8",
@@ -22,6 +26,6 @@
     "prepare": "npm run build",
     "start": "node index.js",
     "test": "nyc mocha --recursive",
-    "build": "bash ./scripts/build.sh"
+    "build": "gulp build"
   }
 }
