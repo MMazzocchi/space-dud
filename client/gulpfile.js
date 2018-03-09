@@ -6,11 +6,16 @@ var buffer = require('vinyl-buffer');
 var path = require('path');
 var rename = require('gulp-rename');
 var merge = require('merge-stream');
+var del = require('del');
 
 const SRC_DIR = path.join(__dirname, 'src');
 const DIST_DIR = path.join(__dirname, 'dist');
 const DEPRECATED_FOOTER = "console.warn('This file has been deprecated, and "+
                           "will be removed in a future release.');"
+
+function clean() {
+  return del(path.join(DIST_DIR, '**.js'));
+};
 
 function bundle(in_file) {
   return browserify(path.join(SRC_DIR, in_file))
@@ -45,3 +50,4 @@ function build() {
 };
 
 gulp.task('client-build', build);
+gulp.task('client-clean', clean);
