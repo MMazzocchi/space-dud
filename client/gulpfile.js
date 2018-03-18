@@ -7,6 +7,7 @@ var path = require('path');
 var rename = require('gulp-rename');
 var merge = require('merge-stream');
 var del = require('del');
+var derequire = require('gulp-derequire');
 
 const SRC_DIR = path.join(__dirname, 'src');
 const DIST_DIR = path.join(__dirname, 'dist');
@@ -21,6 +22,7 @@ function bundle(in_file) {
   return browserify(path.join(SRC_DIR, in_file))
     .bundle()
     .pipe(source(in_file))
+    .pipe(derequire())
     .pipe(buffer());
 };
 
