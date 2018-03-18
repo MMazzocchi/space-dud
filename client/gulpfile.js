@@ -19,7 +19,9 @@ function clean() {
 };
 
 function bundle(in_file) {
-  return browserify(path.join(SRC_DIR, in_file))
+  var name = path.basename(in_file, '.js');
+
+  return browserify(path.join(SRC_DIR, in_file), {standalone: name})
     .bundle()
     .pipe(source(in_file))
     .pipe(derequire())
